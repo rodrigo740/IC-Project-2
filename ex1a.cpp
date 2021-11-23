@@ -1,32 +1,14 @@
 #include"BitStream.h"
 int main(){
     BitStream bs("a.bit",'r');
-    int f0 = bs.readbit();
-    cout << f0 << endl;
-    int f1 = bs.readbit();
+    //ab -> 0x61 0x62 0110 0001 0110 0010
+    for(int i=0; i<32; i++){
+         int f0 = bs.readbit();
+        cout << f0 << endl;
+    }
+ 
+    int f1 = bs.readnbits(16);
     cout << f1 << endl;
-    int f2 = bs.readbit();
-    cout << f2 << endl;
-    int f3 = bs.readbit();
-    cout << f3 << endl;
-    int f4 = bs.readbit();
-    cout << f4 << endl;
-    int f5 = bs.readbit();
-    cout << f5 << endl;
-    int f6 = bs.readbit();
-    cout << f6 << endl;
-    int f7 = bs.readbit();
-    cout << f7 << endl;
-    int f8 = bs.readbit();
-    cout << f8 << endl;
-    int f9 = bs.readbit();
-    cout << f9 << endl;
-    int f10 = bs.readbit();
-    cout << f10 << endl;
-    int f11 = bs.readbit();
-    cout << f11 << endl;
-    int f12 = bs.readnbits(16);
-    cout << f12 << endl;
 
     BitStream bs2("b.bit",'w');
     bs2.writebit(0);

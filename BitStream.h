@@ -1,5 +1,6 @@
 #include<iostream>
 #include<fstream>
+#include<vector>
 
 using namespace std;
 
@@ -7,8 +8,10 @@ class BitStream {
     ifstream ifs;
     ofstream ofs;
     string fileName;
-    char buf;      // the buffer of bits
-    int nbits;     // the bit buffer index
+    char buf;        // the buffer of 8 bits
+    int nbits=0;     // the bit buffer index
+    int pos = 0;
+    vector<char> chars;
 
     public: 
         BitStream(string f, char ch){
@@ -22,20 +25,46 @@ class BitStream {
         }
         if (ch == 'r'){ //read
             ifstream ifs(fileName);
+            buf=ifs.get();
+            char c;
+            while(ifs.get(c)){
+                chars.push_back(c);
+            }
+            if (!ifs.is_open()){
+                cerr << "Could not open input file: '" << fileName << "'" << endl;
+                exit;
+            }
         }
         if (ch == 'x'){ //read and write
             ifstream ifs(fileName);
+            if (!ifs.is_open()){
+                cerr << "Could not open input file: '" << fileName << "'" << endl;
+                exit;
+            }
             ofstream ofs(fileName);
         }
     }
 
+    /*
+    Access bit N
+
+    Get: (INPUT >> N) & 1;
+
+    Set: INPUT |= 1 << N;
+
+    Unset: INPUT &= ~(1 << N);
+
+    Toggle: INPUT ^= 1 << N;
+    */
+
     int readbit(){
         int bit = 0;
         if(nbits == 8){
-            buf = ifs.get(); //get the next char(byte)
+            buf=chars.at(pos);
+            pos++;
             nbits = 0;
         }
-        bit = (1 & buf >> (7-nbits));
+        bit = (buf >> (7-nbits)) & 1;
         nbits++;
         return bit;
     }
@@ -47,7 +76,7 @@ class BitStream {
             nbits = 0;
             buf = 0;
         }
-        buf =  buf | (bit << (7-nbits));
+        buf =  bit |= (1 << nbits);
         ofs << buf;
         nbits++;
     }
@@ -70,8 +99,35 @@ class BitStream {
             nbits = 0;
             buf = 0;
         }
-        buf =  buf | (nbit << (nbits - 1));
+        buf =  nbit |= (1 << nbits);
         ofs << buf;
         nbits++;
+    }
+
+    int readstrings(){
+        int bits = 0;
+        for(char x; ifs >> x;){
+            if(nbits == 8){
+                buf = ifs.get(); //get the next char(byte)
+                nbits = 0;
+            }
+            bits = (((1 << x) - 1) & (buf >> (nbits - 1)));
+            nbits++;
+        }
+        return bits;
+    }
+
+    void writestrings(string s){
+        for(int x=0; x<s.length() ;x++){
+            if(nbits == 8){
+                ofs.put(buf);
+                ofs.flush();
+                nbits = 0;
+                buf = 0;
+            }
+            buf =  s[x] |= (1 << nbits);
+            ofs << buf;
+            nbits++;
+        }
     }
 };
