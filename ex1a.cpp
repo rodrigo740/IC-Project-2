@@ -6,9 +6,11 @@ int main(){
          int f0 = bs.readbit();
         cout << f0 << endl;
     }
- 
-    int f1 = bs.readnbits(16);
-    cout << f1 << endl;
+    cout << "READ N BITS" << endl;
+    vector<int> f1 = bs.readnbits(4);
+    for (int i : f1){
+        cout << f1[i] << endl;
+    }
 
     BitStream bs2("b.bit",'w');
     bs2.writebit(0);

@@ -81,8 +81,21 @@ class BitStream {
         nbits++;
     }
 
-    int readnbits(int n){
-        //n -> number of bits to return
+    vector<int> readnbits(int n){
+        vector<int> bit;
+        for (int i=0; i < n; i++){
+            
+            if(nbits == 8){
+                buf=chars.at(pos);
+                pos++;
+                nbits = 0;
+            }
+            bit.push_back((buf >> (7-nbits)) & 1);
+            nbits++;
+        }
+        
+        return bit;
+        /*//n -> number of bits to return
         int nbit = 0;
         if(nbits == 8){
             buf = ifs.get(); //get the next char(byte)
@@ -90,8 +103,9 @@ class BitStream {
         }
         nbit = (((1 << n) - 1) & (buf >> (nbits - 1)));
         nbits++;
-        return nbit;
+        return nbit;*/
     }
+    
     void writenbits(int n, int nbit){
         if(nbits == 8){
             ofs.put(buf);
