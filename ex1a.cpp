@@ -25,6 +25,8 @@ int main(){
     cout << f10 << endl;
     int f11 = bs.readbit();
     cout << f11 << endl;
+    int f12 = bs.readnbits(16);
+    cout << f12 << endl;
 
     BitStream bs2("b.bit",'w');
     bs2.writebit(0);
@@ -47,6 +49,8 @@ int main(){
     bs2.writebit(2);
     bs2.writebit(3);
     bs2.writebit(4);
+
+    bs2.writenbits(16,65535);
 
     return 0;
 }

@@ -32,7 +32,7 @@ class BitStream {
     int readbit(){
         int bit = 0;
         if(nbits == 8){
-            buf = ifs.get();
+            buf = ifs.get(); //get the next char(byte)
             nbits = 0;
         }
         bit = (1 & buf >> (7-nbits));
@@ -48,13 +48,30 @@ class BitStream {
             buf = 0;
         }
         buf =  buf | (bit << (7-nbits));
+        ofs << buf;
         nbits++;
     }
 
-    void readnbits(int n){
-
+    int readnbits(int n){
+        //n -> number of bits to return
+        int nbit = 0;
+        if(nbits == 8){
+            buf = ifs.get(); //get the next char(byte)
+            nbits = 0;
+        }
+        nbit = (((1 << n) - 1) & (buf >> (nbits - 1)));
+        nbits++;
+        return nbit;
     }
-    void writenbits(int n, int* bit){
-
+    void writenbits(int n, int nbit){
+        if(nbits == 8){
+            ofs.put(buf);
+            ofs.flush();
+            nbits = 0;
+            buf = 0;
+        }
+        buf =  buf | (nbit << (nbits - 1));
+        ofs << buf;
+        nbits++;
     }
 };
