@@ -4,10 +4,6 @@
         "deque": "cpp",
         "string": "cpp",
         "vector": "cpp",
-<<<<<<< HEAD
         "ostream": "cpp"
-=======
-        "cmath": "cpp"
->>>>>>> 6335455e16516b34aced371e3a390c6ceaeb47a3
     }
 }
