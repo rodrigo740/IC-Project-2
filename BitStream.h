@@ -8,7 +8,8 @@ class BitStream {
     ifstream ifs;
     ofstream ofs;
     string fileName;
-    char buf;        // the buffer of 8 bits
+    int buffer[8] = {0,0,0,0,0,0,0,0};
+    char buf = 0;        // the buffer of 8 bits
     int nbits=0;     // the bit buffer index
     int pos = 0;
     vector<char> chars;
@@ -21,7 +22,8 @@ class BitStream {
 
     void setFile(string f, char ch){
         if (ch == 'w'){ //write
-            ofstream ofs(fileName);
+            ofs = ofstream(fileName);
+
         }
         if (ch == 'r'){ //read
             ifstream ifs(fileName);
@@ -70,15 +72,23 @@ class BitStream {
     }
 
     void writebit(int bit){
-        if(nbits == 8){
-            ofs.put(buf);
-            ofs.flush();
-            nbits = 0;
-            buf = 0;
-        }
-        buf =  bit |= (1 << nbits);
-        ofs << buf;
+        
+        buffer[nbits] = (bit << (7-nbits));
+
         nbits++;
+        if (nbits == 8) {
+            char c = 0;
+            for (int i = 0; i < 8; i++)
+            {
+                c |= buffer[i];
+            }   
+            ofs << c;
+            nbits = 0;
+        }    
+    }
+
+    void closeF(){
+        ofs.close();
     }
 
     vector<int> readnbits(int n){
