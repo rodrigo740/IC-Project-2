@@ -3,7 +3,7 @@ int main(){
     /*
     BitStream bs("a.bit",'r');
     //ab -> 0x61 0x62 0110 0001 0110 0010
-    for(int i=0; i<32; i++){
+    for(int i=0; i<4; i++){
          int f0 = bs.readbit();
         cout << f0 << endl;
     }
@@ -12,14 +12,11 @@ int main(){
     for (int i : f1){
         cout << f1[i] << endl;
     }
-
-    cout << "READ N BITS" << endl;
-    vector<int> f2 = bs.readnbits(4);
+    /*cout << "READ STRINGS" << endl;
+    vector<int> f2 = bs.readstrings();
     for (int i : f2){
         cout << f2[i] << endl;
-    }
-    */
-
+    }*/
     BitStream bs2("b.bit",'w');
 
     bs2.writebit(0);

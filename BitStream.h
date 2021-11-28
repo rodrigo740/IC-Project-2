@@ -94,7 +94,6 @@ class BitStream {
     vector<int> readnbits(int n){
         vector<int> bit;
         for (int i=0; i < n; i++){
-            
             if(nbits == 8){
                 buf=chars.at(pos);
                 pos++;
@@ -103,19 +102,9 @@ class BitStream {
             bit.push_back((buf >> (7-nbits)) & 1);
             nbits++;
         }
-        
         return bit;
-        /*//n -> number of bits to return
-        int nbit = 0;
-        if(nbits == 8){
-            buf = ifs.get(); //get the next char(byte)
-            nbits = 0;
-        }
-        nbit = (((1 << n) - 1) & (buf >> (nbits - 1)));
-        nbits++;
-        return nbit;*/
     }
-    
+
     void writenbits(int n, int nbit){
         if(nbits == 8){
             ofs.put(buf);
@@ -123,22 +112,24 @@ class BitStream {
             nbits = 0;
             buf = 0;
         }
-        buf =  nbit |= (1 << nbits);
+        buf =  nbit |= (1 << (7-nbits));
         ofs << buf;
         nbits++;
     }
 
-    int readstrings(){
-        int bits = 0;
-        for(char x; ifs >> x;){
-            if(nbits == 8){
-                buf = ifs.get(); //get the next char(byte)
-                nbits = 0;
+    vector<int> readstrings(){
+        vector<int> bit;
+        string str;
+        while(getline(ifs,str)){
+            for(char x : str){
+                while(nbits != 8){
+                    bit.push_back((x >> (7-nbits)) & 1);
+                    nbits++;
+                }
+                nbits=0;
             }
-            bits = (((1 << x) - 1) & (buf >> (nbits - 1)));
-            nbits++;
         }
-        return bits;
+        return bit;
     }
 
     void writestrings(string s){
@@ -149,7 +140,7 @@ class BitStream {
                 nbits = 0;
                 buf = 0;
             }
-            buf =  s[x] |= (1 << nbits);
+            buf =  s[x] |= (1 << (7-nbits));
             ofs << buf;
             nbits++;
         }
