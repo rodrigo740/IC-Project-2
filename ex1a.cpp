@@ -39,12 +39,32 @@ int main(){
     bs2.writebit(1);
     bs2.writebit(0);
 
+    bs2.writebit(0);
+    bs2.writenbits(1,2);
+    bs2.writebit(0);
+
+    bs2.writenbits(0,3);
+    bs2.writebit(1);
+
+    bs2.writebit(0);
+    bs2.writenbits(1,2);
+    bs2.writebit(0);
+
+    bs2.writenbits(0,2);
+    bs2.writebit(1);
+    bs2.writebit(0);
+
+
+
+
     bs2.closeF();
+
+
 
     
     BitStream bs("b.bit",'r');
     //ab -> 0x61 0x62 0110 0001 0110 0010
-    for(int i=0; i<16; i++){
+    for(int i=0; i<24; i++){
         int f0 = bs.readbit();
         cout << f0 << endl;
     }

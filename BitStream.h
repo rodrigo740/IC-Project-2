@@ -106,15 +106,10 @@ class BitStream {
     }
 
     void writenbits(int n, int nbit){
-        if(nbits == 8){
-            ofs.put(buf);
-            ofs.flush();
-            nbits = 0;
-            buf = 0;
+        for (int i = 0; i < nbit; i++)
+        {
+            writebit(n);
         }
-        buf =  nbit |= (1 << (7-nbits));
-        ofs << buf;
-        nbits++;
     }
 
     vector<int> readstrings(){
