@@ -87,6 +87,12 @@ class BitStream {
         }    
     }
 
+    void completeByte(){
+        while(nbits != 0){
+            writebit(0);
+        }
+    }
+
     void closeF(){
         ofs.close();
     }
@@ -128,16 +134,9 @@ class BitStream {
     }
 
     void writestrings(string s){
-        for(int x=0; x<s.length() ;x++){
-            if(nbits == 8){
-                ofs.put(buf);
-                ofs.flush();
-                nbits = 0;
-                buf = 0;
-            }
-            buf =  s[x] |= (1 << (7-nbits));
-            ofs << buf;
-            nbits++;
+        for(int i=0; i<s.length() ;i++){
+            cout << (s[i] - 48);
+            writebit(s[i]-48);      // 48 is the value of 0
         }
     }
 };
