@@ -3,6 +3,35 @@
 
 int main(){
 
+
+
+
+
+
+
+    Golomb g0(5);
+    vector<int> x0 = g0.encode(19);
+    cout << "code: " << endl;
+    for(int i : x0){
+        cout << "" << i << endl;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*
     Golomb g1(4);
     vector<int> x1 = g1.encode(11);
     cout << "code: " << endl;
@@ -42,6 +71,7 @@ int main(){
 
     int y4 = g4.decode(x4);
     cout << "value: " << y4 << endl;
+    */
 
     return 0;
 }

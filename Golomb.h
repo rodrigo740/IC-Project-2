@@ -15,19 +15,77 @@ class Golomb {
     vector<int> encode(int n){
         vector<int> code;
         int q = n/m;
-        cout << "q: " << q << endl;
         int r = n%m;
-        cout << "r: " << r << endl;
         // unary code
         for(int i = 0; i < q; i++){
             code.push_back(0);
         }
         code.push_back(1);
         //binary code
-        for(int j : decToBinary(r,m)){
-            code.push_back(j);
-        }
+
+        double rt = log2(m);
+        double resto;
+        modf(rt, &resto);
+        if (resto == 0)
+        {
+            for(int j : decToBinary(r,m)){
+                code.push_back(j);
+            }
+
+        }else{
+            int f = floor(rt);
+            int c = ceil(rt);
+            int x = r, k = 0, t = m;
+
+            while (t > 1)
+            {
+                k++;
+                t >>=1;
+            }
+
+            int u = (1 << k+1) - m;
+            string res;
+            if (x < u) {
+                res = binary(x, k);
+            }else{
+                res = binary(x + u, k + 1);
+            }
+
+            cout << res << endl;
+
+            for (int i = 0; i < res.length(); i++)
+            {
+                cout << "res[i]: " <<  res[i] << endl;
+                int j = res[i];
+                code.push_back(j);
+            }
+        }  
+
         return code;
+    }
+
+    string binary (int x, int len){
+        string s = "";
+        while (x!=0)
+        {
+            if (even(x))
+            {
+                s = '0' + s;
+            }else{
+                s = '1' + s;
+            }
+            x >>= 1;
+        }
+
+        while (s.length() < len)
+        {
+            s = '0' + s;
+            return s;
+        }
+    }
+
+    bool even(int x){
+        return x%2 == 0;
     }
 
     int decode(vector<int> code){
@@ -37,13 +95,6 @@ class Golomb {
         int nbits = log2(m);
         vector<int> res = code;
 
-        cout << "Code: " << endl;
-
-        
-
-
-
-
         for(int i : res){
             if(i!=1){
                 q++;
@@ -51,25 +102,14 @@ class Golomb {
             }
             else{
                 code.erase(code.begin());
-
-                for (int i = 0; i < code.size(); i++)
-                {
-                    cout << code[i] << endl;
-                }
-
-                r = binaryToDecimal(code);
-                cout << "r -> " << r << endl;
-                n=q*m+r;
-                return n;
+                break;
             }
         }
 
+        r = binaryToDecimal(code);
+        n=q*m+r;
         
-
-        
-        
-
-        
+        return n;
     }
 
     vector<int> decToBinary(int n, int m){
@@ -92,6 +132,7 @@ class Golomb {
             bin.push_back(binaryNum[i]);
         }
         binaryNum = bin;
+
         return binaryNum;
     }
 
@@ -102,7 +143,6 @@ class Golomb {
             s = s + s1;
         }
         int num = stoi(s);
-        cout << "num: " << num << endl;
         int dec_value = 0;
         // Initializing base value to 1, i.e 2^0
         int base = 1;
@@ -115,6 +155,7 @@ class Golomb {
     
             base = base * 2;
         }
+
         return dec_value;
     }
 
