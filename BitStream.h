@@ -135,7 +135,6 @@ class BitStream {
 
     void writestrings(string s){
         for(int i=0; i<s.length() ;i++){
-            cout << (s[i] - 48);
             writebit(s[i]-48);      // 48 is the value of 0
         }
     }
