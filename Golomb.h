@@ -13,6 +13,7 @@ class Golomb {
         }
 
     vector<int> encode(int n){
+        n = folding(n);
         vector<int> code;
         int q = n/m;
         int r = n%m;
@@ -33,8 +34,6 @@ class Golomb {
             }
 
         }else{
-            int f = floor(rt);
-            int c = ceil(rt);
             int x = r, k = 0, t = m;
 
             while (t > 1)
@@ -109,7 +108,7 @@ class Golomb {
         r = binaryToDecimal(code);
         n=q*m+r;
         
-        return n;
+        return unfolding(n);
     }
 
     vector<int> decToBinary(int n, int m){
@@ -157,6 +156,30 @@ class Golomb {
         }
 
         return dec_value;
+    }
+
+    int folding(int n){
+        int x;
+
+        if(n >= 0){
+            x = 2*n;
+        }else{
+            x = 2*abs(n)-1;
+        }
+        
+        return x;
+    }
+
+    int unfolding(int n){
+        int x;
+
+        if(n%2==0){
+            x = n/2;
+        }else{
+            x = -(n+1)/2;
+        }
+
+        return x;
     }
 
 };
