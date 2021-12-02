@@ -56,7 +56,7 @@ class Golomb {
             for (int i = 0; i < res.length(); i++)
             {
                 cout << "res[i]: " <<  res[i] << endl;
-                int j = res[i];
+                int j = res[i] - 48;
                 code.push_back(j);
             }
         }  
