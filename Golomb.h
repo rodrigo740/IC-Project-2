@@ -25,8 +25,9 @@ class Golomb {
         //binary code
 
         double rt = log2(m);
-        double resto;
-        modf(rt, &resto);
+        double resto = rt - (int) rt;
+        
+
         if (resto == 0)
         {
             for(int j : decToBinary(r,m)){
@@ -122,11 +123,13 @@ class Golomb {
             n = n / 2;
             i++;
         }
-        int dif = nbits - binaryNum.size();
+        int dif = nbits - i;
         while(dif > 0){
             bin.push_back(0);
+            //bin.insert(bin.begin(), 0);
             dif=dif-1;
         }
+        
         for (int i= binaryNum.size()-1; i>=0; i--){
             bin.push_back(binaryNum[i]);
         }

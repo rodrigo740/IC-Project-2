@@ -19,11 +19,16 @@ vector<int> encode(int m, string file){
 
     int numSamples = audioFile.getNumSamplesPerChannel();
     int numChannels = audioFile.getNumChannels();
-    vector<int> r_enc;
+    vector<int> r_enc,g_res;
     int po =pow(2,8);
     int r;
+    AudioFile<float> copiaFile;
+    copiaFile.setNumSamplesPerChannel(numSamples);
+    copiaFile.setNumChannels(numChannels);
 
     BitStream bs("out.bit", 'w');
+
+    char* s;
 
     for (int i = 1; i < numSamples; i++){
         for (int channel = 0; channel < numChannels; channel++){
@@ -31,14 +36,30 @@ vector<int> encode(int m, string file){
             r = (int) (audioFile.samples[channel][i])*po - predictor(audioFile.samples[channel][i-1]*po, audioFile.samples[channel][i]*po);
             //cout << r << endl;
             Golomb g(m);
+            //cout << "Valor a codificar: " << r << endl;
             r_enc.push_back(r);
-            for (int i: g.encode(r)){
-                         
-                bs.writebit(i);
+            g_res = g.encode(r);
+            for (int j: g_res){
+                cout << j;
+                bs.writebit(j);
+                s += j;
             }
+
+
+            cout << atoi(s) << endl;
+            copiaFile.samples[channel][i]= atoi(s);
+            s = "";
+            cout << "asnd" << endl;
+            
+            
+
+            //cout << endl;
         }
     }
     bs.closeF();
+    copiaFile.setBitDepth (audioFile.getBitDepth());
+    copiaFile.setSampleRate (audioFile.getSampleRate());
+    copiaFile.save("out.wav", AudioFileFormat::Wave);
     return r_enc;
 }
 
@@ -58,9 +79,7 @@ vector<int> decode(int m, string file){
 
     Golomb g(m);
 
-    for(int b: v){
-        cout << b;
-    }
+    int pos = 0;
 
     for(int bit: v){
         
@@ -76,6 +95,12 @@ vector<int> decode(int m, string file){
             //cout << "Segment done!" << endl;
             f = false;
             res.push_back(g.decode(temp));
+            /*cout << "Valor descodificado: " << res[pos] << endl;
+            for(int asd: temp){
+                cout << asd;
+            }
+            cout << endl;
+            pos++;*/
             temp.clear();
         }else if (bit == 1)
         {

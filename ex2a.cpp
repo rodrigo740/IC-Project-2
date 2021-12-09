@@ -19,7 +19,7 @@ int main(){
     vector<int> asd;
     asd.push_back(1);
     asd.push_back(0);
-    asd.push_back(1);
+    asd.push_back(0);
 
     cout << "decode: " << g0.decode(asd) << endl;
 
