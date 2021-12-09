@@ -9,14 +9,19 @@ int main(){
 
 
 
-    Golomb g0(5);
-    vector<int> x0 = g0.encode(-19);
+    Golomb g0(4);
+    vector<int> x0 = g0.encode(0);
     cout << "code: " << endl;
     for(int i : x0){
         cout << "" << i << endl;
     }
 
-    cout << "decode: " << g0.decode(x0) << endl;
+    vector<int> asd;
+    asd.push_back(1);
+    asd.push_back(0);
+    asd.push_back(1);
+
+    cout << "decode: " << g0.decode(asd) << endl;
 
 
 

@@ -50,11 +50,11 @@ class Golomb {
                 res = binary(x + u, k + 1);
             }
 
-            cout << res << endl;
+            //cout << res << endl;
 
             for (int i = 0; i < res.length(); i++)
             {
-                cout << "res[i]: " <<  res[i] << endl;
+                //cout << "res[i]: " <<  res[i] << endl;
                 int j = res[i] - 48;
                 code.push_back(j);
             }

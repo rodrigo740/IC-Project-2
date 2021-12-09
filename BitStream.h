@@ -71,6 +71,34 @@ class BitStream {
         return bit;
     }
 
+
+    vector<int> readFile(){
+        vector<int> bits;
+        int b = readbit();
+        bits.push_back(b);
+        while (pos < chars.size())
+        {
+            b = readbit();
+            bits.push_back(b);
+        }
+
+        return bits;   
+    }
+
+
+    /*
+    char readbit(){
+        if (pos != chars.size())
+        {
+            char c = chars[pos];
+            pos++;
+            return c;
+        }else{
+            return -1;
+        }   
+    }
+    */
+
     void writebit(int bit){
         
         buffer[nbits] = (bit << (7-nbits));
