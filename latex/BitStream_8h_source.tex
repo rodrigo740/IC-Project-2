@@ -1,0 +1,174 @@
+\hypertarget{BitStream_8h_source}{}\doxysection{Bit\+Stream.\+h}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#include<iostream>}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#include<fstream>}}
+\DoxyCodeLine{3 \textcolor{preprocessor}{\#include<vector>}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{keyword}{using namespace }std;}
+\DoxyCodeLine{6 }
+\DoxyCodeLine{7 \textcolor{keyword}{class }\mbox{\hyperlink{classBitStream}{BitStream}} \{}
+\DoxyCodeLine{8     ifstream ifs;}
+\DoxyCodeLine{9     ofstream ofs;}
+\DoxyCodeLine{10     \textcolor{keywordtype}{string} fileName;}
+\DoxyCodeLine{11     \textcolor{keywordtype}{int} buffer[8] = \{0,0,0,0,0,0,0,0\};}
+\DoxyCodeLine{12     \textcolor{keywordtype}{char} buf = 0;        \textcolor{comment}{// the buffer of 8 bits}}
+\DoxyCodeLine{13     \textcolor{keywordtype}{int} nbits=0;     \textcolor{comment}{// the bit buffer index}}
+\DoxyCodeLine{14     \textcolor{keywordtype}{int} pos = 0;}
+\DoxyCodeLine{15     vector<char> chars;}
+\DoxyCodeLine{16 }
+\DoxyCodeLine{17     \textcolor{keyword}{public}: }
+\DoxyCodeLine{18         \mbox{\hyperlink{classBitStream}{BitStream}}(\textcolor{keywordtype}{string} f, \textcolor{keywordtype}{char} ch)\{}
+\DoxyCodeLine{19             fileName=f;}
+\DoxyCodeLine{20             setFile(f, ch);}
+\DoxyCodeLine{21         \}}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23     \textcolor{keywordtype}{void} setFile(\textcolor{keywordtype}{string} f, \textcolor{keywordtype}{char} ch)\{}
+\DoxyCodeLine{24         \textcolor{keywordflow}{if} (ch == \textcolor{charliteral}{'w'})\{ \textcolor{comment}{//write}}
+\DoxyCodeLine{25             ofs = ofstream(fileName);}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27         \}}
+\DoxyCodeLine{28         \textcolor{keywordflow}{if} (ch == \textcolor{charliteral}{'r'})\{ \textcolor{comment}{//read}}
+\DoxyCodeLine{29             ifstream ifs(fileName);}
+\DoxyCodeLine{30             buf=ifs.get();}
+\DoxyCodeLine{31             \textcolor{keywordtype}{char} c;}
+\DoxyCodeLine{32             \textcolor{keywordflow}{while}(ifs.get(c))\{}
+\DoxyCodeLine{33                 chars.push\_back(c);}
+\DoxyCodeLine{34             \}}
+\DoxyCodeLine{35             \textcolor{keywordflow}{if} (!ifs.is\_open())\{}
+\DoxyCodeLine{36                 cerr << \textcolor{stringliteral}{"{}Could not open input file: '"{}} << fileName << \textcolor{stringliteral}{"{}'"{}} << endl;}
+\DoxyCodeLine{37                 exit;}
+\DoxyCodeLine{38             \}}
+\DoxyCodeLine{39         \}}
+\DoxyCodeLine{40         \textcolor{keywordflow}{if} (ch == \textcolor{charliteral}{'x'})\{ \textcolor{comment}{//read and write}}
+\DoxyCodeLine{41             ifstream ifs(fileName);}
+\DoxyCodeLine{42             \textcolor{keywordflow}{if} (!ifs.is\_open())\{}
+\DoxyCodeLine{43                 cerr << \textcolor{stringliteral}{"{}Could not open input file: '"{}} << fileName << \textcolor{stringliteral}{"{}'"{}} << endl;}
+\DoxyCodeLine{44                 exit;}
+\DoxyCodeLine{45             \}}
+\DoxyCodeLine{46             ofstream ofs(fileName);}
+\DoxyCodeLine{47         \}}
+\DoxyCodeLine{48     \}}
+\DoxyCodeLine{49 }
+\DoxyCodeLine{50     \textcolor{comment}{/*}}
+\DoxyCodeLine{51 \textcolor{comment}{    Access bit N}}
+\DoxyCodeLine{52 \textcolor{comment}{}}
+\DoxyCodeLine{53 \textcolor{comment}{    Get: (INPUT >> N) \& 1;}}
+\DoxyCodeLine{54 \textcolor{comment}{}}
+\DoxyCodeLine{55 \textcolor{comment}{    Set: INPUT |= 1 << N;}}
+\DoxyCodeLine{56 \textcolor{comment}{}}
+\DoxyCodeLine{57 \textcolor{comment}{    Unset: INPUT \&= \string~(1 << N);}}
+\DoxyCodeLine{58 \textcolor{comment}{}}
+\DoxyCodeLine{59 \textcolor{comment}{    Toggle: INPUT \string^= 1 << N;}}
+\DoxyCodeLine{60 \textcolor{comment}{    */}}
+\DoxyCodeLine{61 }
+\DoxyCodeLine{62     \textcolor{keywordtype}{int} readbit()\{}
+\DoxyCodeLine{63         \textcolor{keywordtype}{int} bit = 0;}
+\DoxyCodeLine{64         \textcolor{keywordflow}{if}(nbits == 8)\{}
+\DoxyCodeLine{65             buf=chars.at(pos);}
+\DoxyCodeLine{66             pos++;}
+\DoxyCodeLine{67             nbits = 0;}
+\DoxyCodeLine{68         \}}
+\DoxyCodeLine{69         bit = (buf >> (7-\/nbits)) \& 1;}
+\DoxyCodeLine{70         nbits++;}
+\DoxyCodeLine{71         \textcolor{keywordflow}{return} bit;}
+\DoxyCodeLine{72     \}}
+\DoxyCodeLine{73 }
+\DoxyCodeLine{74 }
+\DoxyCodeLine{75     vector<int> readFile()\{}
+\DoxyCodeLine{76         vector<int> bits;}
+\DoxyCodeLine{77         \textcolor{keywordtype}{int} b = readbit();}
+\DoxyCodeLine{78         bits.push\_back(b);}
+\DoxyCodeLine{79         \textcolor{keywordflow}{while} (pos < chars.size())}
+\DoxyCodeLine{80         \{}
+\DoxyCodeLine{81             b = readbit();}
+\DoxyCodeLine{82             bits.push\_back(b);}
+\DoxyCodeLine{83         \}}
+\DoxyCodeLine{84 }
+\DoxyCodeLine{85         \textcolor{keywordflow}{return} bits;   }
+\DoxyCodeLine{86     \}}
+\DoxyCodeLine{87 }
+\DoxyCodeLine{88 }
+\DoxyCodeLine{89     \textcolor{comment}{/*}}
+\DoxyCodeLine{90 \textcolor{comment}{    char readbit()\{}}
+\DoxyCodeLine{91 \textcolor{comment}{        if (pos != chars.size())}}
+\DoxyCodeLine{92 \textcolor{comment}{        \{}}
+\DoxyCodeLine{93 \textcolor{comment}{            char c = chars[pos];}}
+\DoxyCodeLine{94 \textcolor{comment}{            pos++;}}
+\DoxyCodeLine{95 \textcolor{comment}{            return c;}}
+\DoxyCodeLine{96 \textcolor{comment}{        \}else\{}}
+\DoxyCodeLine{97 \textcolor{comment}{            return -\/1;}}
+\DoxyCodeLine{98 \textcolor{comment}{        \}   }}
+\DoxyCodeLine{99 \textcolor{comment}{    \}}}
+\DoxyCodeLine{100 \textcolor{comment}{    */}}
+\DoxyCodeLine{101 }
+\DoxyCodeLine{102     \textcolor{keywordtype}{void} writebit(\textcolor{keywordtype}{int} bit)\{}
+\DoxyCodeLine{103         }
+\DoxyCodeLine{104         buffer[nbits] = (bit << (7-\/nbits));}
+\DoxyCodeLine{105 }
+\DoxyCodeLine{106         nbits++;}
+\DoxyCodeLine{107         \textcolor{keywordflow}{if} (nbits == 8) \{}
+\DoxyCodeLine{108             \textcolor{keywordtype}{char} c = 0;}
+\DoxyCodeLine{109             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < 8; i++)}
+\DoxyCodeLine{110             \{}
+\DoxyCodeLine{111                 c |= buffer[i];}
+\DoxyCodeLine{112             \}   }
+\DoxyCodeLine{113             ofs << c;}
+\DoxyCodeLine{114             nbits = 0;}
+\DoxyCodeLine{115         \}    }
+\DoxyCodeLine{116     \}}
+\DoxyCodeLine{117 }
+\DoxyCodeLine{118     \textcolor{keywordtype}{void} completeByte()\{}
+\DoxyCodeLine{119         \textcolor{keywordflow}{while}(nbits != 0)\{}
+\DoxyCodeLine{120             writebit(0);}
+\DoxyCodeLine{121         \}}
+\DoxyCodeLine{122     \}}
+\DoxyCodeLine{123 }
+\DoxyCodeLine{124     \textcolor{keywordtype}{void} closeF()\{}
+\DoxyCodeLine{125         ofs.close();}
+\DoxyCodeLine{126     \}}
+\DoxyCodeLine{127 }
+\DoxyCodeLine{128     vector<int> readnbits(\textcolor{keywordtype}{int} n)\{}
+\DoxyCodeLine{129         vector<int> bit;}
+\DoxyCodeLine{130         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0; i < n; i++)\{}
+\DoxyCodeLine{131             \textcolor{keywordflow}{if}(nbits == 8)\{}
+\DoxyCodeLine{132                 buf=chars.at(pos);}
+\DoxyCodeLine{133                 pos++;}
+\DoxyCodeLine{134                 nbits = 0;}
+\DoxyCodeLine{135             \}}
+\DoxyCodeLine{136             bit.push\_back((buf >> (7-\/nbits)) \& 1);}
+\DoxyCodeLine{137             nbits++;}
+\DoxyCodeLine{138         \}}
+\DoxyCodeLine{139         \textcolor{keywordflow}{return} bit;}
+\DoxyCodeLine{140     \}}
+\DoxyCodeLine{141 }
+\DoxyCodeLine{142     \textcolor{keywordtype}{void} writenbits(\textcolor{keywordtype}{int} n, \textcolor{keywordtype}{int} nbit)\{}
+\DoxyCodeLine{143         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < nbit; i++)}
+\DoxyCodeLine{144         \{}
+\DoxyCodeLine{145             writebit(n);}
+\DoxyCodeLine{146         \}}
+\DoxyCodeLine{147     \}}
+\DoxyCodeLine{148 }
+\DoxyCodeLine{149     vector<int> readstrings()\{}
+\DoxyCodeLine{150         vector<int> bit;}
+\DoxyCodeLine{151         \textcolor{keywordtype}{string} str;}
+\DoxyCodeLine{152         \textcolor{keywordflow}{while}(getline(ifs,str))\{}
+\DoxyCodeLine{153             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{char} x : str)\{}
+\DoxyCodeLine{154                 \textcolor{keywordflow}{while}(nbits != 8)\{}
+\DoxyCodeLine{155                     bit.push\_back((x >> (7-\/nbits)) \& 1);}
+\DoxyCodeLine{156                     nbits++;}
+\DoxyCodeLine{157                 \}}
+\DoxyCodeLine{158                 nbits=0;}
+\DoxyCodeLine{159             \}}
+\DoxyCodeLine{160         \}}
+\DoxyCodeLine{161         \textcolor{keywordflow}{return} bit;}
+\DoxyCodeLine{162     \}}
+\DoxyCodeLine{163 }
+\DoxyCodeLine{164     \textcolor{keywordtype}{void} writestrings(\textcolor{keywordtype}{string} s)\{}
+\DoxyCodeLine{165         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=0; i<s.length() ;i++)\{}
+\DoxyCodeLine{166             writebit(s[i]-\/48);      \textcolor{comment}{// 48 is the value of 0}}
+\DoxyCodeLine{167         \}}
+\DoxyCodeLine{168     \}}
+\DoxyCodeLine{169 \};}
+
+\end{DoxyCode}

@@ -4,8 +4,11 @@
 #include<math.h>
 using namespace std;
 
-class Golomb {
+class Golomb { ///Test da descrição brief!
     int m;
+    /**
+    * Desciraaoaooa
+    */
 
     public: 
         Golomb(int param){
