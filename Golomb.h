@@ -40,8 +40,7 @@ class Golomb { ///Test da descrição brief!
         }else{
             int x = r, k = 0, t = m;
 
-            while (t > 1)
-            {
+            while (t > 1){
                 k++;
                 t >>=1;
             }
@@ -54,11 +53,7 @@ class Golomb { ///Test da descrição brief!
                 res = binary(x + u, k + 1);
             }
 
-            //cout << res << endl;
-
-            for (int i = 0; i < res.length(); i++)
-            {
-                //cout << "res[i]: " <<  res[i] << endl;
+            for (int i = 0; i < res.length(); i++){
                 int j = res[i] - 48;
                 code.push_back(j);
             }
@@ -96,6 +91,7 @@ class Golomb { ///Test da descrição brief!
         int q = 0;
         int r = 0;
         int nbits = log2(m);
+        double resto = nbits - (int) nbits;
         vector<int> res = code;
 
         for(int i : res){
@@ -108,10 +104,15 @@ class Golomb { ///Test da descrição brief!
                 break;
             }
         }
+        if(resto == 0){
+            r = binaryToDecimal(code);
+        }
+        else{
 
-        r = binaryToDecimal(code);
+        }
+        cout << "r: " << r << endl;
         n=q*m+r;
-        
+        cout << "n: " << n << endl;
         return unfolding(n);
     }
 
