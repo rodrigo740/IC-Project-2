@@ -1,0 +1,193 @@
+\hypertarget{Golomb_8h_source}{}\doxysection{Golomb.\+h}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#include<iostream>}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#include<fstream>}}
+\DoxyCodeLine{3 \textcolor{preprocessor}{\#include<vector>}}
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include<math.h>}}
+\DoxyCodeLine{5 \textcolor{keyword}{using namespace }std;}
+\DoxyCodeLine{6 }
+\DoxyCodeLine{7 \textcolor{keyword}{class }\mbox{\hyperlink{classGolomb}{Golomb}} \{ }
+\DoxyCodeLine{8     \textcolor{keywordtype}{int} m;}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10     \textcolor{keyword}{public}: }
+\DoxyCodeLine{11         \mbox{\hyperlink{classGolomb}{Golomb}}(\textcolor{keywordtype}{int} param)\{}
+\DoxyCodeLine{12             m = param;}
+\DoxyCodeLine{13         \}}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15     vector<int> encode(\textcolor{keywordtype}{int} n)\{}
+\DoxyCodeLine{16         n = folding(n);}
+\DoxyCodeLine{17         vector<int> code;}
+\DoxyCodeLine{18         \textcolor{keywordtype}{int} q = n/m;}
+\DoxyCodeLine{19         \textcolor{keywordtype}{int} r = n\%m;}
+\DoxyCodeLine{20         \textcolor{comment}{// unary code}}
+\DoxyCodeLine{21         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i < q; i++)\{}
+\DoxyCodeLine{22             code.push\_back(0);}
+\DoxyCodeLine{23         \}}
+\DoxyCodeLine{24         code.push\_back(1);}
+\DoxyCodeLine{25         \textcolor{comment}{//binary code}}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27         \textcolor{keywordtype}{double} rt = log2(m);}
+\DoxyCodeLine{28         \textcolor{keywordtype}{double} resto = rt -\/ (int) rt;}
+\DoxyCodeLine{29         }
+\DoxyCodeLine{30 }
+\DoxyCodeLine{31         \textcolor{keywordflow}{if} (resto == 0)}
+\DoxyCodeLine{32         \{}
+\DoxyCodeLine{33             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} j : decToBinary(r,m))\{}
+\DoxyCodeLine{34                 code.push\_back(j);}
+\DoxyCodeLine{35             \}}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37         \}\textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{38             \textcolor{keywordtype}{int} x = r, k = 0, t = m;}
+\DoxyCodeLine{39 }
+\DoxyCodeLine{40             \textcolor{keywordflow}{while} (t > 1)}
+\DoxyCodeLine{41             \{}
+\DoxyCodeLine{42                 k++;}
+\DoxyCodeLine{43                 t >>=1;}
+\DoxyCodeLine{44             \}}
+\DoxyCodeLine{45 }
+\DoxyCodeLine{46             \textcolor{keywordtype}{int} u = (1 << k+1) -\/ m;}
+\DoxyCodeLine{47             \textcolor{keywordtype}{string} res;}
+\DoxyCodeLine{48             \textcolor{keywordflow}{if} (x < u) \{}
+\DoxyCodeLine{49                 res = binary(x, k);}
+\DoxyCodeLine{50             \}\textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{51                 res = binary(x + u, k + 1);}
+\DoxyCodeLine{52             \}}
+\DoxyCodeLine{53 }
+\DoxyCodeLine{54             \textcolor{comment}{//cout << res << endl;}}
+\DoxyCodeLine{55 }
+\DoxyCodeLine{56             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < res.length(); i++)}
+\DoxyCodeLine{57             \{}
+\DoxyCodeLine{58                 \textcolor{comment}{//cout << "{}res[i]: "{} <<  res[i] << endl;}}
+\DoxyCodeLine{59                 \textcolor{keywordtype}{int} j = res[i] -\/ 48;}
+\DoxyCodeLine{60                 code.push\_back(j);}
+\DoxyCodeLine{61             \}}
+\DoxyCodeLine{62         \}  }
+\DoxyCodeLine{63 }
+\DoxyCodeLine{64         \textcolor{keywordflow}{return} code;}
+\DoxyCodeLine{65     \}}
+\DoxyCodeLine{66 }
+\DoxyCodeLine{67     \textcolor{keywordtype}{string} binary (\textcolor{keywordtype}{int} x, \textcolor{keywordtype}{int} len)\{}
+\DoxyCodeLine{68         \textcolor{keywordtype}{string} s = \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{69         \textcolor{keywordflow}{while} (x!=0)}
+\DoxyCodeLine{70         \{}
+\DoxyCodeLine{71             \textcolor{keywordflow}{if} (even(x))}
+\DoxyCodeLine{72             \{}
+\DoxyCodeLine{73                 s = \textcolor{charliteral}{'0'} + s;}
+\DoxyCodeLine{74             \}\textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{75                 s = \textcolor{charliteral}{'1'} + s;}
+\DoxyCodeLine{76             \}}
+\DoxyCodeLine{77             x >>= 1;}
+\DoxyCodeLine{78         \}}
+\DoxyCodeLine{79 }
+\DoxyCodeLine{80         \textcolor{keywordflow}{while} (s.length() < len)}
+\DoxyCodeLine{81         \{}
+\DoxyCodeLine{82             s = \textcolor{charliteral}{'0'} + s;}
+\DoxyCodeLine{83             \textcolor{keywordflow}{return} s;}
+\DoxyCodeLine{84         \}}
+\DoxyCodeLine{85     \}}
+\DoxyCodeLine{86 }
+\DoxyCodeLine{87     \textcolor{keywordtype}{bool} even(\textcolor{keywordtype}{int} x)\{}
+\DoxyCodeLine{88         \textcolor{keywordflow}{return} x\%2 == 0;}
+\DoxyCodeLine{89     \}}
+\DoxyCodeLine{90 }
+\DoxyCodeLine{91     \textcolor{keywordtype}{int} decode(vector<int> code)\{}
+\DoxyCodeLine{92         \textcolor{keywordtype}{int} n = 0;}
+\DoxyCodeLine{93         \textcolor{keywordtype}{int} q = 0;}
+\DoxyCodeLine{94         \textcolor{keywordtype}{int} r = 0;}
+\DoxyCodeLine{95         \textcolor{keywordtype}{int} nbits = log2(m);}
+\DoxyCodeLine{96         vector<int> res = code;}
+\DoxyCodeLine{97 }
+\DoxyCodeLine{98         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i : res)\{}
+\DoxyCodeLine{99             \textcolor{keywordflow}{if}(i!=1)\{}
+\DoxyCodeLine{100                 q++;}
+\DoxyCodeLine{101                 code.erase(code.begin());}
+\DoxyCodeLine{102             \}}
+\DoxyCodeLine{103             \textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{104                 code.erase(code.begin());}
+\DoxyCodeLine{105                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{106             \}}
+\DoxyCodeLine{107         \}}
+\DoxyCodeLine{108 }
+\DoxyCodeLine{109         r = binaryToDecimal(code);}
+\DoxyCodeLine{110         n=q*m+r;}
+\DoxyCodeLine{111         }
+\DoxyCodeLine{112         \textcolor{keywordflow}{return} unfolding(n);}
+\DoxyCodeLine{113     \}}
+\DoxyCodeLine{114 }
+\DoxyCodeLine{115     vector<int> decToBinary(\textcolor{keywordtype}{int} n, \textcolor{keywordtype}{int} m)\{}
+\DoxyCodeLine{116         \textcolor{keywordtype}{int} nbits = log2(m);}
+\DoxyCodeLine{117         vector<int> binaryNum;}
+\DoxyCodeLine{118         vector<int> bin;}
+\DoxyCodeLine{119         \textcolor{keywordtype}{int} i = 0;}
+\DoxyCodeLine{120         \textcolor{keywordflow}{while} (n > 0) \{}
+\DoxyCodeLine{121             \textcolor{comment}{// storing remainder in binary array}}
+\DoxyCodeLine{122             binaryNum.push\_back(n \% 2);}
+\DoxyCodeLine{123             n = n / 2;}
+\DoxyCodeLine{124             i++;}
+\DoxyCodeLine{125         \}}
+\DoxyCodeLine{126         \textcolor{keywordtype}{int} dif = nbits -\/ i;}
+\DoxyCodeLine{127         \textcolor{keywordflow}{while}(dif > 0)\{}
+\DoxyCodeLine{128             bin.push\_back(0);}
+\DoxyCodeLine{129             \textcolor{comment}{//bin.insert(bin.begin(), 0);}}
+\DoxyCodeLine{130             dif=dif-\/1;}
+\DoxyCodeLine{131         \}}
+\DoxyCodeLine{132         }
+\DoxyCodeLine{133         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i= binaryNum.size()-\/1; i>=0; i-\/-\/)\{}
+\DoxyCodeLine{134             bin.push\_back(binaryNum[i]);}
+\DoxyCodeLine{135         \}}
+\DoxyCodeLine{136         binaryNum = bin;}
+\DoxyCodeLine{137 }
+\DoxyCodeLine{138         \textcolor{keywordflow}{return} binaryNum;}
+\DoxyCodeLine{139     \}}
+\DoxyCodeLine{140 }
+\DoxyCodeLine{141     \textcolor{keywordtype}{int} binaryToDecimal(vector<int> n)\{}
+\DoxyCodeLine{142         \textcolor{keywordtype}{string} s;}
+\DoxyCodeLine{143         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i : n)\{}
+\DoxyCodeLine{144             \textcolor{keywordtype}{string} s1 = to\_string(i);}
+\DoxyCodeLine{145             s = s + s1;}
+\DoxyCodeLine{146         \}}
+\DoxyCodeLine{147         \textcolor{keywordtype}{int} num = stoi(s);}
+\DoxyCodeLine{148         \textcolor{keywordtype}{int} dec\_value = 0;}
+\DoxyCodeLine{149         \textcolor{comment}{// Initializing base value to 1, i.e 2\string^0}}
+\DoxyCodeLine{150         \textcolor{keywordtype}{int} base = 1;}
+\DoxyCodeLine{151         \textcolor{keywordtype}{int} temp = num;}
+\DoxyCodeLine{152         \textcolor{keywordflow}{while} (temp) \{}
+\DoxyCodeLine{153             \textcolor{keywordtype}{int} last\_digit = temp \% 10;}
+\DoxyCodeLine{154             temp = temp / 10;}
+\DoxyCodeLine{155     }
+\DoxyCodeLine{156             dec\_value += last\_digit * base;}
+\DoxyCodeLine{157     }
+\DoxyCodeLine{158             base = base * 2;}
+\DoxyCodeLine{159         \}}
+\DoxyCodeLine{160 }
+\DoxyCodeLine{161         \textcolor{keywordflow}{return} dec\_value;}
+\DoxyCodeLine{162     \}}
+\DoxyCodeLine{163 }
+\DoxyCodeLine{164     \textcolor{keywordtype}{int} folding(\textcolor{keywordtype}{int} n)\{}
+\DoxyCodeLine{165         \textcolor{keywordtype}{int} x;}
+\DoxyCodeLine{166 }
+\DoxyCodeLine{167         \textcolor{keywordflow}{if}(n >= 0)\{}
+\DoxyCodeLine{168             x = 2*n;}
+\DoxyCodeLine{169         \}\textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{170             x = 2*abs(n)-\/1;}
+\DoxyCodeLine{171         \}}
+\DoxyCodeLine{172         }
+\DoxyCodeLine{173         \textcolor{keywordflow}{return} x;}
+\DoxyCodeLine{174     \}}
+\DoxyCodeLine{175 }
+\DoxyCodeLine{176     \textcolor{keywordtype}{int} unfolding(\textcolor{keywordtype}{int} n)\{}
+\DoxyCodeLine{177         \textcolor{keywordtype}{int} x;}
+\DoxyCodeLine{178 }
+\DoxyCodeLine{179         \textcolor{keywordflow}{if}(n\%2==0)\{}
+\DoxyCodeLine{180             x = n/2;}
+\DoxyCodeLine{181         \}\textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{182             x = -\/(n+1)/2;}
+\DoxyCodeLine{183         \}}
+\DoxyCodeLine{184 }
+\DoxyCodeLine{185         \textcolor{keywordflow}{return} x;}
+\DoxyCodeLine{186     \}}
+\DoxyCodeLine{187 }
+\DoxyCodeLine{188 \};}
+
+\end{DoxyCode}
