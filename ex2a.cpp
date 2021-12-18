@@ -10,18 +10,14 @@ int main(){
 
 
     Golomb g0(4);
-    vector<int> x0 = g0.encode(0);
+    vector<int> x0 = g0.encode(98728297);
     cout << "code: " << endl;
     for(int i : x0){
-        cout << "" << i << endl;
+        cout << "" << i;
     }
 
-    vector<int> asd;
-    asd.push_back(1);
-    asd.push_back(0);
-    asd.push_back(0);
-
-    cout << "decode: " << g0.decode(asd) << endl;
+    cout << endl;
+    cout << "decode: " << g0.decode(x0) << endl;
 
 
 
