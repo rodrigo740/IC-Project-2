@@ -2,6 +2,7 @@
 #include<fstream>
 #include<vector>
 #include<math.h>
+#include"BitStream.h"
 using namespace std;
 
 class Golomb { ///Test da descrição brief!
@@ -29,39 +30,31 @@ class Golomb { ///Test da descrição brief!
 
         double rt = log2(m);
         double resto = rt - (int) rt;
-        
 
-        if (resto == 0)
-        {
+        if (resto == 0){
             for(int j : decToBinary(r,m)){
                 code.push_back(j);
             }
-
+        //truncated binary encoding
         }else{
-            int x = r, k = 0, t = m;
+                int x = r, k = 0, t = m;
+                while (t > 1){
+                    k++;
+                    t >>=1;
+                }
 
-            while (t > 1)
-            {
-                k++;
-                t >>=1;
-            }
+                int u = (1 << k+1) - m;
+                string res;
+                if (x < u) {
+                    res = binary(x, k);
+                }else{
+                    res = binary(x + u, k + 1);
+                }
 
-            int u = (1 << k+1) - m;
-            string res;
-            if (x < u) {
-                res = binary(x, k);
-            }else{
-                res = binary(x + u, k + 1);
-            }
-
-            //cout << res << endl;
-
-            for (int i = 0; i < res.length(); i++)
-            {
-                //cout << "res[i]: " <<  res[i] << endl;
-                int j = res[i] - 48;
-                code.push_back(j);
-            }
+                for (int i = 0; i < res.length(); i++){
+                    int j = res[i] - 48;
+                    code.push_back(j);
+                }
         }  
 
         return code;
@@ -69,8 +62,10 @@ class Golomb { ///Test da descrição brief!
 
     string binary (int x, int len){
         string s = "";
-        while (x!=0)
-        {
+        if(x == 0){
+            s += '0';
+        }
+        while (x!=0){
             if (even(x))
             {
                 s = '0' + s;
@@ -79,9 +74,7 @@ class Golomb { ///Test da descrição brief!
             }
             x >>= 1;
         }
-
-        while (s.length() < len)
-        {
+        while (s.length() < len){
             s = '0' + s;
             return s;
         }
@@ -96,8 +89,9 @@ class Golomb { ///Test da descrição brief!
         int q = 0;
         int r = 0;
         int nbits = log2(m);
+        double rt = log2(m);
+        double resto = rt - (int) rt;
         vector<int> res = code;
-
         for(int i : res){
             if(i!=1){
                 q++;
@@ -108,11 +102,53 @@ class Golomb { ///Test da descrição brief!
                 break;
             }
         }
-
-        r = binaryToDecimal(code);
+        if(resto == 0){
+            r = binaryToDecimal(code);
+        }
+        //truncated binary decoding
+        else{
+            string tmp = "";
+            int u = (1 << nbits+1) - m;
+            // read the first nbits
+            for(int i = 0; i < nbits; i++){
+                tmp += to_string(code[i]);
+            }
+            int result = stoi(tmp);
+            
+            //if they encode a value less than u
+            if(result < u){
+                r = binaryToDecimalINT(result);
+            }
+            //read an additional bit and subtract u from result
+            else{
+                tmp += to_string(code[nbits]);
+                result = stoi(tmp);
+                result = binaryToDecimalINT(result) - u;
+                result = decimalToBinary(result);
+                r = binaryToDecimalINT(result);
+            }
+        }
         n=q*m+r;
-        
         return unfolding(n);
+    }
+
+    int decimalToBinary(int N)
+    {
+    
+        // To store the binary number
+        int B_Number = 0;
+        int cnt = 0;
+        while (N != 0) {
+            int rem = N % 2;
+            int c = pow(10, cnt);
+            B_Number += rem * c;
+            N /= 2;
+    
+            // Count used to store exponent value
+            cnt++;
+        }
+    
+        return B_Number;
     }
 
     vector<int> decToBinary(int n, int m){
@@ -161,6 +197,27 @@ class Golomb { ///Test da descrição brief!
             base = base * 2;
         }
 
+        return dec_value;
+    }
+
+    int binaryToDecimalINT(int n)
+    {
+        int num = n;
+        int dec_value = 0;
+    
+        // Initializing base value to 1, i.e 2^0
+        int base = 1;
+    
+        int temp = num;
+        while (temp) {
+            int last_digit = temp % 10;
+            temp = temp / 10;
+    
+            dec_value += last_digit * base;
+    
+            base = base * 2;
+        }
+    
         return dec_value;
     }
 

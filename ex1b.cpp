@@ -1,11 +1,16 @@
 #include"AudioFile/AudioFile.h"
 #include"Golomb.h"
-#include"BitStream.h"
 #include<vector>
 #include<fstream>
 #include<math.h>
-
+#include <limits>
+#include<map>
+#include <chrono>
+using namespace std::chrono;
 using namespace std;
+
+int s = 0;
+int c = 0;
 
 int predictor(float prevSample, float currSample){
     int p = (int)(0.5*prevSample + 0.5*currSample);
@@ -16,138 +21,182 @@ vector<int> encode(int m, string file){
 
     AudioFile<float> audioFile;
     audioFile.load (file);
-
     int numSamples = audioFile.getNumSamplesPerChannel();
+    s = numSamples;
     int numChannels = audioFile.getNumChannels();
+    c = numChannels;
     vector<int> r_enc,g_res;
     int po =pow(2,8);
     int r;
-    AudioFile<float> copiaFile;
-    copiaFile.setNumSamplesPerChannel(numSamples);
-    copiaFile.setNumChannels(numChannels);
 
+    ofstream ofs("histogram_ex1b.txt");
+
+    map<int,int> map;
+        
     BitStream bs("out.bit", 'w');
 
     char* s;
 
     for (int i = 1; i < numSamples; i++){
         for (int channel = 0; channel < numChannels; channel++){
-            //cout << audioFile.samples[channel][i] << endl;
             r = (int) (audioFile.samples[channel][i])*po - predictor(audioFile.samples[channel][i-1]*po, audioFile.samples[channel][i]*po);
-            //cout << r << endl;
+            map[r]++;
             Golomb g(m);
-            //cout << "Valor a codificar: " << r << endl;
             r_enc.push_back(r);
             g_res = g.encode(r);
             for (int j: g_res){
-                cout << j;
                 bs.writebit(j);
                 s += j;
             }
-
-
-            cout << atoi(s) << endl;
-            copiaFile.samples[channel][i]= atoi(s);
-            s = "";
-            cout << "asnd" << endl;
-            
-            
-
-            //cout << endl;
         }
     }
+
+    /*histogram and entropy*/
+    double h =0;
+    for(pair<int,int> i : map){
+        double p = (static_cast<double>(i.second)/static_cast<double>(numChannels*numSamples));
+        h = h-p*log2(p);
+        ofs << "" << i.first << " -> " << i.second << endl;
+    }
+    cout << "Entropy: " << h << endl;
+
+    ofs.close();
     bs.closeF();
-    copiaFile.setBitDepth (audioFile.getBitDepth());
-    copiaFile.setSampleRate (audioFile.getSampleRate());
-    copiaFile.save("out.wav", AudioFileFormat::Wave);
+    
     return r_enc;
 }
 
-vector<int> decode(int m, string file){
+vector<int> decode(int m, string file, string audiofile){
+
+    AudioFile<float> copy;
+    int numChannels = 2;
+    
+    
     const int n = log2(m);
     int nbits = log2(m);
     int c = 0;
-    bool f = false;
+    bool f,plus1 = false;
     int bit;
     vector<int> v, temp, res;
-
-    cout << "nbits: " << nbits << endl;
+    vector<double> samples;
 
     BitStream bs(file,'r');
+
+
+    /*for(int i = 0; i < 16; i++){
+        v.push_back(bs.readbit());
+    }*/
 
     v = bs.readFile();
 
     Golomb g(m);
 
     int pos = 0;
+    //001011
+    string tmp = "";
+    for(int bit: v){ 
 
-    for(int bit: v){
-        
-        if (f)
-        {
+        if (f){
             nbits--;
         }
-
         temp.push_back(bit);
-
         if (nbits == 0){
             nbits = n;
-            //cout << "Segment done!" << endl;
             f = false;
-            res.push_back(g.decode(temp));
-            /*cout << "Valor descodificado: " << res[pos] << endl;
-            for(int asd: temp){
-                cout << asd;
-            }
-            cout << endl;
-            pos++;*/
+            int r_dec = g.decode(temp);
+            double sample = r_dec/pow(2,8);
+            samples.push_back(sample);
+            res.push_back(r_dec);
             temp.clear();
-        }else if (bit == 1)
-        {
+        }else if (bit == 1){
             f = true;
         }
-    }
 
-    /*
-    while (nbits>0)
-    {
-        
-        if (f)
-        {
+        /*if (f){
             nbits--;
-            cout << nbits << endl;
+            tmp+=to_string(bit);
         }
-
-        bit = bs.readbit();
-
-        
-        v.push_back(bit);
-        cout << "bit: " << bit << endl;
-
-        if (bit == 1)
-        {
+        temp.push_back(bit);
+        if (nbits == 0){
+            f = false;
+            if(plus1){
+                int r_dec = g.decode(temp);
+                    double sample = r_dec/pow(2,8) ;
+                    samples.push_back(sample);
+                    res.push_back(r_dec);
+                    temp.clear();
+                    tmp="";
+                    nbits = n;
+                    plus1=false;
+            }
+            else{
+                int u = (1 << n+1) - m;
+                int result = stoi(tmp);
+                if(result < u){
+                    int r_dec = g.decode(temp);
+                    double sample = r_dec/pow(2,8);
+                    samples.push_back(sample);
+                    res.push_back(r_dec);
+                    temp.clear();
+                    tmp="";
+                    nbits = n;
+                }
+                else{
+                    nbits++;
+                    plus1=true;
+                }
+            }
+        }else if (bit == 1){
             f = true;
-        }        
+        }*/
+
     }
-    */
-   return res;
+        
+    copy.setNumSamplesPerChannel(s);
+    copy.setNumChannels(2);
+
+    for (int i = 0; i < s; i++){
+        for(int ch = 0; ch < 2; ch++){
+            copy.samples[c][i] = samples[i];
+        }
+    }
+    copy.save(audiofile, AudioFileFormat::Wave);
+    return res;
 }
 
 
+
 int main(int argc, char **argv){
-    
-    vector<int> v = encode(4, argv[1]);
-    vector<int> result = decode(4, "out.bit");
-    
-    for (int i = 0; i < result.size(); i++)
-    {
-        if (result[i] != v[i])
-        {
-            cout << "Diff at pos " << i << ": " << v[i] << " != " << result[i] << endl;
-            
+    auto start = high_resolution_clock::now();
+
+    //calculating the ideal m for golomb
+    AudioFile<float> audioFile;
+    audioFile.load (argv[1]);
+    int numSamples = audioFile.getNumSamplesPerChannel();
+    int numChannels = audioFile.getNumChannels();
+    double sum = 0;
+    for (int i = 1; i < numSamples; i++){
+        for (int channel = 0; channel < numChannels; channel++){
+                sum += - audioFile.samples[channel][i]*pow(2,20);
         }
-        
     }
+    double mean = sum/(numSamples*numChannels);
+    double alpha = mean/(mean+1.0);
+    int m = (int) ceil(-1/log2(alpha));
+
+    m = 4;
+
+    vector<int> v = encode(m, argv[1]);
+    vector<int> result = decode(m, "out.bit","out.wav");
     
+    for (int i = 0; i < result.size(); i++){
+        if (result[i] != v[i]){
+            cout << "Diff at pos " << i << ": " << v[i] << " != " << result[i] << endl;
+        }   
+    }
+
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<microseconds>(stop - start);
+    cout << "Processing Time: " << duration.count()*pow(10,-6) << " seconds" << endl;
     return 0;
 }
