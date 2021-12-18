@@ -5,24 +5,31 @@ int main(){
 
 
 
-
-
-
-
-    Golomb g0(5);
-    vector<int> x0 = g0.encode(17);
+    Golomb g0(7);
+    vector<int> x0 = g0.encode(4);
     cout << "code: " << endl;
     for(int i : x0){
         cout << "" << i << endl;
     }
 
     cout << "decode: " << g0.decode(x0) << endl;
+/*
+    vector<int> y0;
+    y0.push_back(0);
+    y0.push_back(1);
+    y0.push_back(0);
+    y0.push_back(1);
+    y0.push_back(0);
+    cout << "decode: " << g0.decode(y0) << endl;
 
+    vector<int> x1 = g0.encode(8);
+    cout << "code: " << endl;
+    for(int i : x1){
+        cout << "" << i << endl;
+    }
 
-
-
-
-
+    cout << "decode: " << g0.decode(x1) << endl;
+*/
     /*
     Golomb g1(4);
     vector<int> x1 = g1.encode(11);
