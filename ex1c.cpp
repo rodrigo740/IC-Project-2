@@ -99,6 +99,73 @@ vector<int> decoder(int m, int height, int width, string filename){
     return yuvFrame;
 }
 
+
+Mat reconstruct(vector<int> yuvFrame, int width, int height, int n, int c){
+    cout << "Rec image" << endl;
+    Mat y = Mat(Size(width,height), CV_32SC1, Scalar(0, 0, 0));
+    Mat u = Mat(Size(width,height), CV_32SC1, Scalar(0, 0, 0));
+    Mat v = Mat(Size(width,height), CV_32SC1, Scalar(0, 0, 0));
+
+    Mat b = Mat(Size(width,height), CV_32SC1, Scalar(0, 0, 0));
+    Mat g = Mat(Size(width,height), CV_32SC1, Scalar(0, 0, 0));
+    Mat r = Mat(Size(width,height), CV_32SC1, Scalar(0, 0, 0));
+
+    int pos = 0, val, yval, uval, vval;
+
+    for (int i = 0; i < y.rows; i++)
+    {
+        for (int j = 0; j < y.cols; j++)
+        {
+            y.at<int>(i,j) = yuvFrame[pos];
+            pos++;
+        }
+    }
+    cout << "y mat done" << endl;
+    pos = 0;
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            val = yuvFrame[4*n+pos]*4/c;
+            u.at<int>(i,j) = val;
+            u.at<int>(i,j+1) = val;
+            u.at<int>(i+1,j) = val;
+            u.at<int>(i+1,j+1) = val;
+
+            val = yuvFrame[4*n+n+pos]*4/c;
+            v.at<int>(i,j) = val;
+            v.at<int>(i,j+1) = val;
+            v.at<int>(i+1,j) = val;
+            v.at<int>(i+1,j+1) = val;
+
+            pos++;
+        }
+    }
+
+    cout << "u and v mats done" << endl;
+
+
+    for (int i = 0; i < y.rows; i++)
+    {
+        for (int j = 0; j < y.cols; j++)
+        {
+            yval = y.at<int>(i,j);
+            vval = v.at<int>(i,j);
+            uval = u.at<int>(i,j);
+
+            r.at<int>(i,j) = (yval + 1.13983*vval);
+            g.at<int>(i,j) = (yval - 0.39465*uval - 0.58060*vval);
+            b.at<int>(i,j) = (yval + 2.03211*uval);
+        }
+    }
+    
+    vector<Mat> bgr = {b, g, r};
+    Mat img;
+    merge(bgr, img);
+
+    return img;
+}
+
 int main(int argc, char **argv){
 
     auto start = high_resolution_clock::now();
@@ -143,7 +210,7 @@ int main(int argc, char **argv){
             r = bgr_planes[2].at<uchar>(i,j);
 
             // Y
-            y.at<int>(i,j) = (0.257 * r + 0.504 * g + 0.098 * b +  16) * c;
+            y.at<int>(i,j) = (0.257 * r + 0.504 * g + 0.098 * b + 16) * c;
 
             // U
             u.at<int>(i,j) = (-0.148 * r - 0.291 * g + 0.439 * b + 128) * c;
@@ -248,9 +315,11 @@ int main(int argc, char **argv){
 
     vector<int> decoded = decoder(m, 6, n, "encoded.bit");
     //vector<int> decoded = decoder(15000, 6, 65000, "encoded.bit");
-    
+    Mat rc_img = reconstruct(decoded, width*2, height*2, n, c);
 
-
+    namedWindow("Rec image", WINDOW_NORMAL);
+    imshow("Rec image", rc_img);
+    waitKey(0);
 
 
 
