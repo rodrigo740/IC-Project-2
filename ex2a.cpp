@@ -6,11 +6,12 @@ int main(){
 
 
     Golomb g0(7);
-    vector<int> x0 = g0.encode(4);
+    vector<int> x0 = g0.encode(-15);
     cout << "code: " << endl;
     for(int i : x0){
         cout << "" << i;
     }
+    cout << endl;
 
     cout << "decode: " << g0.decode(x0) << endl;
 /*
