@@ -5,11 +5,99 @@
 #include <opencv2/imgproc.hpp>
 #include <chrono>
 #include "Golomb.h"
-#include "BitStream.h"
 
 using namespace std;
 using namespace cv;
 using namespace std::chrono;
+
+
+vector<int> decoder(int m, int height, int width, string filename){
+
+    const int n = log2(m);
+    int nbits = log2(m);
+    cout << "nbits: " << nbits << endl;
+
+    bool plus1 = false, f = false;
+
+    int startU = height*width;
+    int startV = startU + startU/4;
+
+    BitStream bs1(filename, 'r');
+    
+
+    vector<int> yuvFrame, v, temp, resto;
+    //v = bs1.readFile();
+
+    string tmp = "";
+    Golomb g(m);
+    int bit = bs1.readbit();
+    while(bit != -1){
+        if (f){
+            nbits--;
+            tmp+=to_string(bit);
+            resto.push_back(bit);
+        }
+        temp.push_back(bit);
+        if (nbits == 0){
+            f = false;
+            if(plus1){
+                /*cout << "to decode1: ";
+
+                for(int a: temp){
+                    cout << a;
+                }
+                cout << endl;*/
+                int r_dec = g.decode(temp);
+                yuvFrame.push_back(r_dec);
+                temp.clear();
+                resto.clear();
+
+                tmp="";
+                nbits = n;
+                plus1=false;
+            }
+            else{
+                int u = (1 << n+1) - m;
+                int result = g.binaryToDecimal(resto);
+                
+                
+                if(result < u){
+                    /*cout << "to decode2: ";
+
+                    for(int a: temp){
+                        cout << a;
+                    }
+                    cout << endl;*/
+                    int r_dec = g.decode(temp);
+                    yuvFrame.push_back(r_dec);
+                    temp.clear();
+                    resto.clear();
+
+                    tmp="";
+                    nbits = n;
+                }
+                else{
+                    nbits++;
+                    plus1=true;
+                }
+                
+            }
+        }else if (bit == 1){
+            f = true;
+        }
+        bit = bs1.readbit();
+    }
+    /*
+    for(int b: yuvFrame){
+        cout << b << " ";
+    }
+
+    cout << endl;
+    */
+
+
+    return yuvFrame;
+}
 
 int main(int argc, char **argv){
 
@@ -20,7 +108,7 @@ int main(int argc, char **argv){
         cerr << "Usage: ./ex1c " << endl;
         return -1;
     }*/
-
+    
     Mat image = imread(argv[1], CV_LOAD_IMAGE_COLOR);
     Mat y = Mat::zeros(image.size(), CV_32SC1);
     Mat u = Mat::zeros(image.size(), CV_32SC1);
@@ -85,19 +173,16 @@ int main(int argc, char **argv){
     
     Mat yuvFrame = Mat::zeros(6, n, CV_32SC1);
 
-    cout << "height: " << height << endl;
-    cout << "width: " << width << endl;
-
-    cout << "rows: " << x/n + 2 << endl;
-    cout << "cols: " << n << endl;
-
     MatIterator_<int> itYUV, itY = y.begin<int>(), itU = u.begin<int>(), itV = v.begin<int>();
+
+    vector<int> yuvF;
 
     for (int i = 0; i < 4; i++)
     {
         for (int j = 0; j < n; j++)
         {
             yuvFrame.at<int>(i,j) = *itY;
+            yuvF.push_back(*itY);
             itY++;
         }
     }
@@ -105,8 +190,14 @@ int main(int argc, char **argv){
     for (int i = 0; i < n; i++)
     {
         yuvFrame.at<int>(4, i) = *itU;
-        yuvFrame.at<int>(5, i) = *itV;
+        yuvF.push_back(*itU);
         itU++;
+    }
+
+    for (int i = 0; i < n; i++)
+    {
+        yuvFrame.at<int>(5, i) = *itV;
+        yuvF.push_back(*itV);
         itV++;
     }
 
@@ -128,25 +219,63 @@ int main(int argc, char **argv){
 
     vector<int> vec, res;
 
-    cout << "Mean: " << mean << endl;
-    cout << "M: " << m << endl;
+    int residual;
 
-    for (int i = 0; i < yuvFrame.rows; i++)
+    int row, col = 0;
+
+    res = gol.encode(yuvF[0]);
+
+    for (int bit: res)
     {
-        cout << "row: " << i << endl;
-        for (int j = 0; j < yuvFrame.cols; j++)
+        bs.writebit(bit);
+    }
+    
+
+    for (int i = 0; i < yuvF.size()-1; i++)
+    {
+        residual = yuvF[i+1] - yuvF[i];
+        res = gol.encode(residual);
+
+        for (int bit: res)
         {
-            res = gol.encode(yuvFrame.at<int>(i,j));
-            vec.push_back(yuvFrame.at<int>(i,j));
-            for(int bit: res){
-                bs.writebit(bit);
-            }
-            
+            bs.writebit(bit);
         }
     }
     
-    
+
     bs.closeF();
+    
+
+    vector<int> decoded = decoder(m, 6, n, "encoded.bit");
+    //vector<int> decoded = decoder(15000, 6, 65000, "encoded.bit");
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -163,52 +292,6 @@ int main(int argc, char **argv){
     bu: 128000
     bv: 128000
     */
-
-
-    /*
-    for (int i = 0; i < 255; i++)
-    {
-        b = r = 255;
-        g = 255;
-
-        cout << "by: " << (0.257 * r + 0.504 * g + 0.098 * b + 16) *c<< endl;
-        cout << "bu: " << (-0.148 * r - 0.291 * g + 0.439 * b + 128)*c << endl;
-        cout << "bv: " << (0.439 * r - 0.368 * g - 0.071 * b + 128)*c << endl;
-    }
-    */
-    
-    
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     /*
     vector<Mat> ch;

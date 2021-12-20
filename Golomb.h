@@ -92,6 +92,8 @@ class Golomb { ///Test da descrição brief!
         double rt = log2(m);
         double resto = rt - (int) rt;
         vector<int> res = code;
+        //cout << code.size() << endl;
+
         for(int i : res){
             if(i!=1){
                 q++;
@@ -101,7 +103,13 @@ class Golomb { ///Test da descrição brief!
                 code.erase(code.begin());
                 break;
             }
+        }/*
+        cout << "code resto: ";
+
+        for(int a: code){
+            cout << a;
         }
+        cout << endl;*/
         if(resto == 0){
             r = binaryToDecimal(code);
         }
@@ -109,23 +117,30 @@ class Golomb { ///Test da descrição brief!
         else{
             string tmp = "";
             int u = (1 << nbits+1) - m;
+            //cout << u << endl;
             // read the first nbits
             for(int i = 0; i < nbits; i++){
                 tmp += to_string(code[i]);
             }
-            int result = stoi(tmp);
-            
+            //cout << "tmp: " << stoll(tmp) << endl;
+            //long long result = binaryToDecimalINT(stoll(tmp));
+            int result = stoi(tmp, 0, 2);
+            //cout << "result: " << result << endl;
+            //cout << "u: " << u << endl;
+            //cout << result << endl;
             //if they encode a value less than u
             if(result < u){
-                r = binaryToDecimalINT(result);
+                r = result;
             }
             //read an additional bit and subtract u from result
             else{
                 tmp += to_string(code[nbits]);
-                result = stoi(tmp);
-                result = binaryToDecimalINT(result) - u;
-                result = decimalToBinary(result);
-                r = binaryToDecimalINT(result);
+                result = stoi(tmp, 0, 2);
+                //cout << "result2: " << result << endl;
+
+                r = result - u;
+                //result = decimalToBinary(result);
+                //r = binaryToDecimalINT(result);
             }
         }
         n=q*m+r;
@@ -178,16 +193,25 @@ class Golomb { ///Test da descrição brief!
     }
 
     int binaryToDecimal(vector<int> n){
-        string s;
+        int dec_value = 0;
+        // Initializing base value to 1, i.e 2^0
+        int base = 1;
+
+
+        
+        string s = "";
         for(int i : n){
             string s1 = to_string(i);
             s = s + s1;
         }
-        int num = stoi(s);
-        int dec_value = 0;
-        // Initializing base value to 1, i.e 2^0
-        int base = 1;
-        int temp = num;
+        //cout << "S: " << s << endl;
+        int res = stoi(s, 0, 2);
+        //cout << "res: " << res << endl;
+        return res;
+        /*
+        long long num = stoll(s);
+        long long temp = num;
+
         while (temp) {
             int last_digit = temp % 10;
             temp = temp / 10;
@@ -196,8 +220,25 @@ class Golomb { ///Test da descrição brief!
     
             base = base * 2;
         }
+        
+        catch(const std::exception& e)
+        {
+        cout << "asd" << endl;
 
-        return dec_value;
+            int p = n.size()-1;
+            int last_digit;
+            
+            while (p >= 0)
+            {
+                last_digit = n[p];
+                p--;
+                dec_value += last_digit * base;
+                base *=2;
+            }
+        }
+        
+    
+        return dec_value;*/
     }
 
     int binaryToDecimalINT(int n)
@@ -217,7 +258,7 @@ class Golomb { ///Test da descrição brief!
     
             base = base * 2;
         }
-    
+        //cout << "dec: " << dec_value << endl;
         return dec_value;
     }
 
