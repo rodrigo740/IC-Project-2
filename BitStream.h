@@ -27,11 +27,11 @@ class BitStream {
         }
         if (ch == 'r'){ //read
             ifstream ifs(fileName);
-            buf=ifs.get();
             char c;
             while(ifs.get(c)){
                 chars.push_back(c);
             }
+            buf=chars[0];
             if (!ifs.is_open()){
                 cerr << "Could not open input file: '" << fileName << "'" << endl;
                 exit;
@@ -62,8 +62,11 @@ class BitStream {
     int readbit(){
         int bit = 0;
         if(nbits == 8){
-            buf=chars.at(pos);
             pos++;
+            if(pos == chars.size()){
+                return -1;
+            }
+            buf=chars.at(pos);
             nbits = 0;
         }
         bit = (buf >> (7-nbits)) & 1;
@@ -74,14 +77,19 @@ class BitStream {
 
     vector<int> readFile(){
         vector<int> bits;
-        int b = readbit();
+        int b = (buf >> 7) & 1;
         bits.push_back(b);
+        //cout << "Chars size: " << chars.size() << endl;
         while (pos < chars.size())
         {
             b = readbit();
+            //cout << "bit: " << b << endl;
             bits.push_back(b);
+            /*if((bits.size()-1)%8==0){
+                cout << "-----------" << endl;
+            }*/
         }
-
+        //cout << "Final pos: " << pos << endl;
         return bits;   
     }
 

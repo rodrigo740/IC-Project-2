@@ -5,6 +5,11 @@
         "string": "cpp",
         "vector": "cpp",
         "ostream": "cpp",
-        "fstream": "cpp"
-    }
+        "fstream": "cpp",
+        "array": "cpp",
+        "unordered_map": "cpp",
+        "string_view": "cpp",
+        "initializer_list": "cpp"
+    },
+    "cmake.configureOnOpen": false
 }

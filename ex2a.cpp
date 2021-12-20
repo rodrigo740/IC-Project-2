@@ -9,7 +9,7 @@ int main(){
     vector<int> x0 = g0.encode(4);
     cout << "code: " << endl;
     for(int i : x0){
-        cout << "" << i << endl;
+        cout << "" << i;
     }
 
     cout << "decode: " << g0.decode(x0) << endl;
