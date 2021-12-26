@@ -5,6 +5,7 @@
 #include <opencv2/imgproc.hpp>
 #include <chrono>
 #include "Golomb.h"
+#include "BitStream.h"
 
 using namespace std;
 using namespace cv;
@@ -200,19 +201,19 @@ Mat reconstruct2(vector<uchar> yuvFrame, int width, int height, int n){
     {
         for (int j = 0; j < y.cols; j++)
         {
-            yval = y.at<uchar>(i,j);
-            vval = v.at<uchar>(i,j);
-            uval = u.at<uchar>(i,j);
+            yval = y.at<uchar>(i,j)-16;
+            vval = v.at<uchar>(i,j)-128;
+            uval = u.at<uchar>(i,j)-128;
 
             // Y
             //y.at<uchar>(i,j) = 0.299 * r + 0.587 * g + 0.114 * b; // will never be negative
 
             // U
-            //u.at<uchar>(i,j) = (-0.147 * r - 0.289 * g + 0.436 * b) + 128; // will be negative (+128 needed)
+            //u.at<uchar>(i,j) = (-0.147 * r - 0.289 * g + 0.436 * b) + 128; //
 
             // V
             //v.at<uchar>(i,j) = (0.615 * r - 0.515 * g - 0.100 * b) + 128;
-            val = 1.101*yval - 0.510*uval + 0.969*vval;
+            val = 1.164*yval + 1.596*vval;
             if (val > 255){
                 val = 255;
             }else if(val < 0){
@@ -220,10 +221,10 @@ Mat reconstruct2(vector<uchar> yuvFrame, int width, int height, int n){
             }
             r.at<uchar>(i,j) = (uchar) val;
 
-           // cout << "R: " << val << endl;
+           cout << "R: " << val << endl;
             
             //cout << "R: " << r.at<uchar>(i,j) << endl;
-            val = 1.229*yval - 0.175*uval - 0.639*vval;
+            val = 1*yval - 0.813*uval - 0.391*vval;
             if (val > 255){
                 val = 255;
             }else if(val < 0){
@@ -231,12 +232,12 @@ Mat reconstruct2(vector<uchar> yuvFrame, int width, int height, int n){
             }
             g.at<uchar>(i,j) = (uchar) val;
 
-            //cout << "G: " << val << endl;
+            cout << "G: " << val << endl;
 
 
 
             //cout << "G: " << g.at<uchar>(i,j) << endl;
-            val = -0.443 * yval + 2.237*uval + 0.750*vval;
+            val = 1.164 * yval + 2.018*uval;
             if (val > 255){
                 val = 255;
             } else if(val < 0){
@@ -245,7 +246,7 @@ Mat reconstruct2(vector<uchar> yuvFrame, int width, int height, int n){
                 
             b.at<uchar>(i,j) = (uchar) val;
 
-            //cout << "B: " << val << endl;
+            cout << "B: " << val << endl;
 
             //cout << "b val: " << (uchar) val << endl;
 
@@ -488,6 +489,8 @@ int main(int argc, char **argv){
     bgr_planes[0].convertTo(bgr_planes[0], CV_8UC1);
     bgr_planes[1].convertTo(bgr_planes[1], CV_8UC1);
     bgr_planes[2].convertTo(bgr_planes[2], CV_8UC1);
+
+    
     
     uchar b,g,r;
     const int c = 1000;
@@ -504,26 +507,30 @@ int main(int argc, char **argv){
             b = bgr_planes[0].at<uchar>(i,j);
             g = bgr_planes[1].at<uchar>(i,j);
             r = bgr_planes[2].at<uchar>(i,j);
-            //cout << "R: " << (int)r << endl;
-            //cout << "G: " << (int)g << endl;
-            //cout << "B: " << (int)b << endl;
+            cout << "orig R: " << (int)r << endl;
+            cout << "orig G: " << (int)g << endl;
+            cout << "orig B: " << (int)b << endl;
+            cout << "####################################" << endl;
 
 
             // Y
-            y.at<uchar>(i,j) = 0.299 * r + 0.587 * g + 0.114 * b; // will never be negative
+            val = 0.299 * r + 0.587 * g + 0.114 * b + 16;
+            if(val < 16) val = 16;
+            if(val > 235) val = 235;
+            y.at<uchar>(i,j) = val;
 
             // U
-            val = (-0.147 * r - 0.289 * g + 0.436 * b);
+            val = (-0.147 * r - 0.289 * g + 0.436 * b) + 128;
             
-            if(val < 0) val = 0;
-            if(val > 255) val = 255;
+            if(val < 16) val = 16;
+            if(val > 240) val = 240;
             uv.push_back(val);
             u.at<uchar>(i,j) = val;
             // V
-            val = (0.615 * r - 0.515 * g - 0.100 * b);
+            val = (0.615 * r - 0.515 * g - 0.100 * b) + 128;
             
-            if(val < 0) val = 0;
-            if(val > 255) val = 255;
+            if(val < 16) val = 16;
+            if(val > 240) val = 240;
             vv.push_back(val);
             v.at<uchar>(i,j) = val;
         }
