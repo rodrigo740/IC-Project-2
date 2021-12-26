@@ -9,7 +9,7 @@ class BitStream {
     ofstream ofs;
     string fileName;
     int buffer[8] = {0,0,0,0,0,0,0,0};
-    char buf = 0;        // the buffer of 8 bits
+    char buf = 0;    // the buffer of 8 bits
     int nbits=0;     // the bit buffer index
     int pos = 0;
     vector<char> chars;
