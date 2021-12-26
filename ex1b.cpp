@@ -20,6 +20,10 @@ int predictor(float prevSample, float currSample){
     return p;
 }
 
+int predictor2(float prevSample){
+    return (int)prevSample;
+}
+
 vector<int> encode(int m, string file){
 
     AudioFile<float> audioFile;
@@ -29,7 +33,7 @@ vector<int> encode(int m, string file){
     int numChannels = audioFile.getNumChannels();
     c = numChannels;
     vector<int> r_enc,g_res;
-    int po =pow(2,8);
+    int po =pow(2,2);
     int r;
 
     ofstream ofs("histogram_ex1b.txt");
@@ -43,6 +47,7 @@ vector<int> encode(int m, string file){
     for (int i = 1; i < numSamples; i++){
         for (int channel = 0; channel < numChannels; channel++){
             r = (int) (audioFile.samples[channel][i])*po - predictor(audioFile.samples[channel][i-1]*po, audioFile.samples[channel][i]*po);
+            //r = (int) (audioFile.samples[channel][i])*po - predictor2(audioFile.samples[channel][i-1]*po);
             map[r]++;
             Golomb g(m);
             r_enc.push_back(r);
@@ -85,15 +90,16 @@ vector<int> decode(int m, string file, string audiofile){
 
     BitStream bs(file,'r');
 
-    int b = bs.readbit();
-    while(b != 1){
-        v.push_back(bs.readbit());
+    int b=0;
+    while(b!=-1){
+        b = bs.readbit();
+        v.push_back(b);
     }
     /*for(int i = 0; i < 16; i++){
         v.push_back(bs.readbit());
     }*/
 
-    v = bs.readFile();
+    //v = bs.readFile();
 
     Golomb g(m);
 
@@ -132,7 +138,7 @@ vector<int> decode(int m, string file, string audiofile){
                 }
                 cout << endl;*/ 
                 int r_dec = g.decode(temp);
-                double sample = r_dec/pow(2,8) ;
+                double sample = r_dec/pow(2,2) ;
                 samples.push_back(sample);
                 res.push_back(r_dec);
                 temp.clear();
@@ -151,7 +157,7 @@ vector<int> decode(int m, string file, string audiofile){
                     }
                     cout << endl;*/
                     int r_dec = g.decode(temp);
-                    double sample = r_dec/pow(2,8);
+                    double sample = r_dec/pow(2,2);
                     samples.push_back(sample);
                     res.push_back(r_dec);
                     temp.clear();
@@ -201,7 +207,6 @@ int main(int argc, char **argv){
     double alpha = mean/(mean+1.0);
     int m = (int) ceil(-1/log2(alpha));
     cout << "ideal m: " << m << endl;
-    m=8;
 
     vector<int> v = encode(m, argv[1]);
     vector<int> result = decode(m, "out.bit","out.wav");

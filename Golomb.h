@@ -91,11 +91,12 @@ class Golomb { ///Test da descrição brief!
         double rt = log2(m);
         double resto = rt - (int) rt;
         vector<int> res = code;
-        cout << "code before: ";
+        
+        /*cout << "code before: ";
         for (int c : code) {
             cout << c;
         }
-        cout << endl;
+        cout << endl;*/
         
         for(int i : res){
             if(i!=1){
@@ -108,11 +109,11 @@ class Golomb { ///Test da descrição brief!
             }
         }
 
-        cout << "code after: ";
+        /*cout << "code after: ";
         for (int c : code) {
             cout << c;
         }
-        cout << endl;
+        cout << endl;*/
 
         if(resto == 0){
             r = binaryToDecimal(code);
