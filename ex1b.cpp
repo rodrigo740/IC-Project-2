@@ -91,20 +91,16 @@ vector<int> decode(int m, string file, string audiofile){
     BitStream bs(file,'r');
 
     int b=0;
+    int co = 0;
     while(b!=-1){
         b = bs.readbit();
         v.push_back(b);
+        co++;
     }
-    /*for(int i = 0; i < 16; i++){
-        v.push_back(bs.readbit());
-    }*/
-
-    //v = bs.readFile();
-
+    cout << "last: " << co << endl;
+    
     Golomb g(m);
-
     int pos = 0;
-    //001011
     string tmp = "";
     for(int bit: v){ 
 
@@ -123,12 +119,12 @@ vector<int> decode(int m, string file, string audiofile){
         }else if (bit == 1){
             f = true;
         }*/
-
+        //001010 11  m=7 nbits=2 +1 =3
         if (f){
-            nbits--;
-            tmp+=to_string(bit);
+            nbits--;              //nbits=1 =0 =0
+            tmp+=to_string(bit);  //0 1 0
         }
-        temp.push_back(bit);
+        temp.push_back(bit); //0 0 1 0 1 0
         if (nbits == 0){
             f = false;
             if(plus1){
@@ -136,8 +132,9 @@ vector<int> decode(int m, string file, string audiofile){
                 for(int d:temp){
                     cout << d;
                 }
-                cout << endl;*/ 
+                cout << endl;*/
                 int r_dec = g.decode(temp);
+                //cout << "decoded: " << r_dec << endl;
                 double sample = r_dec/pow(2,2) ;
                 samples.push_back(sample);
                 res.push_back(r_dec);
@@ -147,7 +144,6 @@ vector<int> decode(int m, string file, string audiofile){
                 plus1=false;
             }
             else{
-                
                 int u = (1 << n+1) - m;
                 long result = stol(tmp);
                 if(result < u){
@@ -157,6 +153,7 @@ vector<int> decode(int m, string file, string audiofile){
                     }
                     cout << endl;*/
                     int r_dec = g.decode(temp);
+                    //cout << "decoded: " << r_dec << endl;
                     double sample = r_dec/pow(2,2);
                     samples.push_back(sample);
                     res.push_back(r_dec);
@@ -167,6 +164,7 @@ vector<int> decode(int m, string file, string audiofile){
                 else{
                     nbits++;
                     plus1=true;
+                    f=true;
                 }
             }
         }else if (bit == 1){
