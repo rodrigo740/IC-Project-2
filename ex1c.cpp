@@ -264,15 +264,15 @@ Mat reconstruct(vector<uchar> yuvFrame, int width, int height, int n){
 
 
 
-    u.at<int>(0,0) = (yuvFrame[startU]);
-    u.at<int>(0,1) = (yuvFrame[startU]);
-    u.at<int>(1,0) = (yuvFrame[startU]);
-    u.at<int>(1,1) = (yuvFrame[startU]);
+    u.at<uchar>(0,0) = (yuvFrame[startU]);
+    u.at<uchar>(0,1) = (yuvFrame[startU]);
+    u.at<uchar>(1,0) = (yuvFrame[startU]);
+    u.at<uchar>(1,1) = (yuvFrame[startU]);
 
-    v.at<int>(0,0) = (yuvFrame[startV]);
-    v.at<int>(0,1) = (yuvFrame[startV]);
-    v.at<int>(1,0) = (yuvFrame[startV]);
-    v.at<int>(1,1) = (yuvFrame[startV]);
+    v.at<uchar>(0,0) = (yuvFrame[startV]);
+    v.at<uchar>(0,1) = (yuvFrame[startV]);
+    v.at<uchar>(1,0) = (yuvFrame[startV]);
+    v.at<uchar>(1,1) = (yuvFrame[startV]);
 
 
     cout << "Start pos of u: " << startU << endl;
@@ -284,26 +284,26 @@ Mat reconstruct(vector<uchar> yuvFrame, int width, int height, int n){
     for (int i = 1; i < n; i++)
     {
         if(col == 0){
-            u.at<int>(row,col) = u.at<int>(row-1,width-1) + (yuvFrame[startU+i]);
-            u.at<int>(row,col+1) = u.at<int>(row-1,width-1) + (yuvFrame[startU+i]);
-            u.at<int>(row+1,col) = u.at<int>(row-1,width-1) + (yuvFrame[startU+i]);
-            u.at<int>(row+1,col+1) = u.at<int>(row-1,width-1) + (yuvFrame[startU+i]);
+            u.at<uchar>(row,col) = u.at<uchar>(row-1,width-1) + (yuvFrame[startU+i]);
+            u.at<uchar>(row,col+1) = u.at<uchar>(row-1,width-1) + (yuvFrame[startU+i]);
+            u.at<uchar>(row+1,col) = u.at<uchar>(row-1,width-1) + (yuvFrame[startU+i]);
+            u.at<uchar>(row+1,col+1) = u.at<uchar>(row-1,width-1) + (yuvFrame[startU+i]);
 
-            v.at<int>(row,col) = v.at<int>(row-1,width-1) + (yuvFrame[startV+i]);
-            v.at<int>(row,col+1) = v.at<int>(row-1,width-1) + (yuvFrame[startV+i]);
-            v.at<int>(row+1,col) = v.at<int>(row-1,width-1) + (yuvFrame[startV+i]);
-            v.at<int>(row+1,col+1) = v.at<int>(row-1,width-1) + (yuvFrame[startV+i]);
+            v.at<uchar>(row,col) = v.at<uchar>(row-1,width-1) + (yuvFrame[startV+i]);
+            v.at<uchar>(row,col+1) = v.at<uchar>(row-1,width-1) + (yuvFrame[startV+i]);
+            v.at<uchar>(row+1,col) = v.at<uchar>(row-1,width-1) + (yuvFrame[startV+i]);
+            v.at<uchar>(row+1,col+1) = v.at<uchar>(row-1,width-1) + (yuvFrame[startV+i]);
         }else{
 
-            u.at<int>(row,col) = u.at<int>(row,col-1) + (yuvFrame[startU+i]);
-            u.at<int>(row,col+1) = u.at<int>(row,col-1) + (yuvFrame[startU+i]);
-            u.at<int>(row+1,col) = u.at<int>(row,col-1) + (yuvFrame[startU+i]);
-            u.at<int>(row+1,col+1) = u.at<int>(row,col-1) + (yuvFrame[startU+i]);
+            u.at<uchar>(row,col) = u.at<uchar>(row,col-1) + (yuvFrame[startU+i]);
+            u.at<uchar>(row,col+1) = u.at<uchar>(row,col-1) + (yuvFrame[startU+i]);
+            u.at<uchar>(row+1,col) = u.at<uchar>(row,col-1) + (yuvFrame[startU+i]);
+            u.at<uchar>(row+1,col+1) = u.at<uchar>(row,col-1) + (yuvFrame[startU+i]);
 
-            v.at<int>(row,col) = v.at<int>(row,col-1) + (yuvFrame[startV+i]);
-            v.at<int>(row,col+1) = v.at<int>(row,col-1) + (yuvFrame[startV+i]);
-            v.at<int>(row+1,col) = v.at<int>(row,col-1) + (yuvFrame[startV+i]);
-            v.at<int>(row+1,col+1) = v.at<int>(row,col-1) + (yuvFrame[startV+i]);
+            v.at<uchar>(row,col) = v.at<uchar>(row,col-1) + (yuvFrame[startV+i]);
+            v.at<uchar>(row,col+1) = v.at<uchar>(row,col-1) + (yuvFrame[startV+i]);
+            v.at<uchar>(row+1,col) = v.at<uchar>(row,col-1) + (yuvFrame[startV+i]);
+            v.at<uchar>(row+1,col+1) = v.at<uchar>(row,col-1) + (yuvFrame[startV+i]);
         }
 
         col+=2;
@@ -315,9 +315,9 @@ Mat reconstruct(vector<uchar> yuvFrame, int width, int height, int n){
 
     cout << "u and v mats done" << endl;
 
-    for (int i = 0; i < y.rows; i++)
+    for (int i = 0; i < height; i++)
     {
-        for (int j = 0; j < y.cols; j++)
+        for (int j = 0; j < width; j++)
         {
             yval = y.at<uchar>(i,j)-16;
             vval = v.at<uchar>(i,j)-128;
@@ -340,12 +340,26 @@ Mat reconstruct(vector<uchar> yuvFrame, int width, int height, int n){
                 
             b.at<uchar>(i,j) = (uchar) val;
 
+            //cout << "y col: " << j<< endl;
+            //cout << "y row: " << i << endl;
+
         }
     }
-    
+    cout << "All done!" << endl;
     vector<Mat> bgr = {b, g, r};
     Mat img;
     merge(bgr, img);
+    cout << "merged" << endl;
+    namedWindow("y rec", WINDOW_NORMAL);
+    imshow("y rec", y);
+    waitKey(0);
+    namedWindow("u rec", WINDOW_NORMAL);
+    imshow("u rec", u);
+    waitKey(0);
+    namedWindow("v rec", WINDOW_NORMAL);
+    imshow("v rec", v);
+    waitKey(0);
+    
 
     return img;
 }
@@ -503,17 +517,14 @@ int main(int argc, char **argv){
     
     double mean = 0;
 
-    for (int i = 0; i < yuvFrame.rows; i++)
-    {
-        for (int j = 0; j < yuvFrame.cols; j++)
-        {
-            mean += yuvFrame.at<int>(i,j);
-        }
+    for(int val: yuvF){
+        mean += val;
     }
     
     mean=mean/x;
     double alpha = mean/(mean+1.0);
     int m = (int) ceil(-1/log2(alpha));
+    cout << "M ideal: " << m << endl;
     Golomb gol(m);
     BitStream bs("encoded.bit", 'w');
 
@@ -547,7 +558,7 @@ int main(int argc, char **argv){
         bs.writebit(bit);
     }
     */
-    for (int i = 0; i < yuvF.size()-1; i++)
+    for (int i = 0; i < yuvF.size(); i++)
     {
         residual = yuvF[i+1] - yuvF[i];
         res = gol.encode(residual);
@@ -572,6 +583,7 @@ int main(int argc, char **argv){
     //Mat rc_img = reconstruct2(yuvF, width*2, height*2, n);
     Mat rc_img = reconstruct(decoded, width*2, height*2, n);
     //rc_img.convertTo(rc_img, 16);
+    cout << "done!" << endl;
     namedWindow("Rec image", WINDOW_NORMAL);
     imshow("Rec image", rc_img);
     waitKey(0);
