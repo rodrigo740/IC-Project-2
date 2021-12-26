@@ -63,6 +63,7 @@ class BitStream {
         int bit = 0;
         if(nbits == 8){
             pos++;
+            // if pos == chars.size() no more chars left
             if(pos == chars.size()){
                 return -1;
             }
