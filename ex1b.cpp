@@ -13,6 +13,27 @@ using namespace std;
 int s = 0;
 int c = 0;
 
+int binaryToDecimalINT(int n)
+    {
+        int num = n;
+        int dec_value = 0;
+    
+        // Initializing base value to 1, i.e 2^0
+        int base = 1;
+    
+        int temp = num;
+        while (temp) {
+            int last_digit = temp % 10;
+            temp = temp / 10;
+    
+            dec_value += last_digit * base;
+    
+            base = base * 2;
+        }
+    
+        return dec_value;
+    }
+
 //comparar diferentes preditores, entropias com a entropia do audio original
 
 int predictor(float prevSample, float currSample){
@@ -33,7 +54,7 @@ vector<int> encode(int m, string file){
     int numChannels = audioFile.getNumChannels();
     c = numChannels;
     vector<int> r_enc,g_res;
-    int po =pow(2,2);
+    int po =pow(2,log2(m));
     int r;
 
     ofstream ofs("histogram_ex1b.txt");
@@ -43,7 +64,7 @@ vector<int> encode(int m, string file){
     BitStream bs("out.bit", 'w');
 
     char* s;
-
+   // r = audioFile.samples[channel][0]
     for (int i = 1; i < numSamples; i++){
         for (int channel = 0; channel < numChannels; channel++){
             r = (int) (audioFile.samples[channel][i])*po - predictor(audioFile.samples[channel][i-1]*po, audioFile.samples[channel][i]*po);
@@ -85,7 +106,7 @@ vector<int> decode(int m, string file, string audiofile){
     int c = 0;
     bool f,plus1 = false;
     int bit;
-    vector<int> v, temp, res;
+    vector<int> v, temp, res, resto;
     vector<double> samples;
 
     BitStream bs(file,'r');
@@ -123,6 +144,7 @@ vector<int> decode(int m, string file, string audiofile){
         if (f){
             nbits--;              //nbits=1 =0 =0
             tmp+=to_string(bit);  //0 1 0
+            resto.push_back(bit);
         }
         temp.push_back(bit); //0 0 1 0 1 0
         if (nbits == 0){
@@ -135,17 +157,18 @@ vector<int> decode(int m, string file, string audiofile){
                 cout << endl;*/
                 int r_dec = g.decode(temp);
                 //cout << "decoded: " << r_dec << endl;
-                double sample = r_dec/pow(2,2) ;
+                double sample = r_dec/pow(2,log2(m)) ;
                 samples.push_back(sample);
                 res.push_back(r_dec);
                 temp.clear();
                 tmp="";
+                resto.clear();
                 nbits = n;
                 plus1=false;
             }
             else{
                 int u = (1 << n+1) - m;
-                long result = stol(tmp);
+                int result = g.binaryToDecimal(resto);
                 if(result < u){
                     /*cout << "to decode: ";
                     for(int d:temp){
@@ -154,11 +177,12 @@ vector<int> decode(int m, string file, string audiofile){
                     cout << endl;*/
                     int r_dec = g.decode(temp);
                     //cout << "decoded: " << r_dec << endl;
-                    double sample = r_dec/pow(2,2);
+                    double sample = r_dec/pow(2,log2(m));
                     samples.push_back(sample);
                     res.push_back(r_dec);
                     temp.clear();
                     tmp="";
+                    resto.clear();
                     nbits = n;
                 }
                 else{
@@ -184,8 +208,6 @@ vector<int> decode(int m, string file, string audiofile){
     copy.save(audiofile, AudioFileFormat::Wave);
     return res;
 }
-
-
 
 int main(int argc, char **argv){
     auto start = high_resolution_clock::now();
@@ -220,3 +242,5 @@ int main(int argc, char **argv){
     cout << "Processing Time: " << duration.count()*pow(10,-6) << " seconds" << endl;
     return 0;
 }
+
+

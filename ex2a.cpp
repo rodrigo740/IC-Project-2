@@ -3,17 +3,20 @@
 
 int main(){
 
-
-
-    Golomb g0(7);
-    vector<int> x0 = g0.encode(-8);
-    cout << "code: " << endl;
+    Golomb g0(2985);
+    for(int i = -7000; i < 7000; i++){
+        vector<int> x0 = g0.encode(i);
+        if (i!= g0.decode(x0)){
+            cout << i << endl;
+        }
+    }
+    /*cout << "code: " << endl;
     for(int i : x0){
         cout << "" << i;
     }
     cout << endl;
 
-    cout << "decode: " << g0.decode(x0) << endl;
+    cout << "decode: " << g0.decode(x0) << endl;*/
 /*
     vector<int> y0;
     y0.push_back(0);
