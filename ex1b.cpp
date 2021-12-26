@@ -46,7 +46,6 @@ int predictor2(float prevSample){
 }
 
 vector<int> encode(int m, string file){
-
     AudioFile<float> audioFile;
     audioFile.load (file);
     int numSamples = audioFile.getNumSamplesPerChannel();
@@ -56,21 +55,26 @@ vector<int> encode(int m, string file){
     vector<int> r_enc,g_res;
     int po =pow(2,log2(m));
     int r;
-
     ofstream ofs("histogram_ex1b.txt");
-
     map<int,int> map;
-        
     BitStream bs("out.bit", 'w');
-
+    Golomb g(m);
     char* s;
-   // r = audioFile.samples[channel][0]
+    r = (int)(audioFile.samples[0][0]*po + audioFile.samples[1][0]*po)/2;
+    r_enc.push_back(r);
+    g_res = g.encode(r);
+    g_res = g.encode(r);
+    for (int j: g_res){
+        bs.writebit(j);
+        s += j;
+    }
     for (int i = 1; i < numSamples; i++){
-        for (int channel = 0; channel < numChannels; channel++){
-            r = (int) (audioFile.samples[channel][i])*po - predictor(audioFile.samples[channel][i-1]*po, audioFile.samples[channel][i]*po);
+        //for (int channel = 0; channel < numChannels; channel++){
+            float media = (audioFile.samples[0][i]*po + audioFile.samples[1][i]*po)/2;
+            float media2 = (audioFile.samples[0][i-1]*po + audioFile.samples[1][i-1]*po)/2;
+            r = (int) media - predictor(media2, media);
             //r = (int) (audioFile.samples[channel][i])*po - predictor2(audioFile.samples[channel][i-1]*po);
             map[r]++;
-            Golomb g(m);
             r_enc.push_back(r);
             //cout << "to encode: " << r << endl;
             g_res = g.encode(r);
@@ -78,7 +82,7 @@ vector<int> encode(int m, string file){
                 bs.writebit(j);
                 s += j;
             }
-        }
+        //}
     }
 
     /*histogram and entropy*/
