@@ -3,10 +3,8 @@
 
 int main(){
 
-
-
-    Golomb g0(7);
-    vector<int> x0 = g0.encode(-8);
+    Golomb g0(1900);
+    vector<int> x0 = g0.encode(3);
     cout << "code: " << endl;
     for(int i : x0){
         cout << "" << i;

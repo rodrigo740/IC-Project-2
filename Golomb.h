@@ -25,6 +25,7 @@ class Golomb { ///Test da descrição brief!
             code.push_back(0);
         }
         code.push_back(1);
+        
         //binary code
 
         double rt = log2(m);
@@ -88,6 +89,7 @@ class Golomb { ///Test da descrição brief!
         int q = 0;
         int r = 0;
         int nbits = log2(m);
+        //cout << "nbits: " << nbits << endl;
         double rt = log2(m);
         double resto = rt - (int) rt;
         vector<int> res = code;
@@ -123,6 +125,7 @@ class Golomb { ///Test da descrição brief!
             string tmp = "";
             int u = (1 << nbits+1) - m;
             // read the first nbits
+            cout << "nbits: " << nbits << endl;
             for(int i = 0; i < nbits; i++){
                 tmp += to_string(code[i]);
             }

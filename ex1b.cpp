@@ -33,7 +33,7 @@ vector<int> encode(int m, string file){
     int numChannels = audioFile.getNumChannels();
     c = numChannels;
     vector<int> r_enc,g_res;
-    int po =pow(2,2);
+    int po =pow(2,log2(m));
     int r;
 
     ofstream ofs("histogram_ex1b.txt");
@@ -135,7 +135,7 @@ vector<int> decode(int m, string file, string audiofile){
                 cout << endl;*/
                 int r_dec = g.decode(temp);
                 //cout << "decoded: " << r_dec << endl;
-                double sample = r_dec/pow(2,2) ;
+                double sample = r_dec/pow(2,log2(m)) ;
                 samples.push_back(sample);
                 res.push_back(r_dec);
                 temp.clear();
@@ -154,7 +154,7 @@ vector<int> decode(int m, string file, string audiofile){
                     cout << endl;*/
                     int r_dec = g.decode(temp);
                     //cout << "decoded: " << r_dec << endl;
-                    double sample = r_dec/pow(2,2);
+                    double sample = r_dec/pow(2,log2(m));
                     samples.push_back(sample);
                     res.push_back(r_dec);
                     temp.clear();
@@ -184,8 +184,6 @@ vector<int> decode(int m, string file, string audiofile){
     copy.save(audiofile, AudioFileFormat::Wave);
     return res;
 }
-
-
 
 int main(int argc, char **argv){
     auto start = high_resolution_clock::now();
