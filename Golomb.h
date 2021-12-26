@@ -76,8 +76,9 @@ class Golomb { ///Test da descrição brief!
         }
         while (s.length() < len){
             s = '0' + s;
-            return s;
+            
         }
+        return s;
     }
 
     bool even(int x){
@@ -125,23 +126,32 @@ class Golomb { ///Test da descrição brief!
             string tmp = "";
             int u = (1 << nbits+1) - m;
             // read the first nbits
-            cout << "nbits: " << nbits << endl;
+            //cout << "nbits: " << nbits << endl;
             for(int i = 0; i < nbits; i++){
                 tmp += to_string(code[i]);
             }
-            long long result = stoll(tmp);
+            vector<int> aux;
+            for(int i = 0; i < nbits; i++){
+                aux.push_back(code[i]);
+            }
+            int result = binaryToDecimal(aux);
             
             //if they encode a value less than u
             if(result < u){
-                r = binaryToDecimalINT(result);
+                r = result;
             }
             //read an additional bit and subtract u from result
             else{
-                tmp += to_string(code[nbits]);
-                result = stoll(tmp);
-                result = binaryToDecimalINT(result) - u;
-                result = decimalToBinary(result);
-                r = binaryToDecimalINT(result);
+                //cout << "result != u" << endl;
+                aux.push_back(code[nbits]);
+                //tmp += to_string(code[nbits]);
+                result = binaryToDecimal(aux);
+                //result = stoll(tmp);
+                //result = binaryToDecimalINT(result) - u;
+                result = result - u;
+                //result = decimalToBinary(result);
+                //r = binaryToDecimalINT(result);
+                r = result;
             }
         }
         n=q*m+r;
@@ -194,22 +204,17 @@ class Golomb { ///Test da descrição brief!
     }
 
     int binaryToDecimal(vector<int> n){
-        string s;
-        for(int i : n){
-            string s1 = to_string(i);
-            s = s + s1;
-        }
-        long long num = stoll(s);
         int dec_value = 0;
         // Initializing base value to 1, i.e 2^0
         int base = 1;
-        int temp = num;
-        while (temp) {
-            int last_digit = temp % 10;
-            temp = temp / 10;
-    
+        int pos = 1;
+
+        while (pos<=n.size()) {
+            int last_digit = n[n.size()-pos];
+            pos++;
+
             dec_value += last_digit * base;
-    
+
             base = base * 2;
         }
 
