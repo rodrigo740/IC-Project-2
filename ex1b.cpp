@@ -392,7 +392,7 @@ int main(int argc, char **argv){
         cout << "ideal m: " << m << endl;
 
         vector<int> v = encode(m, argv[1]);
-        vector<int> result = decode(m, "out.bit","out.wav");
+        vector<int> result = decode(m, "out.bit",argv[2]);
         
         for (int i = 0; i < result.size(); i++){
             if (result[i] != v[i]){
@@ -433,7 +433,7 @@ int main(int argc, char **argv){
                                    //a dividir por 2 porque dar shift num bit divide por dois, 2 bits por 4, etc...
         
         vector<int> v = encode_lossy(m,div, argv[1]);
-        vector<int> result = decode_lossy(m,div, "out.bit","out.wav");
+        vector<int> result = decode_lossy(m,div, "out.bit",argv[2]);
         
         for (int i = 0; i < result.size(); i++){
             if (result[i] != v[i]){
