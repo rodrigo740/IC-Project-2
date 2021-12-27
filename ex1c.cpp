@@ -20,72 +20,43 @@ vector<uchar> decoder(int m, int height, int width, string filename){
 
     bool plus1 = false, f = false;
 
-    int startU = height*width;
-    int startV = startU + startU/4;
-
     BitStream bs1(filename, 'r');
     
 
     vector<uchar> yuvFrame;
     vector<int> temp,resto;
-    //v = bs1.readFile();
 
-    string tmp = "";
     Golomb g(m);
     int bit = bs1.readbit();
     while(bit != -1){
-        //cout << bit << endl;
 
         if (f){
             nbits--;
-            tmp+=to_string(bit);
             resto.push_back(bit);
         }
         temp.push_back(bit);
         if (nbits == 0){
             f = false;
             if(plus1){
-                /*cout << "to decode1: ";
-
-                for(int a: temp){
-                    cout << a;
-                }
-                cout << endl;*/
                 int r_dec = g.decode(temp);
                 yuvFrame.push_back(r_dec);
                 temp.clear();
                 resto.clear();
 
-                tmp="";
                 nbits = n;
                 plus1=false;
             }
             else{
                 int u = (1 << n+1) - m;
-                /*cout << "U: " << u << endl;
-                cout << "resto: ";
-
-                    for(int a: resto){
-                        cout << a;
-                    }
-                    cout << endl;*/
                 int result = g.binaryToDecimal(resto);
                 
-                
                 if(result < u){
-                    /*cout << "to decode2: ";
-
-                    for(int a: temp){
-                        cout << a;
-                    }
-                    cout << endl;*/
 
                     int r_dec = g.decode(temp);
                     yuvFrame.push_back(r_dec);
                     temp.clear();
                     resto.clear();
 
-                    tmp="";
                     nbits = n;
                 }
                 else{
@@ -100,19 +71,12 @@ vector<uchar> decoder(int m, int height, int width, string filename){
         }
         bit = bs1.readbit();
     }
-    /*
-    for(int b: yuvFrame){
-        cout << b << " ";
-    }
-
-    cout << endl;
-    */
 
 
     return yuvFrame;
 }
 
-Mat reconstruct2(vector<uchar> yuvFrame, int width, int height, int n){
+Mat reconstruct(vector<uchar> yuvFrame, int width, int height, int n){
     cout << "Frame size: " << yuvFrame.size() << endl;
     cout << "Rec image" << endl;
     Mat y = Mat(Size(width,height), CV_8UC1, Scalar(0, 0, 0));
@@ -123,12 +87,11 @@ Mat reconstruct2(vector<uchar> yuvFrame, int width, int height, int n){
     Mat g = Mat(Size(width,height), CV_8UC1, Scalar(0, 0, 0));
     Mat r = Mat(Size(width,height), CV_8UC1, Scalar(0, 0, 0));
 
-    int pos = 0, col = 1, row = 0, yval, uval, vval;
+    int col = 1, row = 0, yval, uval, vval;
     
-
     int startU = 4*n;
 
-    y.at<uchar>(0,0) = (yuvFrame[pos]);
+    y.at<uchar>(0,0) = (yuvFrame[0]);
 
     for (int i = 1; i < startU; i++)
     {
@@ -217,16 +180,7 @@ Mat reconstruct2(vector<uchar> yuvFrame, int width, int height, int n){
 
 
 
-
-
-
-
-
-
-
-
-
-Mat reconstruct(vector<uchar> yuvFrame, int width, int height, int n){
+Mat reconstruct2(vector<uchar> yuvFrame, int width, int height, int n){
     cout << "Frame size: " << yuvFrame.size() << endl;
     cout << "Rec image" << endl;
     Mat y = Mat(Size(width,height), CV_8UC1, Scalar(0, 0, 0));
@@ -239,10 +193,10 @@ Mat reconstruct(vector<uchar> yuvFrame, int width, int height, int n){
 
     int pos = 0, col = 1, row = 0, val, yval, uval, vval;
     
-
+    
     int startU = 4*n;
 
-    y.at<uchar>(0,0) = (yuvFrame[pos]);
+    y.at<uchar>(0,0) = (yuvFrame[0]);
 
     for (int i = 1; i < startU; i++)
     {
@@ -264,15 +218,15 @@ Mat reconstruct(vector<uchar> yuvFrame, int width, int height, int n){
 
 
 
-    u.at<uchar>(0,0) = (yuvFrame[startU]);
-    u.at<uchar>(0,1) = (yuvFrame[startU]);
-    u.at<uchar>(1,0) = (yuvFrame[startU]);
-    u.at<uchar>(1,1) = (yuvFrame[startU]);
+    u.at<uchar>(0,0) = (yuvFrame[startU]) + (yuvFrame[startU-1]);
+    u.at<uchar>(0,1) = (yuvFrame[startU]) + (yuvFrame[startU-1]);
+    u.at<uchar>(1,0) = (yuvFrame[startU]) + (yuvFrame[startU-1]);
+    u.at<uchar>(1,1) = (yuvFrame[startU]) + (yuvFrame[startU-1]);
 
-    v.at<uchar>(0,0) = (yuvFrame[startV]);
-    v.at<uchar>(0,1) = (yuvFrame[startV]);
-    v.at<uchar>(1,0) = (yuvFrame[startV]);
-    v.at<uchar>(1,1) = (yuvFrame[startV]);
+    v.at<uchar>(0,0) = (yuvFrame[startV]) + (yuvFrame[startV-1]);
+    v.at<uchar>(0,1) = (yuvFrame[startV]) + (yuvFrame[startV-1]);
+    v.at<uchar>(1,0) = (yuvFrame[startV]) + (yuvFrame[startV-1]);
+    v.at<uchar>(1,1) = (yuvFrame[startV]) + (yuvFrame[startV-1]);
 
 
     cout << "Start pos of u: " << startU << endl;
@@ -364,6 +318,22 @@ Mat reconstruct(vector<uchar> yuvFrame, int width, int height, int n){
     return img;
 }
 
+vector<uchar> recFrame(vector<uchar> decFrame){
+
+    vector<uchar> yuvFrame;
+
+    yuvFrame.push_back(decFrame[0]);
+
+    for (int i = 1; i < decFrame.size(); i++)
+    {
+        //cout << i << endl;
+        yuvFrame.push_back(decFrame[i] + yuvFrame[i-1]);
+    }
+    
+
+    return yuvFrame;
+}
+
 int main(int argc, char **argv){
 
     auto start = high_resolution_clock::now();
@@ -375,17 +345,12 @@ int main(int argc, char **argv){
     }*/
     
     Mat image = imread(argv[1], CV_LOAD_IMAGE_COLOR);
-    cout << "img type: " << image.type() << endl;
     Mat y = Mat::zeros(image.size(), CV_8UC1);
     Mat u = Mat::zeros(image.size(), CV_8UC1);
     Mat v = Mat::zeros(image.size(), CV_8UC1);
 
     int height = image.rows/2;
     int width = image.cols/2;
-    int n_dim = 2;
-    int n_ch = 1;
-
-    int sizes[n_dim] = {width, height};
     
 
     vector<Mat> bgr_planes;
@@ -398,9 +363,6 @@ int main(int argc, char **argv){
     
     
     uchar b,g,r;
-    const int c = 1000;
-
-    vector<int> yValues;
     int val;
 
     vector<uchar> uv, vv;
@@ -422,14 +384,13 @@ int main(int argc, char **argv){
 
             // U
             val = (-0.147 * r - 0.289 * g + 0.436 * b) + 128;
-            
             if(val < 16) val = 16;
             if(val > 240) val = 240;
             uv.push_back(val);
             u.at<uchar>(i,j) = val;
+
             // V
             val = (0.615 * r - 0.515 * g - 0.100 * b) + 128;
-            
             if(val < 16) val = 16;
             if(val > 240) val = 240;
             vv.push_back(val);
@@ -465,19 +426,14 @@ int main(int argc, char **argv){
         }
     }
 
-    namedWindow("u2", WINDOW_NORMAL);
-    imshow("u2", u2);
-    waitKey(0);
-
 
     int x = (height*2)*(width*2);
     int n = x/4;
-
     
     
     Mat yuvFrame = Mat::zeros(6, n, CV_8UC1);
 
-    MatIterator_<uchar> itYUV, itY = y.begin<uchar>(), itU = u2.begin<uchar>(), itV = v2.begin<uchar>();
+    MatIterator_<uchar> itY = y.begin<uchar>();
 
     vector<uchar> yuvF;
 
@@ -490,9 +446,6 @@ int main(int argc, char **argv){
             itY++;
         }
     }
-
-    int s = yuvF.size();
-    cout << "Amount of y: " << s << endl;
     
     for (int i = 0; i < n; i++)
     {
@@ -501,19 +454,13 @@ int main(int argc, char **argv){
         
     }
 
-    int s2 = yuvF.size() - s;
-    cout << "Amount of u: " << u2v.size() << endl;
-
 
     for (int i = 0; i < n; i++)
     {
         yuvFrame.at<uchar>(5, i) = v2v[i];
         yuvF.push_back(v2v[i]);
-        
     }
 
-    int s3 = yuvF.size() - (s2+s);
-    cout << "Amount of v: " << s3 << endl;
     
     double mean = 0;
 
@@ -528,39 +475,20 @@ int main(int argc, char **argv){
     Golomb gol(m);
     BitStream bs("encoded.bit", 'w');
 
-    vector<int> vec, res;
+    vector<int> res;
 
     int residual;
 
-    row = 0; 
-    col = 0;
-    
     res = gol.encode(yuvF[0]);
 
     for (int bit: res)
     {
         bs.writebit(bit);
     }
-    /*
-    residual = yuvF[0];
-    res = gol.encode(residual);
-
-    for (int bit: res)
-    {
-        bs.writebit(bit);
-    }
     
-    residual = yuvF[0];
-    res = gol.encode(residual);
-
-    for (int bit: res)
+    for (int i = 1; i < yuvF.size(); i++)
     {
-        bs.writebit(bit);
-    }
-    */
-    for (int i = 0; i < yuvF.size(); i++)
-    {
-        residual = yuvF[i+1] - yuvF[i];
+        residual = yuvF[i] - yuvF[i-1];
         res = gol.encode(residual);
 
         for (int bit: res)
@@ -574,20 +502,27 @@ int main(int argc, char **argv){
     
 
     vector<uchar> decoded = decoder(m, 6, n, "encoded.bit");
-    
-    //vector<int> decoded = decoder(15000, 6, 65000, "encoded.bit");
 
+    vector<uchar> temp = recFrame(decoded);
+
+
+    for (int i = 0; i < yuvF.size(); i++)
+    {
+        if(yuvF[i] != temp[i]){
+            cout << "diff at pos " << i << ": " << (int)yuvF[i] << " != " << (int)temp[i] << endl;
+        }
+    }
     
+
+
+
+    Mat rc_img = reconstruct(temp, width*2, height*2, n);
     
-    //vector<uchar> decoded = yuvF;
-    //Mat rc_img = reconstruct2(yuvF, width*2, height*2, n);
-    Mat rc_img = reconstruct(decoded, width*2, height*2, n);
-    //rc_img.convertTo(rc_img, 16);
-    cout << "done!" << endl;
     namedWindow("Rec image", WINDOW_NORMAL);
     imshow("Rec image", rc_img);
     waitKey(0);
 
+    /*
     namedWindow("y orig", WINDOW_NORMAL);
     imshow("y orig", y);
     waitKey(0);
@@ -600,45 +535,11 @@ int main(int argc, char **argv){
     namedWindow("v orig", WINDOW_NORMAL);
     imshow("v orig", v);
     waitKey(0);
-
-
-
-
-
-
-
-
-
-
-
-    /*
-    by: 235045
-    bu: 128000
-    bv: 128000
     */
 
-    /*
-    vector<Mat> ch;
-    ch.push_back(gray);
-    ch.push_back(u);
-    ch.push_back(v);
-    Mat img;
-    Mat half(gray.size(), gray.type(), 127);
-    Mat h = Mat::zeros(image.size(), CV_8UC1);
-    namedWindow("Grayscale before", WINDOW_NORMAL);
-    imshow("Grayscale before", gray);
-    waitKey(0);
-    ch = {gray, u, gray};
-    merge(ch, img);
-    namedWindow("u", WINDOW_NORMAL);
-    imshow("u", img);
-    waitKey(0);
-    ch = {gray, gray, v};
-    merge(ch, img);
-    namedWindow("v", WINDOW_NORMAL);
-    imshow("v", img);
-    waitKey(0);
-    */
+
+
+
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(stop - start);
     cout << "Processing Time: " << duration.count() << " μs" << endl;
