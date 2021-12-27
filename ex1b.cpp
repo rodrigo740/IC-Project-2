@@ -92,7 +92,7 @@ vector<int> encode(int m, string file){
         h = h-p*log2(p);
         ofs << "" << i.first << " -> " << i.second << endl;
     }
-    cout << "Entropy: " << h << endl;
+    cout << "Entropy of residual values lossless: " << h << endl;
 
     ofs.close();
     bs.closeF();
@@ -267,7 +267,7 @@ vector<int> encode_lossy(int m,int div, string file){
         h = h-p*log2(p);
         ofs << "" << i.first << " -> " << i.second << endl;
     }
-    cout << "Entropy: " << h << endl;
+    cout << "Entropy of residual values lossy: " << h << endl;
 
     ofs.close();
     bs.closeF();
@@ -381,11 +381,25 @@ int main(int argc, char **argv){
         int numSamples = audioFile.getNumSamplesPerChannel();
         int numChannels = audioFile.getNumChannels();
         double sum = 0;
+        map<int,int> map;
+        
         for (int i = 1; i < numSamples; i++){
             for (int channel = 0; channel < numChannels; channel++){
                     sum += - audioFile.samples[channel][i]*pow(2,20);
+                    map[audioFile.samples[channel][i]*pow(2,20)]++;
             }
         }
+
+        double h =0;
+        ofstream ofs("histogram_ex1b_original_lossless.txt");
+    
+        for(pair<int,int> i : map){
+            double p = (static_cast<double>(i.second)/static_cast<double>(numChannels*numSamples));
+            h = h-p*log2(p);
+            ofs << "" << i.first << " -> " << i.second << endl;
+        }
+        cout << "Entropy of original values lossless: " << h << endl;
+
         double mean = sum/(numSamples*numChannels);
         double alpha = mean/(mean+1.0);
         int m = (int) ceil(-1/log2(alpha));
@@ -414,11 +428,25 @@ int main(int argc, char **argv){
         int numSamples = audioFile.getNumSamplesPerChannel();
         int numChannels = audioFile.getNumChannels();
         double sum = 0;
+        map<int,int> map;
+
         for (int i = 1; i < numSamples; i++){
             for (int channel = 0; channel < numChannels; channel++){
                     sum += - audioFile.samples[channel][i]*pow(2,20);
+                    map[audioFile.samples[channel][i]*pow(2,20)]++;
             }
         }
+
+        double h =0;
+        ofstream ofs("histogram_ex1b_original_lossy.txt");
+    
+        for(pair<int,int> i : map){
+            double p = (static_cast<double>(i.second)/static_cast<double>(numChannels*numSamples));
+            h = h-p*log2(p);
+            ofs << "" << i.first << " -> " << i.second << endl;
+        }
+        cout << "Entropy of original values lossy: " << h << endl;
+
         double mean = sum/(numSamples*numChannels);
         double alpha = mean/(mean+1.0);
         int m = (int) ceil(-1/log2(alpha));
