@@ -179,145 +179,6 @@ Mat reconstruct(vector<uchar> yuvFrame, int width, int height, int n){
 }
 
 
-
-Mat reconstruct2(vector<uchar> yuvFrame, int width, int height, int n){
-    cout << "Frame size: " << yuvFrame.size() << endl;
-    cout << "Rec image" << endl;
-    Mat y = Mat(Size(width,height), CV_8UC1, Scalar(0, 0, 0));
-    Mat u = Mat(Size(width,height), CV_8UC1, Scalar(0, 0, 0));
-    Mat v = Mat(Size(width,height), CV_8UC1, Scalar(0, 0, 0));
-
-    Mat b = Mat(Size(width,height), CV_8UC1, Scalar(0, 0, 0));
-    Mat g = Mat(Size(width,height), CV_8UC1, Scalar(0, 0, 0));
-    Mat r = Mat(Size(width,height), CV_8UC1, Scalar(0, 0, 0));
-
-    int pos = 0, col = 1, row = 0, val, yval, uval, vval;
-    
-    
-    int startU = 4*n;
-
-    y.at<uchar>(0,0) = (yuvFrame[0]);
-
-    for (int i = 1; i < startU; i++)
-    {
-        y.at<uchar>(row,col) = y.at<uchar>(row,col-1) + (yuvFrame[i]);
-        //cout << "Y val: " << (y.at<uchar>(row,col-1) + (yuvFrame[i])) << endl;
-
-        col++;
-        if(col == width){
-            col = 0;
-            row++;
-        }
-    }
-
-    pos = 0;
-    row = 0;
-    col = 2;
-
-    int startV = (4*n+n);
-
-
-
-    u.at<uchar>(0,0) = (yuvFrame[startU]) + (yuvFrame[startU-1]);
-    u.at<uchar>(0,1) = (yuvFrame[startU]) + (yuvFrame[startU-1]);
-    u.at<uchar>(1,0) = (yuvFrame[startU]) + (yuvFrame[startU-1]);
-    u.at<uchar>(1,1) = (yuvFrame[startU]) + (yuvFrame[startU-1]);
-
-    v.at<uchar>(0,0) = (yuvFrame[startV]) + (yuvFrame[startV-1]);
-    v.at<uchar>(0,1) = (yuvFrame[startV]) + (yuvFrame[startV-1]);
-    v.at<uchar>(1,0) = (yuvFrame[startV]) + (yuvFrame[startV-1]);
-    v.at<uchar>(1,1) = (yuvFrame[startV]) + (yuvFrame[startV-1]);
-
-
-    cout << "Start pos of u: " << startU << endl;
-    cout << "Total number os u: " << n << endl;
-    cout << "Start pos of u: " << startU << endl;
-    cout << "Start pos of v: " << startV << endl;
-    cout << "Total number of u and v: " << n << endl;
-
-    for (int i = 1; i < n; i++)
-    {
-        if(col == 0){
-            u.at<uchar>(row,col) = u.at<uchar>(row-1,width-1) + (yuvFrame[startU+i]);
-            u.at<uchar>(row,col+1) = u.at<uchar>(row-1,width-1) + (yuvFrame[startU+i]);
-            u.at<uchar>(row+1,col) = u.at<uchar>(row-1,width-1) + (yuvFrame[startU+i]);
-            u.at<uchar>(row+1,col+1) = u.at<uchar>(row-1,width-1) + (yuvFrame[startU+i]);
-
-            v.at<uchar>(row,col) = v.at<uchar>(row-1,width-1) + (yuvFrame[startV+i]);
-            v.at<uchar>(row,col+1) = v.at<uchar>(row-1,width-1) + (yuvFrame[startV+i]);
-            v.at<uchar>(row+1,col) = v.at<uchar>(row-1,width-1) + (yuvFrame[startV+i]);
-            v.at<uchar>(row+1,col+1) = v.at<uchar>(row-1,width-1) + (yuvFrame[startV+i]);
-        }else{
-
-            u.at<uchar>(row,col) = u.at<uchar>(row,col-1) + (yuvFrame[startU+i]);
-            u.at<uchar>(row,col+1) = u.at<uchar>(row,col-1) + (yuvFrame[startU+i]);
-            u.at<uchar>(row+1,col) = u.at<uchar>(row,col-1) + (yuvFrame[startU+i]);
-            u.at<uchar>(row+1,col+1) = u.at<uchar>(row,col-1) + (yuvFrame[startU+i]);
-
-            v.at<uchar>(row,col) = v.at<uchar>(row,col-1) + (yuvFrame[startV+i]);
-            v.at<uchar>(row,col+1) = v.at<uchar>(row,col-1) + (yuvFrame[startV+i]);
-            v.at<uchar>(row+1,col) = v.at<uchar>(row,col-1) + (yuvFrame[startV+i]);
-            v.at<uchar>(row+1,col+1) = v.at<uchar>(row,col-1) + (yuvFrame[startV+i]);
-        }
-
-        col+=2;
-        if(col == width){
-            col = 0;
-            row+=2;
-        }
-    }
-
-    cout << "u and v mats done" << endl;
-
-    for (int i = 0; i < height; i++)
-    {
-        for (int j = 0; j < width; j++)
-        {
-            yval = y.at<uchar>(i,j)-16;
-            vval = v.at<uchar>(i,j)-128;
-            uval = u.at<uchar>(i,j)-128;
-
-            val = 1.164*yval + 1.596*vval;
-            if (val > 255) val = 255;
-            if (val < 0)   val = 0;
-            
-            r.at<uchar>(i,j) = (uchar) val;
-
-            val = 1*yval - 0.813*uval - 0.391*vval;
-            if (val > 255)  val = 255;
-            if (val < 0)    val = 0;
-            g.at<uchar>(i,j) = (uchar) val;
-
-            val = 1.164 * yval + 2.018*uval;
-            if (val > 255) val = 255;
-            if (val < 0)   val = 0;
-                
-            b.at<uchar>(i,j) = (uchar) val;
-
-            //cout << "y col: " << j<< endl;
-            //cout << "y row: " << i << endl;
-
-        }
-    }
-    cout << "All done!" << endl;
-    vector<Mat> bgr = {b, g, r};
-    Mat img;
-    merge(bgr, img);
-    cout << "merged" << endl;
-    namedWindow("y rec", WINDOW_NORMAL);
-    imshow("y rec", y);
-    waitKey(0);
-    namedWindow("u rec", WINDOW_NORMAL);
-    imshow("u rec", u);
-    waitKey(0);
-    namedWindow("v rec", WINDOW_NORMAL);
-    imshow("v rec", v);
-    waitKey(0);
-    
-
-    return img;
-}
-
 vector<uchar> recFrame(vector<uchar> decFrame){
 
     vector<uchar> yuvFrame;
@@ -326,7 +187,6 @@ vector<uchar> recFrame(vector<uchar> decFrame){
 
     for (int i = 1; i < decFrame.size(); i++)
     {
-        //cout << i << endl;
         yuvFrame.push_back(decFrame[i] + yuvFrame[i-1]);
     }
     
@@ -335,15 +195,14 @@ vector<uchar> recFrame(vector<uchar> decFrame){
 }
 
 int main(int argc, char **argv){
-
-    auto start = high_resolution_clock::now();
-    
     
     if(argc != 2){
         cerr << "Usage: ./ex1c <input_img>\nExample: ./ex1c images/lena.ppm" << endl;
         return -1;
     }
     
+    auto start = high_resolution_clock::now();
+
     Mat image = imread(argv[1], CV_LOAD_IMAGE_COLOR);
     Mat y = Mat::zeros(image.size(), CV_8UC1);
     Mat u = Mat::zeros(image.size(), CV_8UC1);

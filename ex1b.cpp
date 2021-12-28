@@ -365,13 +365,21 @@ vector<int> decode_lossy(int m,int div, string file, string audiofile){
 
 
 int main(int argc, char **argv){
-    auto start = high_resolution_clock::now();
+
+
+    if(argc != 3){
+        cerr << "Usage: ./ex1b <input_audio> <output_audio> \nExample: ./ex1c audio/sample01.wav audio/output_sample01.wav" << endl;
+        return -1;
+    }
 
     int op;
     cout << "0 - lossless" << endl;
     cout << "1 - lossy" << endl;
     cout << "Option: ";
     cin >> op;
+
+    auto start = high_resolution_clock::now();
+
 
     //lossless
     if(op == 0){
