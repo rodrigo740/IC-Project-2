@@ -7,6 +7,8 @@
 #include <limits>
 #include<map>
 #include <chrono>
+#include <experimental/filesystem>
+namespace fs = std::experimental::filesystem;
 using namespace std::chrono;
 using namespace std;
 
@@ -386,6 +388,10 @@ int main(int argc, char **argv){
             }   
         }
 
+
+        cout << "Original File size: " <<  fs::file_size(argv[1]) << " bits" << endl;
+        cout << "Compressed File size: " << fs::file_size(argv[2]) << " bits" << endl;
+
         auto stop = high_resolution_clock::now();
         auto duration = duration_cast<microseconds>(stop - start);
         cout << "Processing Time: " << duration.count()*pow(10,-6) << " seconds" << endl;
@@ -440,6 +446,9 @@ int main(int argc, char **argv){
                 cout << "Diff at pos " << i << ": " << v[i] << " != " << result[i] << endl;
             }   
         }
+
+        cout << "Original File size: " <<  fs::file_size(argv[1]) << " bits" << endl;
+        cout << "Compressed File size: " << fs::file_size(argv[2]) << " bits" << endl;
 
         auto stop = high_resolution_clock::now();
         auto duration = duration_cast<microseconds>(stop - start);
