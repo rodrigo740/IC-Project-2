@@ -165,7 +165,6 @@ vector<int> decode(int m, string file, string audiofile){
         }else if (bit == 1){
             f = true;
         }
-
     }
         
     copy.setNumSamplesPerChannel(s);
@@ -356,14 +355,14 @@ int main(int argc, char **argv){
         }
 
         double h =0;
-        ofstream ofs("histogram_ex1b_original_lossless.txt");
+        ofstream ofs("histogram_ex1b_original.txt");
     
         for(pair<int,int> i : map){
             double p = (static_cast<double>(i.second)/static_cast<double>(numChannels*numSamples));
             h = h-p*log2(p);
             ofs << "" << i.first << " -> " << i.second << endl;
         }
-        cout << "Entropy of original values lossless: " << h << endl;
+        cout << "Entropy of original values: " << h << endl;
 
         double mean = sum/(numSamples*numChannels);
         double alpha = mean/(mean+1.0);
@@ -403,14 +402,14 @@ int main(int argc, char **argv){
         }
 
         double h =0;
-        ofstream ofs("histogram_ex1b_original_lossy.txt");
+        ofstream ofs("histogram_ex1b_original.txt");
     
         for(pair<int,int> i : map){
             double p = (static_cast<double>(i.second)/static_cast<double>(numChannels*numSamples));
             h = h-p*log2(p);
             ofs << "" << i.first << " -> " << i.second << endl;
         }
-        cout << "Entropy of original values lossy: " << h << endl;
+        cout << "Entropy of original values: " << h << endl;
 
         double mean = sum/(numSamples*numChannels);
         double alpha = mean/(mean+1.0);
