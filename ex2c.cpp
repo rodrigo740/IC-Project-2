@@ -1,22 +1,26 @@
+#include <experimental/filesystem>
 #include <iostream>
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/imgproc.hpp>
 #include <chrono>
+#include <fstream>
 #include "Golomb.h"
 #include "BitStream.h"
+
 
 using namespace std;
 using namespace cv;
 using namespace std::chrono;
+namespace fs = std::experimental::filesystem;
 
 
 vector<uchar> decoder(int m, int height, int width, string filename){
 
     const int n = log2(m);
     int nbits = log2(m);
-    cout << "nbits: " << nbits << endl;
+    //cout << "nbits: " << nbits << endl;
 
     bool plus1 = false, f = false;
 
@@ -77,8 +81,8 @@ vector<uchar> decoder(int m, int height, int width, string filename){
 }
 
 Mat reconstruct(vector<uchar> yuvFrame, int width, int height, int n){
-    cout << "Frame size: " << yuvFrame.size() << endl;
-    cout << "Rec image" << endl;
+    //cout << "Frame size: " << yuvFrame.size() << endl;
+    //cout << "Rec image" << endl;
     Mat y = Mat(Size(width,height), CV_8UC1, Scalar(0, 0, 0));
     Mat u = Mat(Size(width,height), CV_8UC1, Scalar(0, 0, 0));
     Mat v = Mat(Size(width,height), CV_8UC1, Scalar(0, 0, 0));
@@ -159,6 +163,7 @@ Mat reconstruct(vector<uchar> yuvFrame, int width, int height, int n){
 
         }
     }
+    /*
     namedWindow("y rec", WINDOW_NORMAL);
     imshow("y rec", y);
     waitKey(0);
@@ -168,7 +173,7 @@ Mat reconstruct(vector<uchar> yuvFrame, int width, int height, int n){
     namedWindow("v rec", WINDOW_NORMAL);
     imshow("v rec", v);
     waitKey(0);
-    
+    */
 
     vector<Mat> bgr = {b, g, r};
     Mat img;
@@ -180,16 +185,48 @@ Mat reconstruct(vector<uchar> yuvFrame, int width, int height, int n){
 
 
 
-vector<uchar> recFrame(vector<uchar> decFrame){
+vector<uchar> recFrame(vector<uchar> decFrame, int d_y, int d_u, int d_v, int yAmount, int uAmount){
 
     vector<uchar> yuvFrame;
 
     // real value = residual + last value
-    yuvFrame.push_back(decFrame[0]);
+    int val = decFrame[0];
+    val = val << d_y;
+    //val = val >> d_y;
+    yuvFrame.push_back(val);
 
-    for (int i = 1; i < decFrame.size(); i++)
+    for (int i = 1; i < yAmount; i++)
     {
-        yuvFrame.push_back(decFrame[i] + yuvFrame[i-1]);
+        val = decFrame[i] + yuvFrame[i-1];
+        val = val << d_y;
+        //val = val >> d_y;
+        yuvFrame.push_back(val);
+    }
+
+    val = decFrame[yAmount];
+    val = val << d_u;
+    //val = val >> d_u;
+    yuvFrame.push_back(val);
+    
+    for (int i = (yAmount+1); i < (yAmount+uAmount); i++)
+    {
+        val = decFrame[i] + yuvFrame[i-1];
+        val = val << d_u;
+        //val = val >> d_u;
+        yuvFrame.push_back(val);
+    }
+
+    val = decFrame[yAmount+uAmount];
+    val = val << d_y;
+    //val = val >> d_y;
+    yuvFrame.push_back(val);
+
+    for (int i = (yAmount+uAmount+1); i < decFrame.size(); i++)
+    {
+        val = decFrame[i] + yuvFrame[i-1];
+        val = val << d_v;
+        //val = val >> d_v;
+        yuvFrame.push_back(val);
     }
     
 
@@ -198,37 +235,22 @@ vector<uchar> recFrame(vector<uchar> decFrame){
 
 int main(int argc, char **argv){
     
-    if(argc != 5){
-        cerr << "Usage: ./ex2c <input_img> <number_of_levels_Y_component> <number_of_levels_U_component> <number_of_levels_V_component>\nExample: ./ex2c images/lena.ppm 8 8 8" << endl;
+    if(argc != 6){
+        cerr << "Usage: ./ex2c <input_img> <output_img> <number_of_levels_Y_component> <number_of_levels_U_component> <number_of_levels_V_component>\nExample: ./ex2c images/lena.ppm images/output.ppm 8 8 8" << endl;
         return -1;
     }
 
     auto start = high_resolution_clock::now();
 
-    int nlvl_r = stoi(argv[2]);
-    int nlvl_g = stoi(argv[3]);
-    int nlvl_b = stoi(argv[4]);
+    string outFile = argv[2];
 
-    const int d_r = 256/nlvl_r;
-    const int d_g = 256/nlvl_g;
-    const int d_b = 256/nlvl_b;
+    int nlvl_y = stoi(argv[3]);
+    int nlvl_u = stoi(argv[4]);
+    int nlvl_v = stoi(argv[5]);
 
-    double valueByLevel_r[nlvl_r];
-    double valueByLevel_g[nlvl_g];
-    double valueByLevel_b[nlvl_b];
-
-    for (int i = 0; i < nlvl_r; i++)
-    {
-        valueByLevel_r[i] = (i+1)*d_r/2 + (i*d_r)/2;
-    }
-    for (int i = 0; i < nlvl_g; i++)
-    {
-        valueByLevel_g[i] = (i+1)*d_g/2 + (i*d_g)/2;
-    }
-    for (int i = 0; i < nlvl_b; i++)
-    {
-        valueByLevel_b[i] = (i+1)*d_b/2 + (i*d_b)/2;
-    }
+    const int d_y = (8/nlvl_y)/2;
+    const int d_u = (8/nlvl_u)/2;
+    const int d_v = (8/nlvl_v)/2;
     
     Mat image = imread(argv[1], CV_LOAD_IMAGE_COLOR);
     Mat y = Mat::zeros(image.size(), CV_8UC1);
@@ -237,7 +259,8 @@ int main(int argc, char **argv){
 
     int height = image.rows/2;
     int width = image.cols/2;
-    
+    int yAmount = image.rows*image.cols;
+    int uAmount = yAmount/4;
 
     vector<Mat> bgr_planes;
     split(image, bgr_planes);
@@ -253,6 +276,7 @@ int main(int argc, char **argv){
     int tmp;
     int level;
 
+
     vector<uchar> uv, vv;
 
     for (int i = 0; i < image.rows; i++)
@@ -263,26 +287,10 @@ int main(int argc, char **argv){
             g = bgr_planes[1].at<uchar>(i,j);
             r = bgr_planes[2].at<uchar>(i,j);
 
-            
-        /*
-            tmp = trunc(b/d_b);
-            b = valueByLevel_b[tmp];
-
-            tmp = trunc(g/d_g);
-            g = valueByLevel_g[tmp];
-
-            tmp = trunc(r/d_r);
-            r = valueByLevel_r[tmp];*/
-
-
             // Y
             val = 0.299 * r + 0.587 * g + 0.114 * b + 16;
             if(val < 16) val = 16;
             if(val > 235) val = 235;
-
-            tmp = trunc(val/d_r);
-            val = valueByLevel_r[tmp];
-
 
             y.at<uchar>(i,j) = val;
 
@@ -291,9 +299,6 @@ int main(int argc, char **argv){
             if(val < 16) val = 16;
             if(val > 240) val = 240;
 
-            tmp = trunc(val/d_g);
-            val = valueByLevel_g[tmp];
-
             uv.push_back(val);
             u.at<uchar>(i,j) = val;
 
@@ -301,10 +306,6 @@ int main(int argc, char **argv){
             val = (0.615 * r - 0.515 * g - 0.100 * b) + 128;
             if(val < 16) val = 16;
             if(val > 240) val = 240;
-
-            tmp = trunc(val/d_b);
-            val = valueByLevel_b[tmp];
-
 
             vv.push_back(val);
             v.at<uchar>(i,j) = val;
@@ -366,7 +367,6 @@ int main(int argc, char **argv){
     {
         yuvFrame.at<uchar>(4, i) = u2v[i];
         yuvF.push_back(u2v[i]);
-        
     }
 
 
@@ -387,24 +387,76 @@ int main(int argc, char **argv){
     mean=mean/x;
     double alpha = mean/(mean+1.0);
     int m = (int) ceil(-1/log2(alpha));
-    cout << "M ideal: " << m << endl;
+    //cout << "M ideal: " << m << endl;
     Golomb gol(m);
     BitStream bs("encoded.bit", 'w');
 
     vector<int> res;
 
-    int residual;
+    int residual = yuvF[0];
+    residual = residual >> d_y;
+    //residual = residual << d_y;
 
-    res = gol.encode(yuvF[0]);
+    res = gol.encode(residual);
 
     for (int bit: res)
     {
         bs.writebit(bit);
     }
     
-    for (int i = 1; i < yuvF.size(); i++)
+    for (int i = 1; i < yAmount; i++)
     {
         residual = yuvF[i] - yuvF[i-1];
+        residual = residual >> d_y;
+        //residual = residual << d_y;
+        res = gol.encode(residual);
+
+        for (int bit: res)
+        {
+            bs.writebit(bit);
+        }
+    }
+
+    residual = yuvF[yAmount];
+    residual = residual >> d_u;
+    //residual = residual << d_u;
+
+    res = gol.encode(residual);
+
+    for (int bit: res)
+    {
+        bs.writebit(bit);
+    }
+
+    for (int i = yAmount+1; i < (yAmount+uAmount); i++)
+    {
+        residual = yuvF[i] - yuvF[i-1];
+        residual = residual >> d_u;
+        //residual = residual << d_u;
+        res = gol.encode(residual);
+
+        for (int bit: res)
+        {
+            bs.writebit(bit);
+        }
+    }
+
+    residual = yuvF[yAmount+uAmount];
+    residual = residual >> d_v;
+    //residual = residual << d_v;
+
+    res = gol.encode(residual);
+
+    for (int bit: res)
+    {
+        bs.writebit(bit);
+    }
+
+    for (int i = (yAmount+uAmount+1); i < yuvF.size(); i++)
+    {
+        residual = yuvF[i] - yuvF[i-1];
+        residual = residual >> d_v;
+        //residual = residual << d_v;
         res = gol.encode(residual);
 
         for (int bit: res)
@@ -415,48 +467,32 @@ int main(int argc, char **argv){
     
 
     bs.closeF();
+
+    cout << "Original File size: " << fs::file_size(argv[1]) << " bits" << endl;
+    cout << "Compressed File size: " << fs::file_size("encoded.bit") << " bits" << endl;
     
 
     vector<uchar> decoded = decoder(m, 6, n, "encoded.bit");
 
-    vector<uchar> temp = recFrame(decoded);
-
-    // difference check between original YUVFrame and reconstructed YUVFrame
-    for (int i = 0; i < yuvF.size(); i++)
-    {
-        if(yuvF[i] != temp[i]){
-            cout << "diff at pos " << i << ": " << (int)yuvF[i] << " != " << (int)temp[i] << endl;
-        }
-    }
-    
+    vector<uchar> temp = recFrame(decoded, d_y, d_u, d_v, yAmount, uAmount);
 
     Mat rc_img = reconstruct(temp, width*2, height*2, n);
-    
-    namedWindow("Rec image", WINDOW_NORMAL);
-    imshow("Rec image", rc_img);
-    waitKey(0);
 
-    /*
-    namedWindow("y orig", WINDOW_NORMAL);
-    imshow("y orig", y);
-    waitKey(0);
-    
-    namedWindow("u orig", WINDOW_NORMAL);
-    imshow("u orig", u);
-    waitKey(0);
-
-
-    namedWindow("v orig", WINDOW_NORMAL);
-    imshow("v orig", v);
-    waitKey(0);
-    */
-
-
-
+    imwrite(outFile, rc_img);
 
     auto stop = high_resolution_clock::now();
-    auto duration = duration_cast<microseconds>(stop - start);
-    cout << "Processing Time: " << duration.count() << " μs" << endl;
+    auto duration = duration_cast<seconds>(stop - start);
+    cout << "Processing Time: " << duration.count() << "s" << endl;
+
+    namedWindow("Original image", WINDOW_NORMAL);
+    imshow("Original image", image);
+    waitKey(0);
+    
+    namedWindow("Recreated image", WINDOW_NORMAL);
+    imshow("Recreated image", rc_img);
+    waitKey(0);
+
+    
     
     return 0;
 }

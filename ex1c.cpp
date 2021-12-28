@@ -1,3 +1,4 @@
+#include <experimental/filesystem>
 #include <iostream>
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
@@ -10,13 +11,14 @@
 using namespace std;
 using namespace cv;
 using namespace std::chrono;
+namespace fs = std::experimental::filesystem;
 
 
 vector<uchar> decoder(int m, int height, int width, string filename){
 
     const int n = log2(m);
     int nbits = log2(m);
-    cout << "nbits: " << nbits << endl;
+    //cout << "nbits: " << nbits << endl;
 
     bool plus1 = false, f = false;
 
@@ -77,8 +79,8 @@ vector<uchar> decoder(int m, int height, int width, string filename){
 }
 
 Mat reconstruct(vector<uchar> yuvFrame, int width, int height, int n){
-    cout << "Frame size: " << yuvFrame.size() << endl;
-    cout << "Rec image" << endl;
+    //cout << "Frame size: " << yuvFrame.size() << endl;
+    //cout << "Rec image" << endl;
     Mat y = Mat(Size(width,height), CV_8UC1, Scalar(0, 0, 0));
     Mat u = Mat(Size(width,height), CV_8UC1, Scalar(0, 0, 0));
     Mat v = Mat(Size(width,height), CV_8UC1, Scalar(0, 0, 0));
@@ -159,6 +161,7 @@ Mat reconstruct(vector<uchar> yuvFrame, int width, int height, int n){
 
         }
     }
+    /*
     namedWindow("y rec", WINDOW_NORMAL);
     imshow("y rec", y);
     waitKey(0);
@@ -168,7 +171,7 @@ Mat reconstruct(vector<uchar> yuvFrame, int width, int height, int n){
     namedWindow("v rec", WINDOW_NORMAL);
     imshow("v rec", v);
     waitKey(0);
-    
+    */
 
     vector<Mat> bgr = {b, g, r};
     Mat img;
@@ -196,12 +199,14 @@ vector<uchar> recFrame(vector<uchar> decFrame){
 
 int main(int argc, char **argv){
     
-    if(argc != 2){
-        cerr << "Usage: ./ex1c <input_img>\nExample: ./ex1c images/lena.ppm" << endl;
+    if(argc != 3){
+        cerr << "Usage: ./ex1c <input_img> <output_img>\nExample: ./ex1c images/lena.ppm images/output.ppm" << endl;
         return -1;
     }
     
     auto start = high_resolution_clock::now();
+
+    string outFile = argv[2];
 
     Mat image = imread(argv[1], CV_LOAD_IMAGE_COLOR);
     Mat y = Mat::zeros(image.size(), CV_8UC1);
@@ -333,7 +338,7 @@ int main(int argc, char **argv){
     mean=mean/x;
     double alpha = mean/(mean+1.0);
     int m = (int) ceil(-1/log2(alpha));
-    cout << "M ideal: " << m << endl;
+    //cout << "M ideal: " << m << endl;
     Golomb gol(m);
     BitStream bs("encoded.bit", 'w');
 
@@ -361,50 +366,30 @@ int main(int argc, char **argv){
     
 
     bs.closeF();
+
+    cout << "Original File size: " << fs::file_size(argv[1]) << " bits" << endl;
+    cout << "Compressed File size: " << fs::file_size("encoded.bit") << " bits" << endl;
     
 
     vector<uchar> decoded = decoder(m, 6, n, "encoded.bit");
 
     vector<uchar> temp = recFrame(decoded);
 
-    // difference check between original YUVFrame and reconstructed YUVFrame
-    for (int i = 0; i < yuvF.size(); i++)
-    {
-        if(yuvF[i] != temp[i]){
-            cout << "diff at pos " << i << ": " << (int)yuvF[i] << " != " << (int)temp[i] << endl;
-        }
-    }
-    
-
-
-
     Mat rc_img = reconstruct(temp, width*2, height*2, n);
+
+    imwrite(outFile, rc_img);
     
-    namedWindow("Rec image", WINDOW_NORMAL);
-    imshow("Rec image", rc_img);
-    waitKey(0);
-
-    /*
-    namedWindow("y orig", WINDOW_NORMAL);
-    imshow("y orig", y);
-    waitKey(0);
-    
-    namedWindow("u orig", WINDOW_NORMAL);
-    imshow("u orig", u);
-    waitKey(0);
-
-
-    namedWindow("v orig", WINDOW_NORMAL);
-    imshow("v orig", v);
-    waitKey(0);
-    */
-
-
-
-
     auto stop = high_resolution_clock::now();
-    auto duration = duration_cast<microseconds>(stop - start);
-    cout << "Processing Time: " << duration.count() << " μs" << endl;
+    auto duration = duration_cast<seconds>(stop - start);
+    cout << "Processing Time: " << duration.count() << "s" << endl;
+
+    namedWindow("Original image", WINDOW_NORMAL);
+    imshow("Original image", image);
+    waitKey(0);
+    
+    namedWindow("Recreated image", WINDOW_NORMAL);
+    imshow("Recreated image", rc_img);
+    waitKey(0);
     
     return 0;
 }

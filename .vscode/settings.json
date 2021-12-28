@@ -10,7 +10,8 @@
         "unordered_map": "cpp",
         "string_view": "cpp",
         "initializer_list": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "chrono": "cpp"
     },
     "cmake.configureOnOpen": false
 }
