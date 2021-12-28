@@ -1,40 +1,70 @@
-#include"Golomb.h"
-#include<vector>
-#include <chrono>
-using namespace std::chrono;
-using namespace std;
-
+#include"BitStream.h"
 int main(){
-    bool flag;
+    
+    BitStream bs2("b.bit",'w');
 
-    cout << "Testing Golomb class\nm = [1,1500], encoded value = [-2000,2000]" << endl;
+    bs2.writebit(0);
+    bs2.writebit(1);
+    bs2.writebit(1);
+    bs2.writebit(0);
 
-    auto start = high_resolution_clock::now();
+    bs2.writebit(0);
+    bs2.writebit(0);
+    bs2.writebit(0);
+    bs2.writebit(1);
+    
+    bs2.writebit(0);
+    bs2.writebit(1);
+    bs2.writebit(1);
+    bs2.writebit(0);
 
-    for (int j = 1; j <= 1500; j++)
-    {
-        Golomb g0(j);
-        for(int i = -2000; i <= 2000; i++){
-            vector<int> x0 = g0.encode(i);
-            if (i!= g0.decode(x0)){
-                cout << "Error with m = " << j << endl;
-                cout << "real encoded value: " << i << " != " << g0.decode(x0) << endl;
-                flag = true;
-            }
-        }
-        if (flag)
-        {
-            cout << "m = " << j << " coded with errors!" << endl;
-            flag = false;
-        }else{
-            cout << "m = " << j << " coded without errors!" << endl;
-        }
-        
+    bs2.writebit(0);
+    bs2.writebit(0);
+    bs2.writebit(1);
+    bs2.writebit(0);
+
+    bs2.writebit(0);
+    bs2.writenbits(1,2);
+    bs2.writebit(0);
+
+    bs2.writenbits(0,3);
+    bs2.writebit(1);
+
+    bs2.writebit(0);
+    bs2.writenbits(1,2);
+    bs2.writebit(0);
+
+    bs2.writenbits(0,2);
+    bs2.writebit(1);
+    bs2.writebit(0);
+
+    bs2.writestrings("01100001");
+    bs2.writestrings("01100010");
+
+    bs2.writebit(0);
+    bs2.writebit(1);
+    bs2.writebit(0);
+    bs2.writebit(0);
+
+    bs2.writebit(1);
+
+
+    bs2.completeByte();
+
+
+
+    bs2.closeF();
+
+
+
+    
+    BitStream bs("b.bit",'r');
+    //ab -> 0x61 0x62 0110 0001 0110 0010
+    for(int i=0; i<32; i++){
+        int f0 = bs.readbit();
+        cout << f0 << endl;
     }
     
-    auto stop = high_resolution_clock::now();
-    auto duration = duration_cast<seconds>(stop - start);
-    cout << "Processing Time: " << duration.count() << "s" << endl;
 
     return 0;
 }
