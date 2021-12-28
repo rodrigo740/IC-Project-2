@@ -1,14 +1,18 @@
 #!/bin/bash
 
-printf 'Testing exercise 2-Part C, with all images from image folder\n'
+printf 'Testing exercise 2-Part C, with all images from image folder and 8 levels of quantization\n'
 echo "Compiling file"
-g++ ex2c.cpp -o ex2c `pkg-config --cflags --libs opencv`
+g++ ex2c.cpp -o ex2c -lstdc++fs `pkg-config --cflags --libs opencv`
 echo ""
 folder="images"
+i=1
 for entry in "$folder"/*
 do 
     echo "Testing image: $entry"
+    echo "Output image: output$i.ppm"
+    echo "Quantization levels 7 7 7"
     echo ""
-    ./ex2c "$entry" 8 8 8
+    ./ex2c "$entry" "images/output$i.ppm" 7 7 7
     echo ""
+    i=$((i+1))
 done
