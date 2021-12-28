@@ -55,7 +55,7 @@ vector<int> encode(int m, string file){
     vector<int> r_enc,g_res;
     int po =pow(2,log2(m));
     int r;
-    ofstream ofs("histogram_ex1b.txt");
+    ofstream ofs("histogram_ex1b_residual_lossless.txt");
     map<int,int> map;
     BitStream bs("out.bit", 'w');
     Golomb g(m);
@@ -69,20 +69,17 @@ vector<int> encode(int m, string file){
         s += j;
     }
     for (int i = 1; i < numSamples; i++){
-        //for (int channel = 0; channel < numChannels; channel++){
             float media = (audioFile.samples[0][i]*po + audioFile.samples[1][i]*po)/2;
             float media2 = (audioFile.samples[0][i-1]*po + audioFile.samples[1][i-1]*po)/2;
             r = (int) media - predictor(media2, media);
             //r = (int) media - predictor2(media2);
             map[r]++;
             r_enc.push_back(r);
-            //cout << "to encode: " << r << endl;
             g_res = g.encode(r);
             for (int j: g_res){
                 bs.writebit(j);
                 s += j;
             }
-        //}
     }
 
     /*histogram and entropy*/
@@ -127,39 +124,16 @@ vector<int> decode(int m, string file, string audiofile){
     int pos = 0;
     string tmp = "";
     for(int bit: v){ 
-
-        /*if (f){
-            nbits--;
-        }
-        temp.push_back(bit);
-        if (nbits == 0){
-            nbits = n;
-            f = false;
-            int r_dec = g.decode(temp);
-            double sample = r_dec/pow(2,8);
-            samples.push_back(sample);
-            res.push_back(r_dec);
-            temp.clear();
-        }else if (bit == 1){
-            f = true;
-        }*/
-        //001010 11  m=7 nbits=2 +1 =3
         if (f){
-            nbits--;              //nbits=1 =0 =0
-            tmp+=to_string(bit);  //0 1 0
+            nbits--;           
+            tmp+=to_string(bit);  
             resto.push_back(bit);
         }
-        temp.push_back(bit); //0 0 1 0 1 0
+        temp.push_back(bit); 
         if (nbits == 0){
             f = false;
             if(plus1){
-                /*cout << "to decode: ";
-                for(int d:temp){
-                    cout << d;
-                }
-                cout << endl;*/
                 int r_dec = g.decode(temp);
-                //cout << "decoded: " << r_dec << endl;
                 double sample = r_dec/pow(2,log2(m)) ;
                 samples.push_back(sample);
                 res.push_back(r_dec);
@@ -173,13 +147,7 @@ vector<int> decode(int m, string file, string audiofile){
                 int u = (1 << n+1) - m;
                 int result = g.binaryToDecimal(resto);
                 if(result < u){
-                    /*cout << "to decode: ";
-                    for(int d:temp){
-                        cout << d;
-                    }
-                    cout << endl;*/
                     int r_dec = g.decode(temp);
-                    //cout << "decoded: " << r_dec << endl;
                     double sample = r_dec/pow(2,log2(m));
                     samples.push_back(sample);
                     res.push_back(r_dec);
@@ -197,7 +165,6 @@ vector<int> decode(int m, string file, string audiofile){
         }else if (bit == 1){
             f = true;
         }
-
     }
         
     copy.setNumSamplesPerChannel(s);
@@ -224,7 +191,7 @@ vector<int> encode_lossy(int m,int div, string file){
     vector<int> r_enc,g_res;
     int po =pow(2,log2(m));
     int r;
-    ofstream ofs("histogram_ex1b.txt");
+    ofstream ofs("histogram_ex1b_residual_lossy.txt");
     map<int,int> map;
     BitStream bs("out.bit", 'w');
     Golomb g(m);
@@ -242,7 +209,6 @@ vector<int> encode_lossy(int m,int div, string file){
         s += j;
     }
     for (int i = 1; i < numSamples; i++){
-        //for (int channel = 0; channel < numChannels; channel++){
             float media = (audioFile.samples[0][i]*po + audioFile.samples[1][i]*po)/2;
             float media2 = (audioFile.samples[0][i-1]*po + audioFile.samples[1][i-1]*po)/2;
             r = (int) media - predictor(media2, media);
@@ -251,13 +217,11 @@ vector<int> encode_lossy(int m,int div, string file){
             //r = (int) media - predictor2(media2);
             map[r]++;
             r_enc.push_back(r);
-            //cout << "to encode: " << r << endl;
             g_res = g.encode(r);
             for (int j: g_res){
                 bs.writebit(j);
                 s += j;
             }
-        //}
     }
 
     /*histogram and entropy*/
@@ -399,14 +363,14 @@ int main(int argc, char **argv){
         }
 
         double h =0;
-        ofstream ofs("histogram_ex1b_original_lossless.txt");
+        ofstream ofs("histogram_ex1b_original.txt");
     
         for(pair<int,int> i : map){
             double p = (static_cast<double>(i.second)/static_cast<double>(numChannels*numSamples));
             h = h-p*log2(p);
             ofs << "" << i.first << " -> " << i.second << endl;
         }
-        cout << "Entropy of original values lossless: " << h << endl;
+        cout << "Entropy of original values: " << h << endl;
 
         double mean = sum/(numSamples*numChannels);
         double alpha = mean/(mean+1.0);
@@ -446,14 +410,14 @@ int main(int argc, char **argv){
         }
 
         double h =0;
-        ofstream ofs("histogram_ex1b_original_lossy.txt");
+        ofstream ofs("histogram_ex1b_original.txt");
     
         for(pair<int,int> i : map){
             double p = (static_cast<double>(i.second)/static_cast<double>(numChannels*numSamples));
             h = h-p*log2(p);
             ofs << "" << i.first << " -> " << i.second << endl;
         }
-        cout << "Entropy of original values lossy: " << h << endl;
+        cout << "Entropy of original values: " << h << endl;
 
         double mean = sum/(numSamples*numChannels);
         double alpha = mean/(mean+1.0);
