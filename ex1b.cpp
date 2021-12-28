@@ -199,7 +199,6 @@ vector<int> encode_lossy(int m,int div, string file){
     r = (int)(audioFile.samples[0][0]*po + audioFile.samples[1][0]*po)/2;
     
     r = r >> div;
-    r = r << div;
 
     r_enc.push_back(r);
     g_res = g.encode(r);
@@ -213,7 +212,6 @@ vector<int> encode_lossy(int m,int div, string file){
             float media2 = (audioFile.samples[0][i-1]*po + audioFile.samples[1][i-1]*po)/2;
             r = (int) media - predictor(media2, media);
             r = r >> div;
-            r = r << div;
             //r = (int) media - predictor2(media2);
             map[r]++;
             r_enc.push_back(r);
@@ -277,7 +275,6 @@ vector<int> decode_lossy(int m,int div, string file, string audiofile){
             if(plus1){
                 int r_dec = g.decode(temp);
                 r_dec = r_dec << div;
-                r_dec = r_dec >> div;
                 double sample = r_dec/pow(2,log2(m)) ;
                 samples.push_back(sample);
                 res.push_back(r_dec);
@@ -293,7 +290,6 @@ vector<int> decode_lossy(int m,int div, string file, string audiofile){
                 if(result < u){
                     int r_dec = g.decode(temp);
                     r_dec = r_dec << div;
-                    r_dec = r_dec >> div;
                     double sample = r_dec/pow(2,log2(m));
                     samples.push_back(sample);
                     res.push_back(r_dec);
