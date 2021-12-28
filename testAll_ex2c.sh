@@ -1,6 +1,6 @@
 #!/bin/bash
 
-printf 'Testing exercise 2-Part C, with all images from image folder and 7 levels of quantization(expecting minor differences between original and compresed image)\n'
+printf 'Testing exercise 2-Part C, with all images from image folder and 7 levels of quantization (expecting minor differences between original and compresed image)\n'
 echo "Compiling file"
 g++ ex2c.cpp -o ex2c -lstdc++fs `pkg-config --cflags --libs opencv`
 echo ""
