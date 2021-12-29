@@ -7,12 +7,60 @@
 #include <chrono>
 #include "Golomb.h"
 #include "BitStream.h"
+#include<map>
+#include<math.h>
 
 using namespace std;
 using namespace cv;
 using namespace std::chrono;
 namespace fs = std::experimental::filesystem;
 
+void calcEntropy(vector<uchar> res, vector<uchar> original){
+
+    map<int,int> map1;
+    map<int,int> map2;
+    map<int,int>::iterator it1;
+    map<int,int>::iterator it2;
+
+    // Calculating histograms
+    for(int val: res){
+        it1 = map1.find(val);
+        //cout << val << endl;
+        if(it1 != map1.end()){
+            it1->second++;
+        }else{
+            map1.insert(make_pair(val,1));
+        }
+    }
+
+    for(int val: original){
+        it2 = map2.find(val);
+        //cout << val << endl;
+        if(it2 != map2.end()){
+            it2->second++;
+        }else{
+            map2.insert(make_pair(val,1));
+        }
+    }
+
+    double entropy = 0;
+    double i = 0;
+    //Calculating Entropy
+    for(pair<int,int> p: map1){
+        i = (static_cast<double>(p.second)/static_cast<double>(res.size()));
+        entropy = entropy-i*log2(i);
+    }
+    cout << "Entropy residual: " << entropy << endl;
+
+    entropy = 0;
+    i = 0;
+    for(pair<int,int> p: map2){
+        i = (static_cast<double>(p.second)/static_cast<double>(original.size()));
+        entropy = entropy-i*log2(i);
+    }
+    cout << "Entropy original: " << entropy << endl;    
+
+}
 
 vector<uchar> decoder(int m, int height, int width, string filename){
 
@@ -209,6 +257,16 @@ int main(int argc, char **argv){
     string outFile = argv[2];
 
     Mat image = imread(argv[1], CV_LOAD_IMAGE_COLOR);
+
+    if(image.rows%2!=0 && image.cols%2!=0){
+        cv::resize(image, image, Size(image.cols+1,image.rows+1));
+    }else if (image.rows%2!=0 && image.cols%2==0){
+        cv::resize(image, image, Size(image.cols,image.rows+1));
+    }else if(image.rows%2==0 && image.cols%2!=0){
+        cv::resize(image, image, Size(image.cols+1,image.rows));
+    }
+
+
     Mat y = Mat::zeros(image.size(), CV_8UC1);
     Mat u = Mat::zeros(image.size(), CV_8UC1);
     Mat v = Mat::zeros(image.size(), CV_8UC1);
@@ -378,11 +436,13 @@ int main(int argc, char **argv){
     Mat rc_img = reconstruct(temp, width*2, height*2, n);
 
     imwrite(outFile, rc_img);
+
+    calcEntropy(decoded, yuvF);
     
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<seconds>(stop - start);
     cout << "Processing Time: " << duration.count() << "s" << endl;
-
+    /*
     namedWindow("Original image", WINDOW_NORMAL);
     imshow("Original image", image);
     waitKey(0);
@@ -390,6 +450,6 @@ int main(int argc, char **argv){
     namedWindow("Recreated image", WINDOW_NORMAL);
     imshow("Recreated image", rc_img);
     waitKey(0);
-    
+    */
     return 0;
 }

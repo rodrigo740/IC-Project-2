@@ -1,0 +1,343 @@
+Testing exercise 2-Part C, with all images from image folder and (7 4 4) levels of quantization (expecting minor differences between original and compressed image)
+Compiling file
+
+Testing image: images/airplane.ppm
+Output image: output1.ppm
+Quantization levels 7 4 4
+
+Original File size: 786447 bits
+Compressed File size: 394079 bits
+Entropy residual: 4.0197
+Entropy original: 6.54614
+Processing Time: 4s
+
+Testing image: images/anemone.ppm
+Output image: output2.ppm
+Quantization levels 7 4 4
+
+Original File size: 1020201 bits
+Compressed File size: 512092 bits
+Entropy residual: 4.749
+Entropy original: 7.20738
+Processing Time: 6s
+
+Testing image: images/arial.ppm
+Output image: output3.ppm
+Quantization levels 7 4 4
+
+Original File size: 1087080 bits
+Compressed File size: 546158 bits
+Entropy residual: 4.85891
+Entropy original: 7.26806
+Processing Time: 6s
+
+Testing image: images/baboon.ppm
+Output image: output4.ppm
+Quantization levels 7 4 4
+
+Original File size: 786447 bits
+Compressed File size: 394310 bits
+Entropy residual: 5.81821
+Entropy original: 7.2898
+Processing Time: 4s
+
+Testing image: images/Barns_grand_tetons.jpg
+Output image: output5.ppm
+Quantization levels 7 4 4
+
+Original File size: 836977 bits
+Compressed File size: 2874132 bits
+Entropy residual: 4.2795
+Entropy original: 7.154
+Processing Time: 33s
+
+Testing image: images/bike3.ppm
+Output image: output6.ppm
+Quantization levels 7 4 4
+
+Original File size: 2153232 bits
+Compressed File size: 980294 bits
+Entropy residual: 4.21103
+Entropy original: 7.23702
+Processing Time: 12s
+
+Testing image: images/boat.ppm
+Output image: output7.ppm
+Quantization levels 7 4 4
+
+Original File size: 786447 bits
+Compressed File size: 393609 bits
+Entropy residual: 5.02604
+Entropy original: 7.41037
+Processing Time: 4s
+
+Testing image: images/gimp_temp.42280.ppm
+Output image: output8.ppm
+Quantization levels 7 4 4
+
+Original File size: 1179708 bits
+Compressed File size: 590634 bits
+Entropy residual: 4.80598
+Entropy original: 6.57025
+Processing Time: 6s
+
+Testing image: images/gimp_temp.42470.ppm
+Output image: output9.ppm
+Quantization levels 7 4 4
+
+Original File size: 1179708 bits
+Compressed File size: 528489 bits
+Entropy residual: 3.91912
+Entropy original: 6.02383
+Processing Time: 6s
+
+Testing image: images/gimp_temp.42780.ppm
+Output image: output10.ppm
+Quantization levels 7 4 4
+
+Original File size: 1179708 bits
+Compressed File size: 540573 bits
+Entropy residual: 2.88388
+Entropy original: 6.50139
+Processing Time: 6s
+
+Testing image: images/gimp_temp.42930.ppm
+Output image: output11.ppm
+Quantization levels 7 4 4
+
+Original File size: 1179708 bits
+Compressed File size: 556654 bits
+Entropy residual: 3.7579
+Entropy original: 6.8077
+Processing Time: 6s
+
+Testing image: images/gimp_temp.43070.ppm
+Output image: output12.ppm
+Quantization levels 7 4 4
+
+Original File size: 1179708 bits
+Compressed File size: 538663 bits
+Entropy residual: 4.81499
+Entropy original: 6.67704
+Processing Time: 6s
+
+Testing image: images/gimp_temp.43210.ppm
+Output image: output13.ppm
+Quantization levels 7 4 4
+
+Original File size: 1179708 bits
+Compressed File size: 590285 bits
+Entropy residual: 3.89952
+Entropy original: 6.43732
+Processing Time: 6s
+
+Testing image: images/gimp_temp.43400.ppm
+Output image: output14.ppm
+Quantization levels 7 4 4
+
+Original File size: 1179708 bits
+Compressed File size: 590044 bits
+Entropy residual: 3.27351
+Entropy original: 6.44461
+Processing Time: 7s
+
+Testing image: images/gimp_temp.43550.ppm
+Output image: output15.ppm
+Quantization levels 7 4 4
+
+Original File size: 1179708 bits
+Compressed File size: 593214 bits
+Entropy residual: 4.93557
+Entropy original: 6.55929
+Processing Time: 7s
+
+Testing image: images/gimp_temp.43690.ppm
+Output image: output16.ppm
+Quantization levels 7 4 4
+
+Original File size: 1179708 bits
+Compressed File size: 590089 bits
+Entropy residual: 3.66958
+Entropy original: 6.35677
+Processing Time: 7s
+
+Testing image: images/gimp_temp.43830.ppm
+Output image: output17.ppm
+Quantization levels 7 4 4
+
+Original File size: 1179708 bits
+Compressed File size: 590061 bits
+Entropy residual: 3.74397
+Entropy original: 6.23741
+Processing Time: 6s
+
+Testing image: images/gimp_temp.43970.ppm
+Output image: output18.ppm
+Quantization levels 7 4 4
+
+Original File size: 1179708 bits
+Compressed File size: 538999 bits
+Entropy residual: 3.981
+Entropy original: 6.33325
+Processing Time: 6s
+
+Testing image: images/gimp_temp.44120.ppm
+Output image: output19.ppm
+Quantization levels 7 4 4
+
+Original File size: 1179708 bits
+Compressed File size: 590213 bits
+Entropy residual: 3.1754
+Entropy original: 6.572
+Processing Time: 6s
+
+Testing image: images/gimp_temp.44260.ppm
+Output image: output20.ppm
+Quantization levels 7 4 4
+
+Original File size: 1179708 bits
+Compressed File size: 591150 bits
+Entropy residual: 5.25613
+Entropy original: 6.58852
+Processing Time: 5s
+
+Testing image: images/gimp_temp.44400.ppm
+Output image: output21.ppm
+Quantization levels 7 4 4
+
+Original File size: 1179708 bits
+Compressed File size: 546609 bits
+Entropy residual: 4.31737
+Entropy original: 6.67658
+Processing Time: 6s
+
+Testing image: images/gimp_temp.44540.ppm
+Output image: output22.ppm
+Quantization levels 7 4 4
+
+Original File size: 1179708 bits
+Compressed File size: 590240 bits
+Entropy residual: 3.46517
+Entropy original: 6.42574
+Processing Time: 6s
+
+Testing image: images/gimp_temp.44680.ppm
+Output image: output23.ppm
+Quantization levels 7 4 4
+
+Original File size: 1179708 bits
+Compressed File size: 555313 bits
+Entropy residual: 3.4365
+Entropy original: 6.41432
+Processing Time: 6s
+
+Testing image: images/gimp_temp.44820.ppm
+Output image: output24.ppm
+Quantization levels 7 4 4
+
+Original File size: 1179708 bits
+Compressed File size: 524325 bits
+Entropy residual: 3.86889
+Entropy original: 6.59582
+Processing Time: 6s
+
+Testing image: images/gimp_temp.44960.ppm
+Output image: output25.ppm
+Quantization levels 7 4 4
+
+Original File size: 1179708 bits
+Compressed File size: 529311 bits
+Entropy residual: 4.70704
+Entropy original: 6.74814
+Processing Time: 6s
+
+Testing image: images/gimp_temp.45100.ppm
+Output image: output26.ppm
+Quantization levels 7 4 4
+
+Original File size: 1179708 bits
+Compressed File size: 590632 bits
+Entropy residual: 4.18612
+Entropy original: 6.64059
+Processing Time: 6s
+
+Testing image: images/gimp_temp.45240.ppm
+Output image: output27.ppm
+Quantization levels 7 4 4
+
+Original File size: 1179708 bits
+Compressed File size: 590502 bits
+Entropy residual: 2.67224
+Entropy original: 4.99759
+Processing Time: 6s
+
+Testing image: images/gimp_temp.45380.ppm
+Output image: output28.ppm
+Quantization levels 7 4 4
+
+Original File size: 1179708 bits
+Compressed File size: 590221 bits
+Entropy residual: 4.02534
+Entropy original: 6.56519
+Processing Time: 6s
+
+Testing image: images/gimp_temp.45520.ppm
+Output image: output29.ppm
+Quantization levels 7 4 4
+
+Original File size: 1179708 bits
+Compressed File size: 590185 bits
+Entropy residual: 4.32168
+Entropy original: 6.6078
+Processing Time: 6s
+
+Testing image: images/gimp_temp.45660.ppm
+Output image: output30.ppm
+Quantization levels 7 4 4
+
+Original File size: 1179708 bits
+Compressed File size: 590005 bits
+Entropy residual: 3.14687
+Entropy original: 6.6687
+Processing Time: 6s
+
+Testing image: images/girl.ppm
+Output image: output31.ppm
+Quantization levels 7 4 4
+
+Original File size: 786447 bits
+Compressed File size: 393892 bits
+Entropy residual: 3.48295
+Entropy original: 5.67639
+Processing Time: 4s
+
+Testing image: images/house.ppm
+Output image: output32.ppm
+Quantization levels 7 4 4
+
+Original File size: 196623 bits
+Compressed File size: 98393 bits
+Entropy residual: 3.94931
+Entropy original: 6.56985
+Processing Time: 1s
+
+Testing image: images/lena.ppm
+Output image: output33.ppm
+Quantization levels 7 4 4
+
+Original File size: 786447 bits
+Compressed File size: 393495 bits
+Entropy residual: 4.5408
+Entropy original: 7.32958
+Processing Time: 4s
+
+Testing image: images/monarch.ppm
+Output image: output34.ppm
+Quantization levels 7 4 4
+
+Original File size: 1179663 bits
+Compressed File size: 590401 bits
+Entropy residual: 3.92303
+Entropy original: 7.12174
+Processing Time: 6s
+

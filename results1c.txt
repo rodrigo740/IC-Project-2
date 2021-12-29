@@ -1,0 +1,92 @@
+Testing exercise 1-Part C, with all images from image folder
+Compiling file
+
+Testing image: images/airplane.ppm
+Output image: output1.ppm
+
+Original File size: 786447 bits
+Compressed File size: 394140 bits
+Entropy residual: 4.22516
+Entropy original: 6.54614
+Processing Time: 4s
+
+Testing image: images/anemone.ppm
+Output image: output2.ppm
+
+Original File size: 1020201 bits
+Compressed File size: 512102 bits
+Entropy residual: 5.01427
+Entropy original: 7.20738
+Processing Time: 5s
+
+Testing image: images/arial.ppm
+Output image: output3.ppm
+
+Original File size: 1087080 bits
+Compressed File size: 546158 bits
+Entropy residual: 5.04085
+Entropy original: 7.26806
+Processing Time: 6s
+
+Testing image: images/baboon.ppm
+Output image: output4.ppm
+
+Original File size: 786447 bits
+Compressed File size: 394339 bits
+Entropy residual: 5.99569
+Entropy original: 7.2898
+Processing Time: 4s
+
+Testing image: images/bike3.ppm
+Output image: output6.ppm
+
+Original File size: 2153232 bits
+Compressed File size: 986812 bits
+Entropy residual: 4.48716
+Entropy original: 7.23702
+Processing Time: 12s
+
+Testing image: images/boat.ppm
+Output image: output7.ppm
+
+Original File size: 786447 bits
+Compressed File size: 393630 bits
+Entropy residual: 5.23296
+Entropy original: 7.41037
+Processing Time: 4s
+
+Testing image: images/girl.ppm
+Output image: output31.ppm
+
+Original File size: 786447 bits
+Compressed File size: 394012 bits
+Entropy residual: 3.79425
+Entropy original: 5.67639
+Processing Time: 4s
+
+Testing image: images/house.ppm
+Output image: output32.ppm
+
+Original File size: 196623 bits
+Compressed File size: 98394 bits
+Entropy residual: 4.16797
+Entropy original: 6.56985
+Processing Time: 1s
+
+Testing image: images/lena.ppm
+Output image: output33.ppm
+
+Original File size: 786447 bits
+Compressed File size: 393494 bits
+Entropy residual: 4.72938
+Entropy original: 7.32958
+Processing Time: 4s
+
+Testing image: images/monarch.ppm
+Output image: output34.ppm
+
+Original File size: 1179663 bits
+Compressed File size: 590401 bits
+Entropy residual: 4.13265
+Entropy original: 7.12174
+Processing Time: 6s
