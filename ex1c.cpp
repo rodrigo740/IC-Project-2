@@ -450,12 +450,14 @@ int main(int argc, char **argv){
     Mat rc_img = reconstruct(temp, width*2, height*2, n);
 
     imwrite(outFile, rc_img);
-
-    calcEntropy(decoded, yuvF);
     
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<seconds>(stop - start);
     cout << "Processing Time: " << duration.count() << "s" << endl;
+
+    calcEntropy(decoded, yuvF);
+    
+    
     /*
     namedWindow("Original image", WINDOW_NORMAL);
     imshow("Original image", image);
