@@ -73,6 +73,8 @@ $(function() {
 Public Member Functions</h2></td></tr>
 <tr class="memitem:af0eff5056b247191b5c871c1523eb722"><td class="memItemLeft" align="right" valign="top">vector&lt; uchar &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classex1c.html#af0eff5056b247191b5c871c1523eb722">decoder</a> (int m, int height, int width, string filename)</td></tr>
 <tr class="separator:af0eff5056b247191b5c871c1523eb722"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a040295b6c85af4686a4a77a544ff8fef"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classex1c.html#a040295b6c85af4686a4a77a544ff8fef">calcEntropy</a> (vector&lt; uchar &gt; res, vector&lt; uchar &gt; original)</td></tr>
+<tr class="separator:a040295b6c85af4686a4a77a544ff8fef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h1><a class="anchor" id="Main"></a>
@@ -81,6 +83,35 @@ Main</h1>
 <p >The program receives 2 input arguments, the first one being the path to the input image and the second one the path to save the decompressed image.</p>
 <p >After this the program splits the input image by its three color components(RGB) and performs the necessary calculations to obtain the YUV values. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a040295b6c85af4686a4a77a544ff8fef" name="a040295b6c85af4686a4a77a544ff8fef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a040295b6c85af4686a4a77a544ff8fef">&#9670;&nbsp;</a></span>calcEntropy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void calcEntropy </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; uchar &gt;&#160;</td>
+          <td class="paramname"><em>res</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; uchar &gt;&#160;</td>
+          <td class="paramname"><em>original</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Calculates the entropy.</p>
+
+</div>
+</div>
 <a id="af0eff5056b247191b5c871c1523eb722" name="af0eff5056b247191b5c871c1523eb722"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af0eff5056b247191b5c871c1523eb722">&#9670;&nbsp;</a></span>decoder()</h2>
 
@@ -122,8 +153,9 @@ Main</h1>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>ex1c.cpp</li>
+<li>ex2c.cpp</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

@@ -4,6 +4,8 @@
 \begin{DoxyCompactItemize}
 \item 
 vector$<$ uchar $>$ \mbox{\hyperlink{classex1c_af0eff5056b247191b5c871c1523eb722}{decoder}} (int m, int height, int width, string filename)
+\item 
+void \mbox{\hyperlink{classex1c_a040295b6c85af4686a4a77a544ff8fef}{calc\+Entropy}} (vector$<$ uchar $>$ res, vector$<$ uchar $>$ original)
 \end{DoxyCompactItemize}
 
 
@@ -16,7 +18,13 @@ The program receives 2 input arguments, the first one being the path to the inpu
 After this the program splits the input image by its three color components(\+RGB) and performs the necessary calculations to obtain the YUV values. 
 
 \doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{classex1c_af0eff5056b247191b5c871c1523eb722}\label{classex1c_af0eff5056b247191b5c871c1523eb722}} 
+\mbox{\Hypertarget{classex1c_a040295b6c85af4686a4a77a544ff8fef}\label{classex1c_a040295b6c85af4686a4a77a544ff8fef}} 
+\index{ex1c@{ex1c}!calcEntropy@{calcEntropy}}
+\index{calcEntropy@{calcEntropy}!ex1c@{ex1c}}
+\doxysubsubsection{\texorpdfstring{calcEntropy()}{calcEntropy()}}
+{\footnotesize\ttfamily void calc\+Entropy (\begin{DoxyParamCaption}\item[{vector$<$ uchar $>$}]{res,  }\item[{vector$<$ uchar $>$}]{original }\end{DoxyParamCaption})}
+
+Calculates the entropy.\mbox{\Hypertarget{classex1c_af0eff5056b247191b5c871c1523eb722}\label{classex1c_af0eff5056b247191b5c871c1523eb722}} 
 \index{ex1c@{ex1c}!decoder@{decoder}}
 \index{decoder@{decoder}!ex1c@{ex1c}}
 \doxysubsubsection{\texorpdfstring{decoder()}{decoder()}}
@@ -24,6 +32,7 @@ After this the program splits the input image by its three color components(\+RG
 
 Function to decode the code. The encoding is done in the main function.
 
-The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-ex1c.\+cpp\end{DoxyCompactItemize}
+ex1c.\+cpp\item 
+ex2c.\+cpp\end{DoxyCompactItemize}

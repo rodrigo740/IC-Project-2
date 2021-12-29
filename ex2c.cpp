@@ -20,6 +20,10 @@ namespace fs = std::experimental::filesystem;
 
 
 void calcEntropy(vector<uchar> res, vector<uchar> original){
+    /**
+     * \memberof ex1c
+     * Calculates the entropy.
+     */
 
     map<int,int> map1;
     map<int,int> map2;

@@ -3,6 +3,8 @@
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
+void \mbox{\hyperlink{classex2c_a040295b6c85af4686a4a77a544ff8fef}{calc\+Entropy}} (vector$<$ uchar $>$ res, vector$<$ uchar $>$ original)
+\item 
 vector$<$ uchar $>$ \mbox{\hyperlink{classex2c_af0eff5056b247191b5c871c1523eb722}{decoder}} (int m, int height, int width, string filename)
 \end{DoxyCompactItemize}
 
@@ -14,7 +16,13 @@ The program receives 5 input arguments. The first one being the input image, the
 With the number of levels for each component defined the program calculates how many bits the residual values need to be shifted. 
 
 \doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{classex2c_af0eff5056b247191b5c871c1523eb722}\label{classex2c_af0eff5056b247191b5c871c1523eb722}} 
+\mbox{\Hypertarget{classex2c_a040295b6c85af4686a4a77a544ff8fef}\label{classex2c_a040295b6c85af4686a4a77a544ff8fef}} 
+\index{ex2c@{ex2c}!calcEntropy@{calcEntropy}}
+\index{calcEntropy@{calcEntropy}!ex2c@{ex2c}}
+\doxysubsubsection{\texorpdfstring{calcEntropy()}{calcEntropy()}}
+{\footnotesize\ttfamily void calc\+Entropy (\begin{DoxyParamCaption}\item[{vector$<$ uchar $>$}]{res,  }\item[{vector$<$ uchar $>$}]{original }\end{DoxyParamCaption})}
+
+Calculates the entropy.\mbox{\Hypertarget{classex2c_af0eff5056b247191b5c871c1523eb722}\label{classex2c_af0eff5056b247191b5c871c1523eb722}} 
 \index{ex2c@{ex2c}!decoder@{decoder}}
 \index{decoder@{decoder}!ex2c@{ex2c}}
 \doxysubsubsection{\texorpdfstring{decoder()}{decoder()}}
@@ -22,6 +30,7 @@ With the number of levels for each component defined the program calculates how 
 
 Function to decode the code. The encoding is done in the main function.
 
-The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-ex2c.\+cpp\end{DoxyCompactItemize}
+ex2c.\+cpp\item 
+ex1c.\+cpp\end{DoxyCompactItemize}

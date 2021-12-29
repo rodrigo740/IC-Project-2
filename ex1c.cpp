@@ -16,6 +16,10 @@ using namespace std::chrono;
 namespace fs = std::experimental::filesystem;
 
 void calcEntropy(vector<uchar> res, vector<uchar> original){
+    /**
+     * \memberof ex2c
+     * Calculates the entropy.
+     */
 
     map<int,int> map1;
     map<int,int> map2;
