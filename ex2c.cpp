@@ -68,6 +68,10 @@ void calcEntropy(vector<uchar> res, vector<uchar> original){
 
 
 vector<uchar> decoder(int m, int height, int width, string filename){
+    /**
+     * \memberof ex2c
+     * Function to decode the code. The encoding is done in the main function.
+     */
 
     const int n = log2(m);
     int nbits = log2(m);
@@ -283,8 +287,20 @@ vector<uchar> recFrame(vector<uchar> decFrame, int d_y, int d_u, int d_v, int yA
 
     return yuvFrame;
 }
-
+    /**
+     * \section Main
+     * The program receives 5 input arguments. The first one being the input image, the second one the output image, the third one being the number of levels of the Y color component, the forth one the number of levels of the U color component and the final one the number of levels of the V color component
+     * 
+     *  With the number of levels for each component defined the program calculates how many bits the residual values need to be shifted.
+     */
 int main(int argc, char **argv){
+
+
+    /**
+     * \class ex2c
+     */
+
+    
     
     if(argc != 6){
         cerr << "Usage: ./ex2c <input_img> <output_img> <number_of_levels_Y_component> <number_of_levels_U_component> <number_of_levels_V_component>\nExample: ./ex2c images/lena.ppm images/output.ppm 8 8 8" << endl;
@@ -304,7 +320,6 @@ int main(int argc, char **argv){
     const int d_v = (8/nlvl_v)/2;
     
     Mat image = imread(argv[1], CV_LOAD_IMAGE_COLOR);
-
     if(image.rows%2!=0 && image.cols%2!=0){
         cv::resize(image, image, Size(image.cols+1,image.rows+1));
     }else if (image.rows%2!=0 && image.cols%2==0){
@@ -312,7 +327,6 @@ int main(int argc, char **argv){
     }else if(image.rows%2==0 && image.cols%2!=0){
         cv::resize(image, image, Size(image.cols+1,image.rows));
     }
-
     Mat y = Mat::zeros(image.size(), CV_8UC1);
     Mat u = Mat::zeros(image.size(), CV_8UC1);
     Mat v = Mat::zeros(image.size(), CV_8UC1);
@@ -558,3 +572,7 @@ int main(int argc, char **argv){
     
     return 0;
 }
+
+    /**
+     * file ex2c.cpp
+     */

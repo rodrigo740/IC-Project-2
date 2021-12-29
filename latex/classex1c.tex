@@ -1,0 +1,29 @@
+\hypertarget{classex1c}{}\doxysection{ex1c Class Reference}
+\label{classex1c}\index{ex1c@{ex1c}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+vector$<$ uchar $>$ \mbox{\hyperlink{classex1c_af0eff5056b247191b5c871c1523eb722}{decoder}} (int m, int height, int width, string filename)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\hypertarget{classex2c_Main}{}\doxysubsection{Main}\label{classex2c_Main}
+The frames should be encoded using spatial predictive coding based on thenon-\/linear predictor of JPEG-\/\+LS or the 7 JPEG linear predictors; Entropy coding should be performed using \mbox{\hyperlink{classGolomb}{Golomb}} codes; All the information required by the decoder should be included in the bit-\/stream (video format, frame size, encoder parameters, etc.)
+
+The program receives 2 input arguments, the first one being the path to the input image and the second one the path to save the decompressed image.
+
+After this the program splits the input image by its three color components(\+RGB) and performs the necessary calculations to obtain the YUV values. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classex1c_af0eff5056b247191b5c871c1523eb722}\label{classex1c_af0eff5056b247191b5c871c1523eb722}} 
+\index{ex1c@{ex1c}!decoder@{decoder}}
+\index{decoder@{decoder}!ex1c@{ex1c}}
+\doxysubsubsection{\texorpdfstring{decoder()}{decoder()}}
+{\footnotesize\ttfamily vector$<$ uchar $>$ decoder (\begin{DoxyParamCaption}\item[{int}]{m,  }\item[{int}]{height,  }\item[{int}]{width,  }\item[{string}]{filename }\end{DoxyParamCaption})}
+
+Function to decode the code. The encoding is done in the main function.
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+ex1c.\+cpp\end{DoxyCompactItemize}

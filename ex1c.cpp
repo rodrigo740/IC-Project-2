@@ -63,7 +63,10 @@ void calcEntropy(vector<uchar> res, vector<uchar> original){
 }
 
 vector<uchar> decoder(int m, int height, int width, string filename){
-
+    /**
+     * \memberof ex1c
+     * Function to decode the code. The encoding is done in the main function.
+     */
     const int n = log2(m);
     int nbits = log2(m);
     //cout << "nbits: " << nbits << endl;
@@ -244,8 +247,22 @@ vector<uchar> recFrame(vector<uchar> decFrame){
 
     return yuvFrame;
 }
-
+    /**
+     * \section Main
+     * The frames should be encoded using spatial predictive coding based on thenon-linear predictor of JPEG-LS or the 7 JPEG linear predictors;
+     * Entropy coding should be performed using Golomb codes;
+     * All the information required by the decoder should be included in the bit-stream (video format, frame size, encoder parameters, etc.)
+     * 
+     * The program receives 2 input arguments, the first one being the path to the input image and the second one the path to save the decompressed image. 
+     * 
+     * After this the program splits the input image by its three color components(RGB) and performs the necessary calculations to obtain the YUV values.
+     */
 int main(int argc, char **argv){
+    
+
+    /** 
+     * \class ex1c
+     */
     
     if(argc != 3){
         cerr << "Usage: ./ex1c <input_img> <output_img>\nExample: ./ex1c images/lena.ppm images/output.ppm" << endl;
@@ -257,7 +274,6 @@ int main(int argc, char **argv){
     string outFile = argv[2];
 
     Mat image = imread(argv[1], CV_LOAD_IMAGE_COLOR);
-
     if(image.rows%2!=0 && image.cols%2!=0){
         cv::resize(image, image, Size(image.cols+1,image.rows+1));
     }else if (image.rows%2!=0 && image.cols%2==0){
@@ -265,8 +281,6 @@ int main(int argc, char **argv){
     }else if(image.rows%2==0 && image.cols%2!=0){
         cv::resize(image, image, Size(image.cols+1,image.rows));
     }
-
-
     Mat y = Mat::zeros(image.size(), CV_8UC1);
     Mat u = Mat::zeros(image.size(), CV_8UC1);
     Mat v = Mat::zeros(image.size(), CV_8UC1);

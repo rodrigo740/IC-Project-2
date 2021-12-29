@@ -1,0 +1,15 @@
+/**
+* \mainpage Project 2 - Group 1
+* \section Classes
+* \subsection Auxiliary_Classes
+*  As requested two auxiliary classes were created \ref Golomb and \ref BitStream 
+*   
+*  To test them the following files were created \ref ex2a.cpp for BitStream and \ref ex4a.cpp for Golomb
+*
+* \subsection Audio_Codec
+* The classes \ref ex1b are related to Audio codification, part B of our project.
+*
+* \subsection Image_Codec
+* The classes \ref ex1c and \ref ex2c are related to Image codification, part C of our project.
+*
+*/

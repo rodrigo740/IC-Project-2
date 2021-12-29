@@ -3,40 +3,104 @@
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{classBitStream_aac51a92f6568c400439be736d2f7486e}\label{classBitStream_aac51a92f6568c400439be736d2f7486e}} 
-{\bfseries Bit\+Stream} (string f, char ch)
+\mbox{\hyperlink{classBitStream_aac51a92f6568c400439be736d2f7486e}{Bit\+Stream}} (string f, char ch)
 \item 
-\mbox{\Hypertarget{classBitStream_adcb8e3f385d8c30ba67b76d55e4792de}\label{classBitStream_adcb8e3f385d8c30ba67b76d55e4792de}} 
-void {\bfseries set\+File} (string f, char ch)
+void \mbox{\hyperlink{classBitStream_a439780303339e91ded173c03121257fb}{set\+File}} (string f, char ch)
 \item 
-\mbox{\Hypertarget{classBitStream_ac7591bfa97749970eeb7ca1bf9902b1b}\label{classBitStream_ac7591bfa97749970eeb7ca1bf9902b1b}} 
-int {\bfseries readbit} ()
+int \mbox{\hyperlink{classBitStream_a361d02081f111553fb104149f3865df0}{readbit}} ()
 \item 
-\mbox{\Hypertarget{classBitStream_a593b31f09f8823ee9750e7b2269bcdb1}\label{classBitStream_a593b31f09f8823ee9750e7b2269bcdb1}} 
-vector$<$ int $>$ {\bfseries read\+File} ()
+vector$<$ int $>$ \mbox{\hyperlink{classBitStream_ae00f0a1c0ab273a2f3da1ccc63235cce}{read\+File}} ()
 \item 
-\mbox{\Hypertarget{classBitStream_a223de5e0721bae33e97cdeeb5314f24f}\label{classBitStream_a223de5e0721bae33e97cdeeb5314f24f}} 
-void {\bfseries writebit} (int bit)
+void \mbox{\hyperlink{classBitStream_a84dac2a0bf37a7a4c39d7e263ae6195e}{writebit}} (int bit)
 \item 
-\mbox{\Hypertarget{classBitStream_a1e2b3460c92d6863d0e801ec017b386d}\label{classBitStream_a1e2b3460c92d6863d0e801ec017b386d}} 
-void {\bfseries complete\+Byte} ()
+void \mbox{\hyperlink{classBitStream_a53e8ebc3621cce69a529b5600477f35e}{complete\+Byte}} ()
 \item 
-\mbox{\Hypertarget{classBitStream_a1f6a5f779705a6928b81b3177d0f3c54}\label{classBitStream_a1f6a5f779705a6928b81b3177d0f3c54}} 
-void {\bfseries closeF} ()
+void \mbox{\hyperlink{classBitStream_a94ba38d30d39c44d47ba3f2cca3cd4b5}{closeF}} ()
 \item 
-\mbox{\Hypertarget{classBitStream_a2ae48d08f1462aeeb871bc3db947ad8d}\label{classBitStream_a2ae48d08f1462aeeb871bc3db947ad8d}} 
-vector$<$ int $>$ {\bfseries readnbits} (int n)
+vector$<$ int $>$ \mbox{\hyperlink{classBitStream_a49a87069de9fb0374b5251c1b2a536e1}{readnbits}} (int n)
 \item 
-\mbox{\Hypertarget{classBitStream_abf0e5f8c60b245c6f686ff12da91a1a1}\label{classBitStream_abf0e5f8c60b245c6f686ff12da91a1a1}} 
-void {\bfseries writenbits} (int n, int nbit)
+void \mbox{\hyperlink{classBitStream_abe4b733c64c2af67123230e9d7edbedb}{writenbits}} (int n, int nbit)
 \item 
-\mbox{\Hypertarget{classBitStream_af540acc6625d4a8b32f164c3eaf945c2}\label{classBitStream_af540acc6625d4a8b32f164c3eaf945c2}} 
-vector$<$ int $>$ {\bfseries readstrings} ()
+vector$<$ int $>$ \mbox{\hyperlink{classBitStream_ade5b4db6fa20ca0575c387784038e0a2}{readstrings}} ()
 \item 
-\mbox{\Hypertarget{classBitStream_a8e2ea8a037e858aec6dbaa291f9b152e}\label{classBitStream_a8e2ea8a037e858aec6dbaa291f9b152e}} 
-void {\bfseries writestrings} (string s)
+void \mbox{\hyperlink{classBitStream_a3e4315f5f625ced7d1f55cae7c0be995}{writestrings}} (string s)
 \end{DoxyCompactItemize}
 
+
+\doxysubsection{Detailed Description}
+This class includes methods to read/write bits from/to a file. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classBitStream_aac51a92f6568c400439be736d2f7486e}\label{classBitStream_aac51a92f6568c400439be736d2f7486e}} 
+\index{BitStream@{BitStream}!BitStream@{BitStream}}
+\index{BitStream@{BitStream}!BitStream@{BitStream}}
+\doxysubsubsection{\texorpdfstring{BitStream()}{BitStream()}}
+{\footnotesize\ttfamily Bit\+Stream\+::\+Bit\+Stream (\begin{DoxyParamCaption}\item[{string}]{f,  }\item[{char}]{ch }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+This class is composed of a constructor that takes as parameters a string, which will correspond to the name of the file, and a character (’r’ or ’w’) to decide which operation will be executed, read or write. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classBitStream_a94ba38d30d39c44d47ba3f2cca3cd4b5}\label{classBitStream_a94ba38d30d39c44d47ba3f2cca3cd4b5}} 
+\index{BitStream@{BitStream}!closeF@{closeF}}
+\index{closeF@{closeF}!BitStream@{BitStream}}
+\doxysubsubsection{\texorpdfstring{closeF()}{closeF()}}
+{\footnotesize\ttfamily void closeF (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+) Function to close the input/output file.\mbox{\Hypertarget{classBitStream_a53e8ebc3621cce69a529b5600477f35e}\label{classBitStream_a53e8ebc3621cce69a529b5600477f35e}} 
+\index{BitStream@{BitStream}!completeByte@{completeByte}}
+\index{completeByte@{completeByte}!BitStream@{BitStream}}
+\doxysubsubsection{\texorpdfstring{completeByte()}{completeByte()}}
+{\footnotesize\ttfamily void complete\+Byte (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+) Function to complete/fill one byte (8 bits).\mbox{\Hypertarget{classBitStream_a361d02081f111553fb104149f3865df0}\label{classBitStream_a361d02081f111553fb104149f3865df0}} 
+\index{BitStream@{BitStream}!readbit@{readbit}}
+\index{readbit@{readbit}!BitStream@{BitStream}}
+\doxysubsubsection{\texorpdfstring{readbit()}{readbit()}}
+{\footnotesize\ttfamily int readbit (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+) Function to read one bit from a file.\mbox{\Hypertarget{classBitStream_ae00f0a1c0ab273a2f3da1ccc63235cce}\label{classBitStream_ae00f0a1c0ab273a2f3da1ccc63235cce}} 
+\index{BitStream@{BitStream}!readFile@{readFile}}
+\index{readFile@{readFile}!BitStream@{BitStream}}
+\doxysubsubsection{\texorpdfstring{readFile()}{readFile()}}
+{\footnotesize\ttfamily vector$<$ int $>$ read\+File (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+) Function to read a file bit by bit.\mbox{\Hypertarget{classBitStream_a49a87069de9fb0374b5251c1b2a536e1}\label{classBitStream_a49a87069de9fb0374b5251c1b2a536e1}} 
+\index{BitStream@{BitStream}!readnbits@{readnbits}}
+\index{readnbits@{readnbits}!BitStream@{BitStream}}
+\doxysubsubsection{\texorpdfstring{readnbits()}{readnbits()}}
+{\footnotesize\ttfamily vector$<$ int $>$ readnbits (\begin{DoxyParamCaption}\item[{int}]{n }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+) Function to read \char`\"{}n\char`\"{} bits from a file.\mbox{\Hypertarget{classBitStream_ade5b4db6fa20ca0575c387784038e0a2}\label{classBitStream_ade5b4db6fa20ca0575c387784038e0a2}} 
+\index{BitStream@{BitStream}!readstrings@{readstrings}}
+\index{readstrings@{readstrings}!BitStream@{BitStream}}
+\doxysubsubsection{\texorpdfstring{readstrings()}{readstrings()}}
+{\footnotesize\ttfamily vector$<$ int $>$ readstrings (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+) Function to read strings bit by bit from a file.\mbox{\Hypertarget{classBitStream_a439780303339e91ded173c03121257fb}\label{classBitStream_a439780303339e91ded173c03121257fb}} 
+\index{BitStream@{BitStream}!setFile@{setFile}}
+\index{setFile@{setFile}!BitStream@{BitStream}}
+\doxysubsubsection{\texorpdfstring{setFile()}{setFile()}}
+{\footnotesize\ttfamily void set\+File (\begin{DoxyParamCaption}\item[{string}]{f,  }\item[{char}]{ch }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+) Function to set the input or output file as file \char`\"{}f\char`\"{} according to the char \char`\"{}ch\char`\"{}.\mbox{\Hypertarget{classBitStream_a84dac2a0bf37a7a4c39d7e263ae6195e}\label{classBitStream_a84dac2a0bf37a7a4c39d7e263ae6195e}} 
+\index{BitStream@{BitStream}!writebit@{writebit}}
+\index{writebit@{writebit}!BitStream@{BitStream}}
+\doxysubsubsection{\texorpdfstring{writebit()}{writebit()}}
+{\footnotesize\ttfamily void writebit (\begin{DoxyParamCaption}\item[{int}]{bit }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+) Function to write one bit to a file.\mbox{\Hypertarget{classBitStream_abe4b733c64c2af67123230e9d7edbedb}\label{classBitStream_abe4b733c64c2af67123230e9d7edbedb}} 
+\index{BitStream@{BitStream}!writenbits@{writenbits}}
+\index{writenbits@{writenbits}!BitStream@{BitStream}}
+\doxysubsubsection{\texorpdfstring{writenbits()}{writenbits()}}
+{\footnotesize\ttfamily void writenbits (\begin{DoxyParamCaption}\item[{int}]{n,  }\item[{int}]{nbit }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+) Function to write \char`\"{}n\char`\"{} bits.\mbox{\Hypertarget{classBitStream_a3e4315f5f625ced7d1f55cae7c0be995}\label{classBitStream_a3e4315f5f625ced7d1f55cae7c0be995}} 
+\index{BitStream@{BitStream}!writestrings@{writestrings}}
+\index{writestrings@{writestrings}!BitStream@{BitStream}}
+\doxysubsubsection{\texorpdfstring{writestrings()}{writestrings()}}
+{\footnotesize\ttfamily void writestrings (\begin{DoxyParamCaption}\item[{string}]{s }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+) Function to write a string bit by bit to a file.
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 

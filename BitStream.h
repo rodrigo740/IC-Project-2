@@ -4,7 +4,11 @@
 
 using namespace std;
 
-class BitStream {
+class BitStream { 
+    /**
+    * \class BitStream  BitStream.h 
+    * This class includes methods to read/write bits from/to a file. 
+    */
     ifstream ifs;
     ofstream ofs;
     string fileName;
@@ -15,12 +19,19 @@ class BitStream {
     vector<char> chars;
 
     public: 
+    /**
+    * This class is composed of a constructor that takes as  parameters  a  string,  which  will  correspond  to  the  name  of  the  file,  and  a character (’r’ or ’w’) to decide which operation will be executed, read or write.
+    */
         BitStream(string f, char ch){
             fileName=f;
             setFile(f, ch);
         }
 
     void setFile(string f, char ch){
+        /**
+        * \memberof(BitStream)
+        * Function to set the input or output file as file "f" according to the char "ch".
+        */
         if (ch == 'w'){ //write
             ofs = ofstream(fileName);
 
@@ -60,6 +71,10 @@ class BitStream {
     */
 
     int readbit(){
+        /**
+        * \memberof(BitStream)
+        * Function to read one bit from a file.
+        */
         int bit = 0;
         if(nbits == 8){
             pos++;
@@ -77,6 +92,10 @@ class BitStream {
 
 
     vector<int> readFile(){
+        /**
+        * \memberof(BitStream)
+        * Function to read a file bit by bit. 
+        */
         vector<int> bits;
         int b = (buf >> 7) & 1;
         bits.push_back(b);
@@ -109,6 +128,10 @@ class BitStream {
     */
 
     void writebit(int bit){
+        /**
+        * \memberof(BitStream)
+        * Function to write one bit to a file.
+        */
         
         buffer[nbits] = (bit << (7-nbits));
 
@@ -125,16 +148,28 @@ class BitStream {
     }
 
     void completeByte(){
+        /**
+        * \memberof(BitStream)
+        * Function to complete/fill one byte (8 bits).
+        */
         while(nbits != 0){
             writebit(0);
         }
     }
 
     void closeF(){
+        /**
+        * \memberof(BitStream)
+        * Function to close the input/output file.
+        */
         ofs.close();
     }
 
     vector<int> readnbits(int n){
+        /**
+        * \memberof(BitStream)
+        * Function to read "n" bits from a file. 
+        */
         vector<int> bit;
         for (int i=0; i < n; i++){
             if(nbits == 8){
@@ -149,6 +184,10 @@ class BitStream {
     }
 
     void writenbits(int n, int nbit){
+        /**
+        * \memberof(BitStream)
+        * Function to write "n" bits.
+        */
         for (int i = 0; i < nbit; i++)
         {
             writebit(n);
@@ -156,6 +195,10 @@ class BitStream {
     }
 
     vector<int> readstrings(){
+        /**
+        * \memberof(BitStream)
+        * Function to read strings bit by bit from a file.
+        */
         vector<int> bit;
         string str;
         while(getline(ifs,str)){
@@ -171,6 +214,10 @@ class BitStream {
     }
 
     void writestrings(string s){
+        /**
+        * \memberof(BitStream)
+        * Function to write a string bit by bit to a file.
+        */
         for(int i=0; i<s.length() ;i++){
             writebit(s[i]-48);      // 48 is the value of 0
         }
