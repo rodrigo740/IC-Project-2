@@ -71,34 +71,350 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a4b8fb36e352ebdd88b26a006406d3679"><td class="memItemLeft" align="right" valign="top"><a id="a4b8fb36e352ebdd88b26a006406d3679" name="a4b8fb36e352ebdd88b26a006406d3679"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Golomb</b> (int param)</td></tr>
+<tr class="memitem:a4b8fb36e352ebdd88b26a006406d3679"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGolomb.html#a4b8fb36e352ebdd88b26a006406d3679">Golomb</a> (int param)</td></tr>
 <tr class="separator:a4b8fb36e352ebdd88b26a006406d3679"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae0d7bb210f518c7ec6534a8a52fe922d"><td class="memItemLeft" align="right" valign="top"><a id="ae0d7bb210f518c7ec6534a8a52fe922d" name="ae0d7bb210f518c7ec6534a8a52fe922d"></a>
-vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>encode</b> (int n)</td></tr>
-<tr class="separator:ae0d7bb210f518c7ec6534a8a52fe922d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6844e6f9665742ab3c28684139fb08f6"><td class="memItemLeft" align="right" valign="top"><a id="a6844e6f9665742ab3c28684139fb08f6" name="a6844e6f9665742ab3c28684139fb08f6"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>binary</b> (int x, int len)</td></tr>
-<tr class="separator:a6844e6f9665742ab3c28684139fb08f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1a44a9347932713de68739337fdf547d"><td class="memItemLeft" align="right" valign="top"><a id="a1a44a9347932713de68739337fdf547d" name="a1a44a9347932713de68739337fdf547d"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>even</b> (int x)</td></tr>
-<tr class="separator:a1a44a9347932713de68739337fdf547d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a544be9d771e6612729e25c42aa646ade"><td class="memItemLeft" align="right" valign="top"><a id="a544be9d771e6612729e25c42aa646ade" name="a544be9d771e6612729e25c42aa646ade"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>decode</b> (vector&lt; int &gt; code)</td></tr>
-<tr class="separator:a544be9d771e6612729e25c42aa646ade"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a86e248ed599d8dc7a7673519580c22ac"><td class="memItemLeft" align="right" valign="top"><a id="a86e248ed599d8dc7a7673519580c22ac" name="a86e248ed599d8dc7a7673519580c22ac"></a>
-vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>decToBinary</b> (int n, int m)</td></tr>
-<tr class="separator:a86e248ed599d8dc7a7673519580c22ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a213d80102fd0889cd20eccc5bb4b3fd3"><td class="memItemLeft" align="right" valign="top"><a id="a213d80102fd0889cd20eccc5bb4b3fd3" name="a213d80102fd0889cd20eccc5bb4b3fd3"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>binaryToDecimal</b> (vector&lt; int &gt; n)</td></tr>
-<tr class="separator:a213d80102fd0889cd20eccc5bb4b3fd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab27d4a1f5bfadef6c8a23cc7c437597d"><td class="memItemLeft" align="right" valign="top"><a id="ab27d4a1f5bfadef6c8a23cc7c437597d" name="ab27d4a1f5bfadef6c8a23cc7c437597d"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>folding</b> (int n)</td></tr>
-<tr class="separator:ab27d4a1f5bfadef6c8a23cc7c437597d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a436a5a6395a95e4800045de6cdeff13a"><td class="memItemLeft" align="right" valign="top"><a id="a436a5a6395a95e4800045de6cdeff13a" name="a436a5a6395a95e4800045de6cdeff13a"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>unfolding</b> (int n)</td></tr>
-<tr class="separator:a436a5a6395a95e4800045de6cdeff13a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b726fb17d1fe86ba2765fff8bb56b3e"><td class="memItemLeft" align="right" valign="top">vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGolomb.html#a6b726fb17d1fe86ba2765fff8bb56b3e">encode</a> (int n)</td></tr>
+<tr class="separator:a6b726fb17d1fe86ba2765fff8bb56b3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52524782b3cf4756a837f823fd4785bf"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGolomb.html#a52524782b3cf4756a837f823fd4785bf">binary</a> (int x, int len)</td></tr>
+<tr class="separator:a52524782b3cf4756a837f823fd4785bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21c6c56316f1132728bd1322e8c8adea"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGolomb.html#a21c6c56316f1132728bd1322e8c8adea">even</a> (int x)</td></tr>
+<tr class="separator:a21c6c56316f1132728bd1322e8c8adea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafa10f25cfb3050880031f4317c8d6bf"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGolomb.html#aafa10f25cfb3050880031f4317c8d6bf">decode</a> (vector&lt; int &gt; code)</td></tr>
+<tr class="separator:aafa10f25cfb3050880031f4317c8d6bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf9e773238a1191c8eb1d181f4ec8cd3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGolomb.html#adf9e773238a1191c8eb1d181f4ec8cd3">decimalToBinary</a> (int N)</td></tr>
+<tr class="separator:adf9e773238a1191c8eb1d181f4ec8cd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa77063d00e3e66d235a0a970c9b466cd"><td class="memItemLeft" align="right" valign="top">vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGolomb.html#aa77063d00e3e66d235a0a970c9b466cd">decToBinary</a> (int n, int m)</td></tr>
+<tr class="separator:aa77063d00e3e66d235a0a970c9b466cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e9d48be65a63b2cf1d1494c6486ac96"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGolomb.html#a1e9d48be65a63b2cf1d1494c6486ac96">binaryToDecimal</a> (vector&lt; int &gt; n)</td></tr>
+<tr class="separator:a1e9d48be65a63b2cf1d1494c6486ac96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6823193c3c8f810c893976817a4c6ee0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGolomb.html#a6823193c3c8f810c893976817a4c6ee0">binaryToDecimalINT</a> (int n)</td></tr>
+<tr class="separator:a6823193c3c8f810c893976817a4c6ee0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b3954e22fc595f4512d7d8ebaf3ba7c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGolomb.html#a9b3954e22fc595f4512d7d8ebaf3ba7c">folding</a> (int n)</td></tr>
+<tr class="separator:a9b3954e22fc595f4512d7d8ebaf3ba7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab928097af53531e7e41e957b811137f3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGolomb.html#ab928097af53531e7e41e957b811137f3">unfolding</a> (int n)</td></tr>
+<tr class="separator:ab928097af53531e7e41e957b811137f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >This class has an encoding function, it is possible to encode a number,whether it is positive or negative, as this is achieved by folding the values, pos-itive values are folded into even values and negative values are folded into oddvalues. The value to be encoded is divided by m and the quotient is encoded in unary code. If param is a power of 2, the remainder is converted to binary, otherwise the remainder is converted to truncated binary. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a4b8fb36e352ebdd88b26a006406d3679" name="a4b8fb36e352ebdd88b26a006406d3679"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b8fb36e352ebdd88b26a006406d3679">&#9670;&nbsp;</a></span>Golomb()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Golomb::Golomb </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>param</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >This class is composed of a constructor that takes as parameter a integer, param. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a52524782b3cf4756a837f823fd4785bf" name="a52524782b3cf4756a837f823fd4785bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a52524782b3cf4756a837f823fd4785bf">&#9670;&nbsp;</a></span>binary()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string binary </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >) Function that returns the binary value of x with length len as a string.</p>
+
+</div>
+</div>
+<a id="a1e9d48be65a63b2cf1d1494c6486ac96" name="a1e9d48be65a63b2cf1d1494c6486ac96"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e9d48be65a63b2cf1d1494c6486ac96">&#9670;&nbsp;</a></span>binaryToDecimal()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int binaryToDecimal </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; int &gt;&#160;</td>
+          <td class="paramname"><em>n</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >) Function to convert a vector of integers into binary value.</p>
+
+</div>
+</div>
+<a id="a6823193c3c8f810c893976817a4c6ee0" name="a6823193c3c8f810c893976817a4c6ee0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6823193c3c8f810c893976817a4c6ee0">&#9670;&nbsp;</a></span>binaryToDecimalINT()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int binaryToDecimalINT </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>n</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >) Function that returns the integer value of a binary one.</p>
+
+</div>
+</div>
+<a id="adf9e773238a1191c8eb1d181f4ec8cd3" name="adf9e773238a1191c8eb1d181f4ec8cd3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf9e773238a1191c8eb1d181f4ec8cd3">&#9670;&nbsp;</a></span>decimalToBinary()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int decimalToBinary </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>N</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >) Function that converts an int from Decimal to Binary.</p>
+
+</div>
+</div>
+<a id="aafa10f25cfb3050880031f4317c8d6bf" name="aafa10f25cfb3050880031f4317c8d6bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aafa10f25cfb3050880031f4317c8d6bf">&#9670;&nbsp;</a></span>decode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int decode </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; int &gt;&#160;</td>
+          <td class="paramname"><em>code</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >) Function that decodes the code.</p>
+
+</div>
+</div>
+<a id="aa77063d00e3e66d235a0a970c9b466cd" name="aa77063d00e3e66d235a0a970c9b466cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa77063d00e3e66d235a0a970c9b466cd">&#9670;&nbsp;</a></span>decToBinary()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">vector&lt; int &gt; decToBinary </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>n</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>m</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >) Function that converts an int to decimal with size of m bits.</p>
+
+</div>
+</div>
+<a id="a6b726fb17d1fe86ba2765fff8bb56b3e" name="a6b726fb17d1fe86ba2765fff8bb56b3e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b726fb17d1fe86ba2765fff8bb56b3e">&#9670;&nbsp;</a></span>encode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">vector&lt; int &gt; encode </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>n</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >) Function that encodes the code.</p>
+
+</div>
+</div>
+<a id="a21c6c56316f1132728bd1322e8c8adea" name="a21c6c56316f1132728bd1322e8c8adea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a21c6c56316f1132728bd1322e8c8adea">&#9670;&nbsp;</a></span>even()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool even </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>x</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >) Function that returns true if int x is even.</p>
+
+</div>
+</div>
+<a id="a9b3954e22fc595f4512d7d8ebaf3ba7c" name="a9b3954e22fc595f4512d7d8ebaf3ba7c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b3954e22fc595f4512d7d8ebaf3ba7c">&#9670;&nbsp;</a></span>folding()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int folding </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>n</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >) Function that "folds" the positive numbers into even and negative into odd.</p>
+
+</div>
+</div>
+<a id="ab928097af53531e7e41e957b811137f3" name="ab928097af53531e7e41e957b811137f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab928097af53531e7e41e957b811137f3">&#9670;&nbsp;</a></span>unfolding()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int unfolding </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>n</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >) Function that "unfolds" the even numbers back into positive and odd back into negative.</p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li><a class="el" href="Golomb_8h_source.html">Golomb.h</a></li>
 </ul>

@@ -5,6 +5,10 @@ using namespace std::chrono;
 using namespace std;
 
 int main(){
+    /**
+     *  Main class to test the Golomb methods
+     *  Tests Golomb class for m = [2,1500] and encoded value = [-2000,2000]
+     */
     bool flag = false;
     vector<int> m_errors;
 
@@ -45,3 +49,7 @@ int main(){
 
     return 0;
 }
+
+/**
+ * \file
+ */

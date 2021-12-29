@@ -16,6 +16,9 @@ int s = 0;
 int c = 0;
 
 int binaryToDecimalINT(int n)
+    /** \memberof ex1b
+     *  Function to convert from binary to decimal.
+     */
     {
         int num = n;
         int dec_value = 0;
@@ -39,15 +42,24 @@ int binaryToDecimalINT(int n)
 //comparar diferentes preditores, entropias com a entropia do audio original
 
 int predictor(float prevSample, float currSample){
+    /** \memberof ex1b
+     *  Function to calculate the predictor.
+     */
     int p = (int)(0.5*prevSample + 0.5*currSample);
     return p;
 }
 
 int predictor2(float prevSample){
+    /** \memberof ex1b
+     *  Function to calculate the integer value of the predictor.
+     */
     return (int)prevSample;
 }
 
 vector<int> encode(int m, string file){
+    /** \memberof ex1b
+     *  Function to encode the code.
+     */
     AudioFile<float> audioFile;
     audioFile.load (file);
     int numSamples = audioFile.getNumSamplesPerChannel();
@@ -100,7 +112,9 @@ vector<int> encode(int m, string file){
 }
 
 vector<int> decode(int m, string file, string audiofile){
-
+    /** \memberof ex1b
+     *  Function to decode the code.
+     */
     AudioFile<float> copy;
     int numChannels = 2;
     
@@ -184,6 +198,9 @@ vector<int> decode(int m, string file, string audiofile){
 
 
 vector<int> encode_lossy(int m,int div, string file){
+    /** \memberof ex1b
+     *  Function to encode the code in a lossy way.
+     */
     AudioFile<float> audioFile;
     audioFile.load (file);
     int numSamples = audioFile.getNumSamplesPerChannel();
@@ -242,6 +259,9 @@ vector<int> encode_lossy(int m,int div, string file){
 }
 
 vector<int> decode_lossy(int m,int div, string file, string audiofile){
+    /** \memberof ex1b
+     *  Function to decode the code in a lossy way.
+     */
 
     AudioFile<float> copy;
     int numChannels = 2;
@@ -331,7 +351,9 @@ vector<int> decode_lossy(int m,int div, string file, string audiofile){
 
 
 int main(int argc, char **argv){
-
+    /** \class ex1b
+     *  Main class of a lossless predictive audio codec followedby Golomb encoding.
+     */
 
     if(argc != 3){
         cerr << "Usage: ./ex1b <input_audio> <output_audio> \nExample: ./ex1c audio/sample01.wav audio/output_sample01.wav" << endl;

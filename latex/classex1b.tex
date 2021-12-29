@@ -1,0 +1,69 @@
+\hypertarget{classex1b}{}\doxysection{ex1b Class Reference}
+\label{classex1b}\index{ex1b@{ex1b}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{classex1b_a6823193c3c8f810c893976817a4c6ee0}{binary\+To\+Decimal\+INT}} (int n)
+\item 
+int \mbox{\hyperlink{classex1b_aeaeb011754d221882774c4159a40db8b}{predictor}} (float prev\+Sample, float curr\+Sample)
+\item 
+int \mbox{\hyperlink{classex1b_af98be61ac346e5b332821f1ba7c0d573}{predictor2}} (float prev\+Sample)
+\item 
+vector$<$ int $>$ \mbox{\hyperlink{classex1b_a2f6837221cbb021114b6134b926b5582}{encode}} (int m, string file)
+\item 
+vector$<$ int $>$ \mbox{\hyperlink{classex1b_a922f696a999ef9233838b6202b9a113c}{decode}} (int m, string file, string audiofile)
+\item 
+vector$<$ int $>$ \mbox{\hyperlink{classex1b_adb5a329143c4ac611b3ab0c971908872}{encode\+\_\+lossy}} (int m, int div, string file)
+\item 
+vector$<$ int $>$ \mbox{\hyperlink{classex1b_a889b3c1d681e1da17485f0acd9d80a90}{decode\+\_\+lossy}} (int m, int div, string file, string audiofile)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classex1b_a6823193c3c8f810c893976817a4c6ee0}\label{classex1b_a6823193c3c8f810c893976817a4c6ee0}} 
+\index{ex1b@{ex1b}!binaryToDecimalINT@{binaryToDecimalINT}}
+\index{binaryToDecimalINT@{binaryToDecimalINT}!ex1b@{ex1b}}
+\doxysubsubsection{\texorpdfstring{binaryToDecimalINT()}{binaryToDecimalINT()}}
+{\footnotesize\ttfamily int binary\+To\+Decimal\+INT (\begin{DoxyParamCaption}\item[{int}]{n }\end{DoxyParamCaption})}
+
+Function to convert from binary to decimal. \mbox{\Hypertarget{classex1b_a922f696a999ef9233838b6202b9a113c}\label{classex1b_a922f696a999ef9233838b6202b9a113c}} 
+\index{ex1b@{ex1b}!decode@{decode}}
+\index{decode@{decode}!ex1b@{ex1b}}
+\doxysubsubsection{\texorpdfstring{decode()}{decode()}}
+{\footnotesize\ttfamily vector$<$ int $>$ decode (\begin{DoxyParamCaption}\item[{int}]{m,  }\item[{string}]{file,  }\item[{string}]{audiofile }\end{DoxyParamCaption})}
+
+Function to decode the code.\mbox{\Hypertarget{classex1b_a889b3c1d681e1da17485f0acd9d80a90}\label{classex1b_a889b3c1d681e1da17485f0acd9d80a90}} 
+\index{ex1b@{ex1b}!decode\_lossy@{decode\_lossy}}
+\index{decode\_lossy@{decode\_lossy}!ex1b@{ex1b}}
+\doxysubsubsection{\texorpdfstring{decode\_lossy()}{decode\_lossy()}}
+{\footnotesize\ttfamily vector$<$ int $>$ decode\+\_\+lossy (\begin{DoxyParamCaption}\item[{int}]{m,  }\item[{int}]{div,  }\item[{string}]{file,  }\item[{string}]{audiofile }\end{DoxyParamCaption})}
+
+Function to decode the code in a lossy way.\mbox{\Hypertarget{classex1b_a2f6837221cbb021114b6134b926b5582}\label{classex1b_a2f6837221cbb021114b6134b926b5582}} 
+\index{ex1b@{ex1b}!encode@{encode}}
+\index{encode@{encode}!ex1b@{ex1b}}
+\doxysubsubsection{\texorpdfstring{encode()}{encode()}}
+{\footnotesize\ttfamily vector$<$ int $>$ encode (\begin{DoxyParamCaption}\item[{int}]{m,  }\item[{string}]{file }\end{DoxyParamCaption})}
+
+Function to encode the code.\mbox{\Hypertarget{classex1b_adb5a329143c4ac611b3ab0c971908872}\label{classex1b_adb5a329143c4ac611b3ab0c971908872}} 
+\index{ex1b@{ex1b}!encode\_lossy@{encode\_lossy}}
+\index{encode\_lossy@{encode\_lossy}!ex1b@{ex1b}}
+\doxysubsubsection{\texorpdfstring{encode\_lossy()}{encode\_lossy()}}
+{\footnotesize\ttfamily vector$<$ int $>$ encode\+\_\+lossy (\begin{DoxyParamCaption}\item[{int}]{m,  }\item[{int}]{div,  }\item[{string}]{file }\end{DoxyParamCaption})}
+
+Function to encode the code in a lossy way.\mbox{\Hypertarget{classex1b_aeaeb011754d221882774c4159a40db8b}\label{classex1b_aeaeb011754d221882774c4159a40db8b}} 
+\index{ex1b@{ex1b}!predictor@{predictor}}
+\index{predictor@{predictor}!ex1b@{ex1b}}
+\doxysubsubsection{\texorpdfstring{predictor()}{predictor()}}
+{\footnotesize\ttfamily int predictor (\begin{DoxyParamCaption}\item[{float}]{prev\+Sample,  }\item[{float}]{curr\+Sample }\end{DoxyParamCaption})}
+
+Function to calculate the predictor.\mbox{\Hypertarget{classex1b_af98be61ac346e5b332821f1ba7c0d573}\label{classex1b_af98be61ac346e5b332821f1ba7c0d573}} 
+\index{ex1b@{ex1b}!predictor2@{predictor2}}
+\index{predictor2@{predictor2}!ex1b@{ex1b}}
+\doxysubsubsection{\texorpdfstring{predictor2()}{predictor2()}}
+{\footnotesize\ttfamily int predictor2 (\begin{DoxyParamCaption}\item[{float}]{prev\+Sample }\end{DoxyParamCaption})}
+
+Function to calculate the integer value of the predictor.
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+ex1b.\+cpp\end{DoxyCompactItemize}

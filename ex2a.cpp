@@ -1,6 +1,12 @@
 #include"BitStream.h"
 int main(){
+    /**
+     *  Main class to test the BitStream methods
+     * Tries to write individual bits, write n bits, write strings, complete bytes, close the file and read bits
+     */
+
     
+   
     BitStream bs2("b.bit",'w');
 
     bs2.writebit(0);
@@ -68,3 +74,9 @@ int main(){
 
     return 0;
 }
+
+ /** \file 
+     */
+
+    
+    
