@@ -412,7 +412,7 @@ int main(int argc, char **argv){
 
 
         cout << "Original File size: " <<  fs::file_size(argv[1]) << " bits" << endl;
-        cout << "Compressed File size: " << fs::file_size(argv[2]) << " bits" << endl;
+        cout << "Compressed File size: " << fs::file_size("out.bit") << " bits" << endl;
 
         auto stop = high_resolution_clock::now();
         auto duration = duration_cast<microseconds>(stop - start);
@@ -470,7 +470,7 @@ int main(int argc, char **argv){
         }
 
         cout << "Original File size: " <<  fs::file_size(argv[1]) << " bits" << endl;
-        cout << "Compressed File size: " << fs::file_size(argv[2]) << " bits" << endl;
+        cout << "Compressed File size: " << fs::file_size("out.bit") << " bits" << endl;
 
         auto stop = high_resolution_clock::now();
         auto duration = duration_cast<microseconds>(stop - start);
